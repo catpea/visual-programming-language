@@ -22,6 +22,7 @@ export default class Component extends Observable {
 
     this.declare('started', false); // this sets to 0
 
+    this.declare('s', 1); // this sets to 0
     this.declare('x', 0); // this sets to 0
     this.declare('y', 0); // this sets to 0
     this.declare('w', 320); // this sets to 0

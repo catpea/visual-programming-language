@@ -89,11 +89,27 @@ const update = function(elements, properties) {
 	const els = Array.isArray(elements) ? elements : [elements];
 	for(const el of els) {
 		for(const key in properties) {
-			if(el.namespaceURI == 'http://www.w3.org/2000/svg') {
-				el.setAttributeNS(null, key, properties[key]);
-			} else {
-				el.setAttribute(key, properties[key]);
+			let value = properties[key];
+
+			if(key=='style' && typeof value == 'object'){
+				for (const name in value) {
+					console.log('XXX', name, value[name]);
+					el.style[name] = value[name];
+				}
+				// styles merged!
+				continue;
+
+			}else if(typeof value == 'object'){
+				value = Object.entries(value).map(([k,v])=>`${k}: ${v};`).join(' ')
+				console.log('TRANSLATE', properties[key], value);
 			}
+
+			if(el.namespaceURI == 'http://www.w3.org/2000/svg') {
+				el.setAttributeNS(null, key, value);
+			} else {
+				el.setAttribute(key, value);
+			}
+
 		}
 	}
 }

@@ -5290,10 +5290,21 @@
     const els = Array.isArray(elements) ? elements : [elements];
     for (const el of els) {
       for (const key in properties) {
+        let value = properties[key];
+        if (key == "style" && typeof value == "object") {
+          for (const name in value) {
+            console.log("XXX", name, value[name]);
+            el.style[name] = value[name];
+          }
+          continue;
+        } else if (typeof value == "object") {
+          value = Object.entries(value).map(([k, v]) => `${k}: ${v};`).join(" ");
+          console.log("TRANSLATE", properties[key], value);
+        }
         if (el.namespaceURI == "http://www.w3.org/2000/svg") {
-          el.setAttributeNS(null, key, properties[key]);
+          el.setAttributeNS(null, key, value);
         } else {
-          el.setAttribute(key, properties[key]);
+          el.setAttribute(key, value);
         }
       }
     }
@@ -5510,6 +5521,7 @@
     constructor() {
       super();
       this.declare("started", false);
+      this.declare("s", 1);
       this.declare("x", 0);
       this.declare("y", 0);
       this.declare("w", 320);
@@ -7182,15 +7194,17 @@
       this.el.Scene.appendChild(this.innerScene);
       this.clipRect = svg.rect({ class: `clip-rect`, stroke: "black", fill: "black", ...this.b });
       this.el.ClipPath.appendChild(this.clipRect);
-      this.el.Maximize = svg.path({ class: `workspace-icon`, stroke: "green", style: `transform:translateX(${this.x + 10}px) translateY(${this.y + 10}px);`, d: `M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5M.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5` });
+      this.el.Maximize = svg.path({ class: `workspace-icon`, stroke: "green", style: `translate: ${this.w - 10 - 16}px ${this.y + 10}px;`, d: `M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5M.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5` });
       update(this.el.Scene, { "clip-path": `url(#${this.el.ClipPath.id})` });
       this.application.Views.create({ id: "id-of-port", scene: this.innerScene }, { entity: Canvas });
       this.createSomeGraph(this.application.Api);
     }
     updateElements() {
       super.updateElements();
-      this.monitor("x", "y", "w", (k, v) => update(this.el.Maximize, { style: `transform:translateX(${this.w - 10 - 16}px) translateY(${this.y + 10}px);` }));
-      this.monitor("x", "y", "w", (k, v) => update(this.innerScene, { style: `transform: translateX(${this.x}px) translateY(${this.y}px) scale(.3) ;` }));
+      this.monitor("x", "y", "w", (k, v) => update(this.el.Maximize, { style: `translate: ${this.w - 10 - 16}px ${this.y + 10}px;` }));
+      this.monitor("x", "y", "w", (k, v) => update(this.innerScene, { style: `translate ${this.x}px ${this.y}px; scale: .3;` }));
+      console.log(this.root);
+      update(this.root.g, { style: { scale: 3.374537509751173 } });
       this.monitor("b", (x) => update(this.clipRect, { ...this.b }));
     }
     createSomeGraph(api) {
@@ -7244,15 +7258,69 @@
     }
   };
 
+  // src/Zoomable.js
+  var Movable2 = class {
+    static {
+      __name(this, "Movable");
+    }
+    parent;
+    // parent container
+    #delta = 1e-3;
+    #min = 0.1;
+    #max = 10;
+    #wheelHandler;
+    #removeStartedObserver;
+    #container;
+    #element;
+    constructor(delta) {
+      if (delta)
+        this.#delta = delta;
+    }
+    start() {
+      this.begin({
+        container: this.parent,
+        element: this.parent.screen,
+        read: (property) => this.parent.style[property],
+        write: (property, value) => this.parent.style[property] = value
+      });
+    }
+    begin({ container, element, read, write }) {
+      this.#container = container;
+      this.#element = element;
+      this.#wheelHandler = (e) => {
+        let scale = this.#element.style.scale;
+        if (scale === "") {
+          scale = 1;
+        } else {
+          scale = parseFloat(scale);
+        }
+        scale = scale + e.deltaY * -(this.#delta * this.#container.s);
+        scale = Math.min(Math.max(this.#min, scale), this.#max);
+        requestAnimationFrame(() => {
+          this.#element.style.scale = scale;
+        });
+        this.#container.s = scale;
+      };
+      this.#element.addEventListener("wheel", this.#wheelHandler);
+    }
+    stop() {
+      this.#removeStartedObserver();
+      this.#element.removeEventListener("wheel", this.#wheelHandler);
+    }
+  };
+
   // src/Root.js
   var Root = class extends Container {
     static {
       __name(this, "Root");
     }
-    constructor(title, ...argv) {
+    constructor(title, selector, ...argv) {
       super(...argv);
       this.title = title;
       this.layout = new VerticalLayout();
+      this.screen = document.querySelector(selector);
+      this.screen.appendChild(this.g);
+      this.start();
     }
     start() {
       super.start();
@@ -7261,15 +7329,13 @@
       workspaceTest.view = this.view;
       const workspaceTest2 = new Workspace("./templates/hello-world.json", "test", { h: 100, color: "yellow" });
       workspaceTest2.view = this.view;
-      this.children.add(windowCaption, workspaceTest, workspaceTest2);
+      this.children.add(windowCaption, workspaceTest);
+      this.use(new Movable2());
     }
   };
 
   // src/index.js
-  var rootWindow = new Root("Root Window");
-  document.querySelector("#editor-scene").appendChild(rootWindow.g);
-  rootWindow.start();
-  console.warn("TODO: rootWindow.port(main).maximize();");
+  var rootWindow = new Root("Root Window", "#editor-scene");
 })();
 /*! Bundled license information:
 

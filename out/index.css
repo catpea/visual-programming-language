@@ -11352,6 +11352,9 @@ fieldset:disabled .btn {
 }
 
 /* themes/nostromo/index.scss */
+[data-ui-theme=nostromo] rect {
+  vector-effect: non-scaling-stroke;
+}
 [data-ui-theme=nostromo] svg.editor-interface {
   outline: none;
   background-color: rgba(0, 0, 0, 0.5);

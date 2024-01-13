@@ -36,6 +36,8 @@ export default class Workspace extends Container {
 		this.application.Themes.create({}, {entity:Obsidian});
 		this.application.Themes.select('nostromo');
 
+
+
 	}
 
   createElements() {
@@ -54,7 +56,7 @@ export default class Workspace extends Container {
 			this. clipRect = svg.rect({ class: `clip-rect`, stroke:'black', fill:'black', ...this.b});
 			this.el.ClipPath.appendChild(this.clipRect);
 
-		this.el.Maximize = svg.path( { class: `workspace-icon`, stroke: 'green',  style:`transform:translateX(${this.x + 10}px) translateY(${this.y + 10}px);`, d:`M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5M.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5` } );
+		this.el.Maximize = svg.path( { class: `workspace-icon`, stroke: 'green',  style:`translate: ${this.w - 10 - 16}px ${this.y + 10}px;`, d:`M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5M.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5` } );
 
 		update(this.el.Scene, { 'clip-path': `url(#${this.el.ClipPath.id})` })
 
@@ -72,10 +74,12 @@ export default class Workspace extends Container {
   updateElements() {
     super.updateElements();
 
-		this.monitor('x','y','w', (k,v)=>update(this.el.Maximize,{ style:`transform:translateX(${this.w - 10 - 16}px) translateY(${this.y + 10}px);` }));
-		this.monitor('x','y','w', (k,v)=>update(this.innerScene, { style:`transform: translateX(${this.x}px) translateY(${this.y}px) scale(.3) ;` }));
+		this.monitor('x','y','w', (k,v)=>update(this.el.Maximize,{ style:`translate: ${this.w - 10 - 16}px ${this.y + 10}px;` }));
+		this.monitor('x','y','w', (k,v)=>update(this.innerScene, { style:`translate ${this.x}px ${this.y}px; scale: .3;` }));
 
-
+		console.log( this.root );
+		// update( this.root.g, {style: `transform: translateY(-200px) translateX(-50px) scale(7)`} )
+		update( this.root.g, {style: { scale: 3.374537509751173} })
 
 		// this.monitor('x','y','w','h', (k,v)=>update(this.clipRect,{[k]:v}));
 		// this.monitor('b', v=>update(this.clipRect,{...v}));
