@@ -1,39 +1,11 @@
 # Visual Programming Language
-Visual Editor: User Friendly Visual Programming Language
+User Friendly Visual Programming Language
 
-## Changelog
+## Architecture
 
-- [x] added arrow key navigation for node and link
-- [x] uniform reactive lists and items for clarity
-- [x] externalize themes and nodes for easy access
-- [x] context sensitive API for ease of management
-- [x] fixed width font for speedy text calculation
-- [x] nodes set to fixed width for simple resizing
-
-## TODO
-
-- [ ] Workspace
-  - [ ] Background
-  - [ ] Pan
-  - [ ] Zoom
-  - [ ] Toolbox
-
-### Main
-
-- [ ] VBox and HBox layout managers for SVG
-- [ ] Vertical and Horizontal PortArray.js -> [ o o o o o o o o o o ]
-- [ ] Minimap - draws the standard UI except really zoomed out, so the LOD kicks in.
-- [ ] Update Selectable to ```const selectable = new Selectable({ handle: this.el.Editor, item:this.data.node });```
-- [ ] Floating Label that can be attacked to anything, and move along with it.
-- [ ] Blender Theme
-
-## NODO
-
-- [ ] Consider Text Along Path For Connectors = Hard TO Read
-
-## Sanity System
-
-- [ ] Note about only being able to select Visual Nodes, not raw nodes
+  - index.html calls src/index.js
+  - src/Root.js Root Window is created
+  - Workspace is created
 
 ## Program Ideas
 

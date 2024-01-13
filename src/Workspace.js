@@ -1,3 +1,5 @@
+import { v4 as uuid } from "uuid";
+
 import { svg, html, mouse, click, update, text, clip, front } from "domek";
 
 import Output from '#nodes/Output.js';
@@ -30,37 +32,48 @@ export default class Workspace extends Container {
 		this.application.Archetypes.create({id:'Midjourney', class:Midjourney});
 		this.application.Archetypes.create({id:'Message', class:Message});
 
-
 		this.application.Themes.create({}, {entity:Nostromo});
 		this.application.Themes.create({}, {entity:Obsidian});
 		this.application.Themes.select('nostromo');
-
-		// this.app.loadTypes(json.type);
-		// this.app.loadGraph(json);
-
 
 	}
 
   createElements() {
     super.createElements();
+
+		this.el.ClipPath = svg.clipPath({ id:uuid(), class: `clip-path`});
+		this.el.Scene = svg.g();
+
+			const xywh = {x:this.x+(this.design.padding+this.design.border), y:this.y+(this.design.padding+this.design.border), width: this.w-(this.design.padding+this.design.border)*2, height:this.h-(this.design.padding+this.design.border)*2};
+			// this.el.TestClip = svg.rect({ class: `clip-rect`, stroke:this.design.color, fill:'transparent', ...xywh});
+			this. clipRect = svg.rect({ class: `clip-rect`,  ...xywh});
+			this.el.ClipPath.appendChild(this.clipRect);
+
 		this.el.Maximize = svg.path( { class: `workspace-icon`, stroke: 'green',  style:`transform:translateX(${this.x + 10}px) translateY(${this.y + 10}px);`, d:`M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5M.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5` } );
+
+		update(this.el.Scene, { 'clip-path': `url(#${this.el.ClipPath.id})` })
 
 		// PART TWO
 		// this.app.installScene();
     // this.app.installKeyboardShortcuts();
     // this.app.installPanZoom();
 
-		this.application.Views.create({ id:'id-of-port', scene: this.g }, {entity:Canvas});
+		this.application.Views.create({ id:'id-of-port', scene: this.el.Scene }, {entity:Canvas});
 
-		// this.createSomeGraph(this.application.Api)
+		this.createSomeGraph(this.application.Api)
 
 	}
 
   updateElements() {
     super.updateElements();
-    this.observe('x', () => update(this.el.Maximize, {  style:`transform:translateX(${this.w - 10 - 16}px) translateY(${this.y + 10}px);` }));
-    this.observe('y', () => update(this.el.Maximize, {  style:`transform:translateX(${this.w - 10 - 16}px) translateY(${this.y + 10}px);` }));
-    this.observe('w', () => update(this.el.Maximize, {  style:`transform:translateX(${this.w - 10 - 16}px) translateY(${this.y + 10}px);` }));
+
+		this.monitor('x','y','w', (k,v)=>update(this.el.Maximize,{ style:`transform:translateX(${this.w - 10 - 16}px) translateY(${this.y + 10}px);` }));
+
+		this.monitor('x','y','w','h', (k,v)=>update(this.clipRect,{[k]:v}));
+
+		// this.monitor('x','y','w','h', (k,v)=>update(this.el.TestClip,{[k]:v}));
+		// this.monitor('x','y', (k,v)=>update(this.el.TestClip,{[k]:v}))
+		// this.monitor('w','h', (k,v)=>update(this.el.TestClip,{[k]:v-10}));
 
 		// PART THREE
 		// this.app.connectables.observe('created', v=>this.displayConnectable(v), {autorun: false})
@@ -70,7 +83,18 @@ export default class Workspace extends Container {
 
   }
 
+	monitor(...input){
+		  const eventNames = input;
+		  const observerCallback = eventNames.pop();
 
+		  const destroy = [];
+
+		  for (const eventName of eventNames) {
+		    this.cleanup(
+		      this.observe(eventName,  (v)=>observerCallback(eventName, v))
+		    )
+		  }
+	}
 
 	createSomeGraph(api){
 
@@ -111,8 +135,8 @@ export default class Workspace extends Container {
 	  const msg1 = new Message();
 	  msg1.id = 'msg1';
 	  msg1.radius = 0;
-	  msg1.x = 333;
-	  msg1.y = 333;
+	  msg1.x = 0;
+	  msg1.y = 0;
 	  msg1.w = 360;
 	  msg1.h = 666;
 

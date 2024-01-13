@@ -41,10 +41,9 @@ export default class Window extends Container {
     const inputPort = new Button("o <-- Data Input ...........(ThroughPort.js)...............  Data Output --> o", {});
     this.children.add(inputPort);
 
-    const workspaceTest = new Workspace("./templates/hello-world.json", {h:100});
-    workspaceTest.view = this.view;
-
-    this.children.add(workspaceTest);
+    // const workspaceTest = new Workspace("./templates/hello-world.json", {h:100});
+    // workspaceTest.view = this.view;
+    // this.children.add(workspaceTest);
 
     const foreignElementTest = new Button("I am an example DIV Tag, with some text in it.", {h:100});
     this.children.add(foreignElementTest);

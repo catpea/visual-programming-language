@@ -1,12 +1,11 @@
 // Boot Script - this is a boot sctipt that gets all the non-symmetrical oddities out of the way
 import bootstrapCss from 'bootstrap/dist/css/bootstrap.min.css';
 import bootstrapJs from 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Window from './Window.js';
+
+import Root from './Root.js';
+
 // create a bare window
-const rootWindow = new Window('Root Window', {radius:4, gap:1});
-// without any features
-rootWindow.data = {observe:()=>0};
-rootWindow.view = {observe:()=>0};
+const rootWindow = new Root('Root Window');
 // manually add it to a pre-made svg
 document.querySelector('#editor-scene').appendChild( rootWindow.g );
 rootWindow.start();

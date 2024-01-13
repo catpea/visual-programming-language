@@ -5180,6 +5180,57 @@
   // src/index.js
   var import_bootstrap_bundle_min = __toESM(require_bootstrap_bundle_min(), 1);
 
+  // node_modules/uuid/dist/esm-browser/rng.js
+  var getRandomValues;
+  var rnds8 = new Uint8Array(16);
+  function rng() {
+    if (!getRandomValues) {
+      getRandomValues = typeof crypto !== "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
+      if (!getRandomValues) {
+        throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
+      }
+    }
+    return getRandomValues(rnds8);
+  }
+  __name(rng, "rng");
+
+  // node_modules/uuid/dist/esm-browser/stringify.js
+  var byteToHex = [];
+  for (let i = 0; i < 256; ++i) {
+    byteToHex.push((i + 256).toString(16).slice(1));
+  }
+  function unsafeStringify(arr, offset = 0) {
+    return byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]];
+  }
+  __name(unsafeStringify, "unsafeStringify");
+
+  // node_modules/uuid/dist/esm-browser/native.js
+  var randomUUID = typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
+  var native_default = {
+    randomUUID
+  };
+
+  // node_modules/uuid/dist/esm-browser/v4.js
+  function v4(options, buf, offset) {
+    if (native_default.randomUUID && !buf && !options) {
+      return native_default.randomUUID();
+    }
+    options = options || {};
+    const rnds = options.random || (options.rng || rng)();
+    rnds[6] = rnds[6] & 15 | 64;
+    rnds[8] = rnds[8] & 63 | 128;
+    if (buf) {
+      offset = offset || 0;
+      for (let i = 0; i < 16; ++i) {
+        buf[offset + i] = rnds[i];
+      }
+      return buf;
+    }
+    return unsafeStringify(rnds);
+  }
+  __name(v4, "v4");
+  var v4_default = v4;
+
   // modules/domek/index.js
   var kebabize = /* @__PURE__ */ __name((str) => str.replace(/[A-Z]+(?![a-z])|[A-Z]/g, ($, ofs) => (ofs ? "-" : "") + $.toLowerCase()), "kebabize");
   function svgProperties(key) {
@@ -5247,57 +5298,6 @@
       }
     }
   }, "update");
-
-  // node_modules/uuid/dist/esm-browser/rng.js
-  var getRandomValues;
-  var rnds8 = new Uint8Array(16);
-  function rng() {
-    if (!getRandomValues) {
-      getRandomValues = typeof crypto !== "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
-      if (!getRandomValues) {
-        throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
-      }
-    }
-    return getRandomValues(rnds8);
-  }
-  __name(rng, "rng");
-
-  // node_modules/uuid/dist/esm-browser/stringify.js
-  var byteToHex = [];
-  for (let i = 0; i < 256; ++i) {
-    byteToHex.push((i + 256).toString(16).slice(1));
-  }
-  function unsafeStringify(arr, offset = 0) {
-    return byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]];
-  }
-  __name(unsafeStringify, "unsafeStringify");
-
-  // node_modules/uuid/dist/esm-browser/native.js
-  var randomUUID = typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
-  var native_default = {
-    randomUUID
-  };
-
-  // node_modules/uuid/dist/esm-browser/v4.js
-  function v4(options, buf, offset) {
-    if (native_default.randomUUID && !buf && !options) {
-      return native_default.randomUUID();
-    }
-    options = options || {};
-    const rnds = options.random || (options.rng || rng)();
-    rnds[6] = rnds[6] & 15 | 64;
-    rnds[8] = rnds[8] & 63 | 128;
-    if (buf) {
-      offset = offset || 0;
-      for (let i = 0; i < 16; ++i) {
-        buf[offset + i] = rnds[i];
-      }
-      return buf;
-    }
-    return unsafeStringify(rnds);
-  }
-  __name(v4, "v4");
-  var v4_default = v4;
 
   // src/Layout.js
   var BOTH_SIDES = 2;
@@ -5922,6 +5922,36 @@
       const invertedValue = this.inverter(num, this.sourceRange[0], this.sourceRange[1]);
       const translatedValue = this.translate(invertedValue);
       return translatedValue;
+    }
+  };
+
+  // src/Button.js
+  var Button = class extends Control {
+    static {
+      __name(this, "Button");
+    }
+    constructor(text2, ...more) {
+      super(...more);
+      if (text2)
+        this.text = text2;
+      this.h = this.design.h || 32;
+      if (this.design.dqd)
+        setInterval(() => {
+          this.h = this.design.h || 32 + this.design.dqd * Math.random();
+        }, 333);
+    }
+    createElements() {
+      this.el.Surface = svg.rect({ class: `node-captiond`, fill: "#2c434a", ry: this.design.radius, width: this.w, x: this.x, y: this.y, height: this.h });
+      this.el.SurfaceText = svg.text({ class: `node-caption caption-text node-text`, style: "pointer-events: none; user-select: none;", x: this.x + this.w * 0.02 }, this.text);
+    }
+    updateElements() {
+      this.observe("x", (x) => update(this.el.Surface, { x }));
+      this.observe("y", (y) => update(this.el.Surface, { y }));
+      this.observe("w", (width) => update(this.el.Surface, { width }));
+      this.observe("h", (height) => update(this.el.Surface, { height }));
+      this.observe("x", (x) => update(this.el.SurfaceText, { x }));
+      this.observe("y", (y) => update(this.el.SurfaceText, { y: y + (this.h - this.h * 0.12) }));
+      this.observe("h", (h) => update(this.el.SurfaceText, { y: this.y + (h - h * 0.12) }));
     }
   };
 
@@ -6883,6 +6913,127 @@
     }
   };
 
+  // src/Movable.js
+  var Movable = class {
+    static {
+      __name(this, "Movable");
+    }
+    parent;
+    control;
+    #container;
+    #handle;
+    #read;
+    #write;
+    #scale;
+    // NOTE: set by a setter in this class, it is externaly set as view scale may change
+    // local variables
+    #dragging = false;
+    #initialPosition = { x: 0, y: 0 };
+    // handlers for cleanup
+    #mouseDownHandler;
+    #mouseMoveHandler;
+    #mouseUpHandler;
+    #removeTransformObserver;
+    #removeStartedObserver;
+    constructor(control) {
+      this.control = control;
+    }
+    start() {
+      this.#removeStartedObserver = this.control.observe("started", (started) => {
+        if (started) {
+          this.begin({
+            container: window,
+            // <g> element representing an SVG scene
+            handle: this.control.el.Surface,
+            // <rect> that is the caption of a window meant to be dragged
+            read: (property) => this.parent.data[property],
+            write: (property, value) => this.parent.data[property] = value
+          });
+        }
+      });
+    }
+    begin({ container, handle, read, write, view }) {
+      this.#removeTransformObserver = this.parent.root.view.observe("transform", (v) => this.#scale = v.scale);
+      this.#container = container;
+      this.#handle = handle;
+      this.#read = read;
+      this.#write = write;
+      this.#mouseDownHandler = (e) => {
+        this.#initialPosition.x = e.clientX;
+        this.#initialPosition.y = e.clientY;
+        this.#dragging = true;
+        this.#container.addEventListener("mousemove", this.#mouseMoveHandler);
+      };
+      this.#mouseMoveHandler = (e) => {
+        if (this.#scale == void 0)
+          console.error("you must correctly configure scale", this.#scale);
+        let dx = 0;
+        let dy = 0;
+        dx = e.clientX - this.#initialPosition.x;
+        dy = e.clientY - this.#initialPosition.y;
+        dx = dx + this.#read("x") * this.#scale;
+        dy = dy + this.#read("y") * this.#scale;
+        dx = dx / this.#scale;
+        dy = dy / this.#scale;
+        this.#write("x", dx);
+        this.#write("y", dy);
+        dx = 0;
+        dy = 0;
+        this.#initialPosition.x = e.clientX;
+        this.#initialPosition.y = e.clientY;
+      };
+      this.#mouseUpHandler = (e) => {
+        this.#dragging = false;
+        this.#container.removeEventListener("mousemove", this.#mouseMoveHandler);
+      };
+      this.#handle.addEventListener("mousedown", this.#mouseDownHandler);
+      this.#container.addEventListener("mouseup", this.#mouseUpHandler);
+    }
+    set scale(value) {
+      this.#scale = value;
+    }
+    stop() {
+      this.#removeStartedObserver();
+      this.#removeTransformObserver();
+      this.#handle.removeEventListener("mousedown", this.#mouseDownHandler);
+      this.#container.removeEventListener("mousemove", this.#mouseMoveHandler);
+      this.#container.removeEventListener("mouseup", this.#mouseUpHandler);
+    }
+  };
+
+  // src/Window.js
+  var Window = class extends Container {
+    static {
+      __name(this, "Window");
+    }
+    constructor(title, ...argv) {
+      super(...argv);
+      this.title = title;
+      this.layout = new VerticalLayout();
+    }
+    start() {
+      super.start();
+      this.cleanup(this.data.observe("x", (v) => update(this.g, { "transform": `translate(${v},${this.data.y})` })));
+      this.cleanup(this.data.observe("y", (v) => update(this.g, { "transform": `translate(${this.data.x},${v})` })));
+      this.cleanup(this.data.observe("w", (v) => this.w = v));
+      this.cleanup(this.data.observe("h", (v) => this.h = v));
+      const windowCaption = new Button(this.title, { h: 15 });
+      this.use(new Movable(windowCaption));
+      this.children.addAll(windowCaption);
+      const inputPort = new Button("o <-- Data Input ...........(ThroughPort.js)...............  Data Output --> o", {});
+      this.children.add(inputPort);
+      const foreignElementTest = new Button("I am an example DIV Tag, with some text in it.", { h: 100 });
+      this.children.add(foreignElementTest);
+      const foreignElementTest1 = new Button("I am an ANSI Terminal", { h: 100 });
+      this.children.add(foreignElementTest1);
+      const foreignElementTest2 = new Button("I am Code Mirror 6, woot!", { h: 100 });
+      this.children.add(foreignElementTest2);
+    }
+    addTo(container, ...components) {
+      this[container].add(...components);
+    }
+  };
+
   // src/Display.js
   var Display = class extends Base {
     static {
@@ -7003,14 +7154,30 @@
     }
     createElements() {
       super.createElements();
+      this.el.ClipPath = svg.clipPath({ id: v4_default(), class: `clip-path` });
+      this.el.Scene = svg.g();
+      const xywh = { x: this.x + (this.design.padding + this.design.border), y: this.y + (this.design.padding + this.design.border), width: this.w - (this.design.padding + this.design.border) * 2, height: this.h - (this.design.padding + this.design.border) * 2 };
+      this.clipRect = svg.rect({ class: `clip-rect`, ...xywh });
+      this.el.ClipPath.appendChild(this.clipRect);
       this.el.Maximize = svg.path({ class: `workspace-icon`, stroke: "green", style: `transform:translateX(${this.x + 10}px) translateY(${this.y + 10}px);`, d: `M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5M.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5` });
-      this.application.Views.create({ id: "id-of-port", scene: this.g }, { entity: Canvas });
+      update(this.el.Scene, { "clip-path": `url(#${this.el.ClipPath.id})` });
+      this.application.Views.create({ id: "id-of-port", scene: this.el.Scene }, { entity: Canvas });
+      this.createSomeGraph(this.application.Api);
     }
     updateElements() {
       super.updateElements();
-      this.observe("x", () => update(this.el.Maximize, { style: `transform:translateX(${this.w - 10 - 16}px) translateY(${this.y + 10}px);` }));
-      this.observe("y", () => update(this.el.Maximize, { style: `transform:translateX(${this.w - 10 - 16}px) translateY(${this.y + 10}px);` }));
-      this.observe("w", () => update(this.el.Maximize, { style: `transform:translateX(${this.w - 10 - 16}px) translateY(${this.y + 10}px);` }));
+      this.monitor("x", "y", "w", (k, v) => update(this.el.Maximize, { style: `transform:translateX(${this.w - 10 - 16}px) translateY(${this.y + 10}px);` }));
+      this.monitor("x", "y", "w", "h", (k, v) => update(this.clipRect, { [k]: v }));
+    }
+    monitor(...input) {
+      const eventNames = input;
+      const observerCallback = eventNames.pop();
+      const destroy = [];
+      for (const eventName of eventNames) {
+        this.cleanup(
+          this.observe(eventName, (v) => observerCallback(eventName, v))
+        );
+      }
     }
     createSomeGraph(api) {
       const somePrompt = new Text();
@@ -7044,8 +7211,8 @@
       const msg1 = new Message();
       msg1.id = "msg1";
       msg1.radius = 0;
-      msg1.x = 333;
-      msg1.y = 333;
+      msg1.x = 0;
+      msg1.y = 0;
       msg1.w = 360;
       msg1.h = 666;
       api.add(somePrompt);
@@ -7063,128 +7230,10 @@
     }
   };
 
-  // src/Button.js
-  var Button = class extends Control {
+  // src/Root.js
+  var Root = class extends Container {
     static {
-      __name(this, "Button");
-    }
-    constructor(text2, ...more) {
-      super(...more);
-      if (text2)
-        this.text = text2;
-      this.h = this.design.h || 32;
-      if (this.design.dqd)
-        setInterval(() => {
-          this.h = this.design.h || 32 + this.design.dqd * Math.random();
-        }, 333);
-    }
-    createElements() {
-      this.el.Surface = svg.rect({ class: `node-captiond`, fill: "#2c434a", ry: this.design.radius, width: this.w, x: this.x, y: this.y, height: this.h });
-      this.el.SurfaceText = svg.text({ class: `node-caption caption-text node-text`, style: "pointer-events: none; user-select: none;", x: this.x + this.w * 0.02 }, this.text);
-    }
-    updateElements() {
-      this.observe("x", (x) => update(this.el.Surface, { x }));
-      this.observe("y", (y) => update(this.el.Surface, { y }));
-      this.observe("w", (width) => update(this.el.Surface, { width }));
-      this.observe("h", (height) => update(this.el.Surface, { height }));
-      this.observe("x", (x) => update(this.el.SurfaceText, { x }));
-      this.observe("y", (y) => update(this.el.SurfaceText, { y: y + (this.h - this.h * 0.12) }));
-      this.observe("h", (h) => update(this.el.SurfaceText, { y: this.y + (h - h * 0.12) }));
-    }
-  };
-
-  // src/Movable.js
-  var Movable = class {
-    static {
-      __name(this, "Movable");
-    }
-    parent;
-    control;
-    #container;
-    #handle;
-    #read;
-    #write;
-    #scale;
-    // NOTE: set by a setter in this class, it is externaly set as view scale may change
-    // local variables
-    #dragging = false;
-    #initialPosition = { x: 0, y: 0 };
-    // handlers for cleanup
-    #mouseDownHandler;
-    #mouseMoveHandler;
-    #mouseUpHandler;
-    #removeTransformObserver;
-    #removeStartedObserver;
-    constructor(control) {
-      this.control = control;
-    }
-    start() {
-      this.#removeStartedObserver = this.control.observe("started", (started) => {
-        if (started) {
-          this.begin({
-            container: window,
-            // <g> element representing an SVG scene
-            handle: this.control.el.Surface,
-            // <rect> that is the caption of a window meant to be dragged
-            read: (property) => this.parent.data[property],
-            write: (property, value) => this.parent.data[property] = value
-          });
-        }
-      });
-    }
-    begin({ container, handle, read, write, view }) {
-      this.#removeTransformObserver = this.parent.root.view.observe("transform", (v) => this.#scale = v.scale);
-      this.#container = container;
-      this.#handle = handle;
-      this.#read = read;
-      this.#write = write;
-      this.#mouseDownHandler = (e) => {
-        this.#initialPosition.x = e.clientX;
-        this.#initialPosition.y = e.clientY;
-        this.#dragging = true;
-        this.#container.addEventListener("mousemove", this.#mouseMoveHandler);
-      };
-      this.#mouseMoveHandler = (e) => {
-        if (this.#scale == void 0)
-          console.error("you must correctly configure scale", this.#scale);
-        let dx = 0;
-        let dy = 0;
-        dx = e.clientX - this.#initialPosition.x;
-        dy = e.clientY - this.#initialPosition.y;
-        dx = dx + this.#read("x") * this.#scale;
-        dy = dy + this.#read("y") * this.#scale;
-        dx = dx / this.#scale;
-        dy = dy / this.#scale;
-        this.#write("x", dx);
-        this.#write("y", dy);
-        dx = 0;
-        dy = 0;
-        this.#initialPosition.x = e.clientX;
-        this.#initialPosition.y = e.clientY;
-      };
-      this.#mouseUpHandler = (e) => {
-        this.#dragging = false;
-        this.#container.removeEventListener("mousemove", this.#mouseMoveHandler);
-      };
-      this.#handle.addEventListener("mousedown", this.#mouseDownHandler);
-      this.#container.addEventListener("mouseup", this.#mouseUpHandler);
-    }
-    set scale(value) {
-      this.#scale = value;
-    }
-    stop() {
-      this.#removeStartedObserver();
-      this.#removeTransformObserver();
-      this.#handle.removeEventListener("mousedown", this.#mouseDownHandler);
-      this.#container.removeEventListener("mousemove", this.#mouseMoveHandler);
-      this.#container.removeEventListener("mouseup", this.#mouseUpHandler);
-    }
-  };
-
-  // src/Window.js
-  var Window = class extends Container {
-    static {
-      __name(this, "Window");
+      __name(this, "Root");
     }
     constructor(title, ...argv) {
       super(...argv);
@@ -7193,34 +7242,17 @@
     }
     start() {
       super.start();
-      this.cleanup(this.data.observe("x", (v) => update(this.g, { "transform": `translate(${v},${this.data.y})` })));
-      this.cleanup(this.data.observe("y", (v) => update(this.g, { "transform": `translate(${this.data.x},${v})` })));
-      this.cleanup(this.data.observe("w", (v) => this.w = v));
-      this.cleanup(this.data.observe("h", (v) => this.h = v));
       const windowCaption = new Button(this.title, { h: 15 });
-      this.use(new Movable(windowCaption));
-      this.children.addAll(windowCaption);
-      const inputPort = new Button("o <-- Data Input ...........(ThroughPort.js)...............  Data Output --> o", {});
-      this.children.add(inputPort);
-      const workspaceTest = new Workspace("./templates/hello-world.json", { h: 100 });
+      const workspaceTest = new Workspace("./templates/hello-world.json", "test", { h: 100, color: "red" });
       workspaceTest.view = this.view;
-      this.children.add(workspaceTest);
-      const foreignElementTest = new Button("I am an example DIV Tag, with some text in it.", { h: 100 });
-      this.children.add(foreignElementTest);
-      const foreignElementTest1 = new Button("I am an ANSI Terminal", { h: 100 });
-      this.children.add(foreignElementTest1);
-      const foreignElementTest2 = new Button("I am Code Mirror 6, woot!", { h: 100 });
-      this.children.add(foreignElementTest2);
-    }
-    addTo(container, ...components) {
-      this[container].add(...components);
+      const workspaceTest2 = new Workspace("./templates/hello-world.json", "test", { h: 100, color: "yellow" });
+      workspaceTest2.view = this.view;
+      this.children.add(windowCaption, workspaceTest, workspaceTest2);
     }
   };
 
   // src/index.js
-  var rootWindow = new Window("Root Window", { radius: 4, gap: 1 });
-  rootWindow.data = { observe: () => 0 };
-  rootWindow.view = { observe: () => 0 };
+  var rootWindow = new Root("Root Window");
   document.querySelector("#editor-scene").appendChild(rootWindow.g);
   rootWindow.start();
   console.warn("TODO: rootWindow.port(main).maximize();");

@@ -112,7 +112,6 @@ export default class Canvas extends Item {
 		this.renderers.get(item.id).stop();
 	}
 
-
   add(component){
     this.scene.appendChild( component.g );
     component.start();
