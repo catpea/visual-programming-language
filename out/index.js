@@ -5514,6 +5514,20 @@
       this.declare("y", 0);
       this.declare("w", 320);
       this.declare("h", 200);
+      this.declare("b", {
+        x: this.x,
+        y: this.y,
+        w: this.w,
+        h: this.h
+      });
+      this.monitor("x", "y", "w", "h", (k, v) => {
+        this.b = {
+          x: this.x + (this.design.padding + this.design.border),
+          y: this.y + (this.design.padding + this.design.border),
+          width: this.w - (this.design.padding + this.design.border) * 2,
+          height: this.h - (this.design.padding + this.design.border) * 2
+        };
+      });
       if (this.DEBUG)
         this.design.color = "magenta";
     }
@@ -5617,6 +5631,13 @@
     }
     get view() {
       return this.#view;
+    }
+    monitor(...input) {
+      const eventNames = input;
+      const observerCallback = eventNames.pop();
+      for (const eventName of eventNames) {
+        this.cleanup(this.observe(eventName, (v) => observerCallback(eventName, v)));
+      }
     }
   };
 
@@ -7156,28 +7177,21 @@
       super.createElements();
       this.el.ClipPath = svg.clipPath({ id: v4_default(), class: `clip-path` });
       this.el.Scene = svg.g();
-      const xywh = { x: this.x + (this.design.padding + this.design.border), y: this.y + (this.design.padding + this.design.border), width: this.w - (this.design.padding + this.design.border) * 2, height: this.h - (this.design.padding + this.design.border) * 2 };
-      this.clipRect = svg.rect({ class: `clip-rect`, ...xywh });
+      this.innerScene = svg.g();
+      console.log("Add this.innerScene panning and zooming, and FULL-SCREEN");
+      this.el.Scene.appendChild(this.innerScene);
+      this.clipRect = svg.rect({ class: `clip-rect`, stroke: "black", fill: "black", ...this.b });
       this.el.ClipPath.appendChild(this.clipRect);
       this.el.Maximize = svg.path({ class: `workspace-icon`, stroke: "green", style: `transform:translateX(${this.x + 10}px) translateY(${this.y + 10}px);`, d: `M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5M.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5` });
       update(this.el.Scene, { "clip-path": `url(#${this.el.ClipPath.id})` });
-      this.application.Views.create({ id: "id-of-port", scene: this.el.Scene }, { entity: Canvas });
+      this.application.Views.create({ id: "id-of-port", scene: this.innerScene }, { entity: Canvas });
       this.createSomeGraph(this.application.Api);
     }
     updateElements() {
       super.updateElements();
       this.monitor("x", "y", "w", (k, v) => update(this.el.Maximize, { style: `transform:translateX(${this.w - 10 - 16}px) translateY(${this.y + 10}px);` }));
-      this.monitor("x", "y", "w", "h", (k, v) => update(this.clipRect, { [k]: v }));
-    }
-    monitor(...input) {
-      const eventNames = input;
-      const observerCallback = eventNames.pop();
-      const destroy = [];
-      for (const eventName of eventNames) {
-        this.cleanup(
-          this.observe(eventName, (v) => observerCallback(eventName, v))
-        );
-      }
+      this.monitor("x", "y", "w", (k, v) => update(this.innerScene, { style: `transform: translateX(${this.x}px) translateY(${this.y}px) scale(.3) ;` }));
+      this.monitor("b", (x) => update(this.clipRect, { ...this.b }));
     }
     createSomeGraph(api) {
       const somePrompt = new Text();

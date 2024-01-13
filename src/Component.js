@@ -26,6 +26,22 @@ export default class Component extends Observable {
     this.declare('y', 0); // this sets to 0
     this.declare('w', 320); // this sets to 0
     this.declare('h', 200); // this sets to 0
+    this.declare('b', {
+      x:this.x,
+      y:this.y,
+      w:this.w,
+      h:this.h,
+    }); // this sets to 0
+
+    // bounding box
+    this.monitor('x','y','w','h', (k,v)=>{
+			this.b = {
+				x: this.x+(this.design.padding+this.design.border),
+				y: this.y+(this.design.padding+this.design.border),
+				width: this.w-(this.design.padding+this.design.border)*2,
+				height: this.h-(this.design.padding+this.design.border)*2,
+			}
+		});
 
     // this.declare('y', this.bounds.y); // this sets to 0
     if(this.DEBUG) this.design.color = 'magenta';
@@ -171,4 +187,21 @@ export default class Component extends Observable {
     return this.#view;
   }
 
+
+
+
+
+
+
+
+
+
+
+  monitor(...input){
+		  const eventNames = input;
+		  const observerCallback = eventNames.pop();
+	  	for (const eventName of eventNames) {
+		    this.cleanup( this.observe(eventName,  (v)=>observerCallback(eventName, v)) )
+			}
+	}
 }
