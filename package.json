@@ -1,7 +1,7 @@
 {
   "name": "visual-programming-language",
   "version": "1.0.1",
-  "description": "Visual Editor: User Friendly Visual Programming Language",
+  "description": "User Friendly Visual Programming Language",
   "author": "catpea",
   "repository": {
     "type": "git",
@@ -15,14 +15,13 @@
   "main": "index.js",
   "scripts": {
     "start": "./start.js",
-    "save": "git add .; git commit -m 'Initial Release'; git push; npm version patch; npm publish; git push;",
+    "save": "git add .; git commit -m 'Updated Release'; git push; npm version patch; npm publish; git push;",
     "test": "./try.js"
   },
   "keywords": [],
   "imports": {
-    "#nodes/*.js": "./nodes/*.js",
-    "#themes/*": "./themes/*",
-    "#tools/*": "./tools/*.js"
+    "#plug-ins/*": "./plug-ins/*",
+    "#abstract/*": "./abstract/*"
   },
   "license": "ISC",
   "workspaces": [

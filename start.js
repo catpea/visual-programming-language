@@ -19,7 +19,7 @@ let ctx = await esbuild.context({
    // jsxFactory: 'h',
   entryPoints: ['src/index.js'],
   keepNames: true, // this is important for when comparing classes
-  outdir: 'out',
+  outdir: './',
   loader: {
      '.html': 'text',
      '.js': 'jsx',
