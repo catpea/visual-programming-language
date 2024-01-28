@@ -11,10 +11,14 @@ export default class Universe {
   name = "";
 
   svg;
-  g;
+  scene;
 
   trays = new Map();
   lines = new Map();
+
+  ///
+
+  #supportedTypes = [ Tray ]; // What can the universe create?
 
 
   constructor() {
@@ -55,15 +59,14 @@ export default class Universe {
     if(started){
       // only interested in starting things
       console.log(`Universe started = ${started}`);
+
       this.properties.observe("worlds.created", (item) => {
-        console.log(`creating a world of type ${item.type} (should be more specific like Vpl Tray or Design Area)`);
-        // instantiates trays!
-        const supportedTypes = [Tray];
-        const Component = supportedTypes.find(o=>o.name==item.type);
-        if(!Component) throw new Error('Unrecongnized type')
+        // console.log(`creating a world of type ${item.type} (should be more specific like Vpl Tray or Design Area)`);
+        const Component = this.#supportedTypes.find(o=>o.name==item.type);
+        if(!Component) throw new Error('Unrecongnized type');
     		const component = new Component();
     		this.trays.set(item.id, component);
-        component.g = this.g;
+        component.scene = this.scene;
         component.container = this;
         component.data = item;
         component.start({view: this });

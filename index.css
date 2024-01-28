@@ -11374,8 +11374,10 @@ svg.editor-interface {
   outline: none;
 }
 .editor-background {
+  fill: transparent;
 }
 .editor-scene {
+  fill: transparent;
 }
 .node-box {
   fill: var(--primary-background);

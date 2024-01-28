@@ -2289,8 +2289,1230 @@
     }
   });
 
+  // node_modules/lodash/_arrayPush.js
+  var require_arrayPush = __commonJS({
+    "node_modules/lodash/_arrayPush.js"(exports, module) {
+      function arrayPush(array, values) {
+        var index = -1, length = values.length, offset = array.length;
+        while (++index < length) {
+          array[offset + index] = values[index];
+        }
+        return array;
+      }
+      __name(arrayPush, "arrayPush");
+      module.exports = arrayPush;
+    }
+  });
+
+  // node_modules/lodash/_freeGlobal.js
+  var require_freeGlobal = __commonJS({
+    "node_modules/lodash/_freeGlobal.js"(exports, module) {
+      var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
+      module.exports = freeGlobal;
+    }
+  });
+
+  // node_modules/lodash/_root.js
+  var require_root = __commonJS({
+    "node_modules/lodash/_root.js"(exports, module) {
+      var freeGlobal = require_freeGlobal();
+      var freeSelf = typeof self == "object" && self && self.Object === Object && self;
+      var root = freeGlobal || freeSelf || Function("return this")();
+      module.exports = root;
+    }
+  });
+
+  // node_modules/lodash/_Symbol.js
+  var require_Symbol = __commonJS({
+    "node_modules/lodash/_Symbol.js"(exports, module) {
+      var root = require_root();
+      var Symbol2 = root.Symbol;
+      module.exports = Symbol2;
+    }
+  });
+
+  // node_modules/lodash/_getRawTag.js
+  var require_getRawTag = __commonJS({
+    "node_modules/lodash/_getRawTag.js"(exports, module) {
+      var Symbol2 = require_Symbol();
+      var objectProto = Object.prototype;
+      var hasOwnProperty = objectProto.hasOwnProperty;
+      var nativeObjectToString = objectProto.toString;
+      var symToStringTag = Symbol2 ? Symbol2.toStringTag : void 0;
+      function getRawTag(value) {
+        var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
+        try {
+          value[symToStringTag] = void 0;
+          var unmasked = true;
+        } catch (e) {
+        }
+        var result = nativeObjectToString.call(value);
+        if (unmasked) {
+          if (isOwn) {
+            value[symToStringTag] = tag;
+          } else {
+            delete value[symToStringTag];
+          }
+        }
+        return result;
+      }
+      __name(getRawTag, "getRawTag");
+      module.exports = getRawTag;
+    }
+  });
+
+  // node_modules/lodash/_objectToString.js
+  var require_objectToString = __commonJS({
+    "node_modules/lodash/_objectToString.js"(exports, module) {
+      var objectProto = Object.prototype;
+      var nativeObjectToString = objectProto.toString;
+      function objectToString(value) {
+        return nativeObjectToString.call(value);
+      }
+      __name(objectToString, "objectToString");
+      module.exports = objectToString;
+    }
+  });
+
+  // node_modules/lodash/_baseGetTag.js
+  var require_baseGetTag = __commonJS({
+    "node_modules/lodash/_baseGetTag.js"(exports, module) {
+      var Symbol2 = require_Symbol();
+      var getRawTag = require_getRawTag();
+      var objectToString = require_objectToString();
+      var nullTag = "[object Null]";
+      var undefinedTag = "[object Undefined]";
+      var symToStringTag = Symbol2 ? Symbol2.toStringTag : void 0;
+      function baseGetTag(value) {
+        if (value == null) {
+          return value === void 0 ? undefinedTag : nullTag;
+        }
+        return symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
+      }
+      __name(baseGetTag, "baseGetTag");
+      module.exports = baseGetTag;
+    }
+  });
+
+  // node_modules/lodash/isObjectLike.js
+  var require_isObjectLike = __commonJS({
+    "node_modules/lodash/isObjectLike.js"(exports, module) {
+      function isObjectLike(value) {
+        return value != null && typeof value == "object";
+      }
+      __name(isObjectLike, "isObjectLike");
+      module.exports = isObjectLike;
+    }
+  });
+
+  // node_modules/lodash/_baseIsArguments.js
+  var require_baseIsArguments = __commonJS({
+    "node_modules/lodash/_baseIsArguments.js"(exports, module) {
+      var baseGetTag = require_baseGetTag();
+      var isObjectLike = require_isObjectLike();
+      var argsTag = "[object Arguments]";
+      function baseIsArguments(value) {
+        return isObjectLike(value) && baseGetTag(value) == argsTag;
+      }
+      __name(baseIsArguments, "baseIsArguments");
+      module.exports = baseIsArguments;
+    }
+  });
+
+  // node_modules/lodash/isArguments.js
+  var require_isArguments = __commonJS({
+    "node_modules/lodash/isArguments.js"(exports, module) {
+      var baseIsArguments = require_baseIsArguments();
+      var isObjectLike = require_isObjectLike();
+      var objectProto = Object.prototype;
+      var hasOwnProperty = objectProto.hasOwnProperty;
+      var propertyIsEnumerable = objectProto.propertyIsEnumerable;
+      var isArguments = baseIsArguments(/* @__PURE__ */ function() {
+        return arguments;
+      }()) ? baseIsArguments : function(value) {
+        return isObjectLike(value) && hasOwnProperty.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
+      };
+      module.exports = isArguments;
+    }
+  });
+
+  // node_modules/lodash/isArray.js
+  var require_isArray = __commonJS({
+    "node_modules/lodash/isArray.js"(exports, module) {
+      var isArray = Array.isArray;
+      module.exports = isArray;
+    }
+  });
+
+  // node_modules/lodash/_isFlattenable.js
+  var require_isFlattenable = __commonJS({
+    "node_modules/lodash/_isFlattenable.js"(exports, module) {
+      var Symbol2 = require_Symbol();
+      var isArguments = require_isArguments();
+      var isArray = require_isArray();
+      var spreadableSymbol = Symbol2 ? Symbol2.isConcatSpreadable : void 0;
+      function isFlattenable(value) {
+        return isArray(value) || isArguments(value) || !!(spreadableSymbol && value && value[spreadableSymbol]);
+      }
+      __name(isFlattenable, "isFlattenable");
+      module.exports = isFlattenable;
+    }
+  });
+
+  // node_modules/lodash/_baseFlatten.js
+  var require_baseFlatten = __commonJS({
+    "node_modules/lodash/_baseFlatten.js"(exports, module) {
+      var arrayPush = require_arrayPush();
+      var isFlattenable = require_isFlattenable();
+      function baseFlatten(array, depth, predicate, isStrict, result) {
+        var index = -1, length = array.length;
+        predicate || (predicate = isFlattenable);
+        result || (result = []);
+        while (++index < length) {
+          var value = array[index];
+          if (depth > 0 && predicate(value)) {
+            if (depth > 1) {
+              baseFlatten(value, depth - 1, predicate, isStrict, result);
+            } else {
+              arrayPush(result, value);
+            }
+          } else if (!isStrict) {
+            result[result.length] = value;
+          }
+        }
+        return result;
+      }
+      __name(baseFlatten, "baseFlatten");
+      module.exports = baseFlatten;
+    }
+  });
+
+  // node_modules/lodash/identity.js
+  var require_identity = __commonJS({
+    "node_modules/lodash/identity.js"(exports, module) {
+      function identity(value) {
+        return value;
+      }
+      __name(identity, "identity");
+      module.exports = identity;
+    }
+  });
+
+  // node_modules/lodash/_apply.js
+  var require_apply = __commonJS({
+    "node_modules/lodash/_apply.js"(exports, module) {
+      function apply(func, thisArg, args) {
+        switch (args.length) {
+          case 0:
+            return func.call(thisArg);
+          case 1:
+            return func.call(thisArg, args[0]);
+          case 2:
+            return func.call(thisArg, args[0], args[1]);
+          case 3:
+            return func.call(thisArg, args[0], args[1], args[2]);
+        }
+        return func.apply(thisArg, args);
+      }
+      __name(apply, "apply");
+      module.exports = apply;
+    }
+  });
+
+  // node_modules/lodash/_overRest.js
+  var require_overRest = __commonJS({
+    "node_modules/lodash/_overRest.js"(exports, module) {
+      var apply = require_apply();
+      var nativeMax = Math.max;
+      function overRest(func, start, transform) {
+        start = nativeMax(start === void 0 ? func.length - 1 : start, 0);
+        return function() {
+          var args = arguments, index = -1, length = nativeMax(args.length - start, 0), array = Array(length);
+          while (++index < length) {
+            array[index] = args[start + index];
+          }
+          index = -1;
+          var otherArgs = Array(start + 1);
+          while (++index < start) {
+            otherArgs[index] = args[index];
+          }
+          otherArgs[start] = transform(array);
+          return apply(func, this, otherArgs);
+        };
+      }
+      __name(overRest, "overRest");
+      module.exports = overRest;
+    }
+  });
+
+  // node_modules/lodash/constant.js
+  var require_constant = __commonJS({
+    "node_modules/lodash/constant.js"(exports, module) {
+      function constant(value) {
+        return function() {
+          return value;
+        };
+      }
+      __name(constant, "constant");
+      module.exports = constant;
+    }
+  });
+
+  // node_modules/lodash/isObject.js
+  var require_isObject = __commonJS({
+    "node_modules/lodash/isObject.js"(exports, module) {
+      function isObject(value) {
+        var type = typeof value;
+        return value != null && (type == "object" || type == "function");
+      }
+      __name(isObject, "isObject");
+      module.exports = isObject;
+    }
+  });
+
+  // node_modules/lodash/isFunction.js
+  var require_isFunction = __commonJS({
+    "node_modules/lodash/isFunction.js"(exports, module) {
+      var baseGetTag = require_baseGetTag();
+      var isObject = require_isObject();
+      var asyncTag = "[object AsyncFunction]";
+      var funcTag = "[object Function]";
+      var genTag = "[object GeneratorFunction]";
+      var proxyTag = "[object Proxy]";
+      function isFunction(value) {
+        if (!isObject(value)) {
+          return false;
+        }
+        var tag = baseGetTag(value);
+        return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+      }
+      __name(isFunction, "isFunction");
+      module.exports = isFunction;
+    }
+  });
+
+  // node_modules/lodash/_coreJsData.js
+  var require_coreJsData = __commonJS({
+    "node_modules/lodash/_coreJsData.js"(exports, module) {
+      var root = require_root();
+      var coreJsData = root["__core-js_shared__"];
+      module.exports = coreJsData;
+    }
+  });
+
+  // node_modules/lodash/_isMasked.js
+  var require_isMasked = __commonJS({
+    "node_modules/lodash/_isMasked.js"(exports, module) {
+      var coreJsData = require_coreJsData();
+      var maskSrcKey = function() {
+        var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || "");
+        return uid ? "Symbol(src)_1." + uid : "";
+      }();
+      function isMasked(func) {
+        return !!maskSrcKey && maskSrcKey in func;
+      }
+      __name(isMasked, "isMasked");
+      module.exports = isMasked;
+    }
+  });
+
+  // node_modules/lodash/_toSource.js
+  var require_toSource = __commonJS({
+    "node_modules/lodash/_toSource.js"(exports, module) {
+      var funcProto = Function.prototype;
+      var funcToString = funcProto.toString;
+      function toSource(func) {
+        if (func != null) {
+          try {
+            return funcToString.call(func);
+          } catch (e) {
+          }
+          try {
+            return func + "";
+          } catch (e) {
+          }
+        }
+        return "";
+      }
+      __name(toSource, "toSource");
+      module.exports = toSource;
+    }
+  });
+
+  // node_modules/lodash/_baseIsNative.js
+  var require_baseIsNative = __commonJS({
+    "node_modules/lodash/_baseIsNative.js"(exports, module) {
+      var isFunction = require_isFunction();
+      var isMasked = require_isMasked();
+      var isObject = require_isObject();
+      var toSource = require_toSource();
+      var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+      var reIsHostCtor = /^\[object .+?Constructor\]$/;
+      var funcProto = Function.prototype;
+      var objectProto = Object.prototype;
+      var funcToString = funcProto.toString;
+      var hasOwnProperty = objectProto.hasOwnProperty;
+      var reIsNative = RegExp(
+        "^" + funcToString.call(hasOwnProperty).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
+      );
+      function baseIsNative(value) {
+        if (!isObject(value) || isMasked(value)) {
+          return false;
+        }
+        var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
+        return pattern.test(toSource(value));
+      }
+      __name(baseIsNative, "baseIsNative");
+      module.exports = baseIsNative;
+    }
+  });
+
+  // node_modules/lodash/_getValue.js
+  var require_getValue = __commonJS({
+    "node_modules/lodash/_getValue.js"(exports, module) {
+      function getValue(object, key) {
+        return object == null ? void 0 : object[key];
+      }
+      __name(getValue, "getValue");
+      module.exports = getValue;
+    }
+  });
+
+  // node_modules/lodash/_getNative.js
+  var require_getNative = __commonJS({
+    "node_modules/lodash/_getNative.js"(exports, module) {
+      var baseIsNative = require_baseIsNative();
+      var getValue = require_getValue();
+      function getNative(object, key) {
+        var value = getValue(object, key);
+        return baseIsNative(value) ? value : void 0;
+      }
+      __name(getNative, "getNative");
+      module.exports = getNative;
+    }
+  });
+
+  // node_modules/lodash/_defineProperty.js
+  var require_defineProperty = __commonJS({
+    "node_modules/lodash/_defineProperty.js"(exports, module) {
+      var getNative = require_getNative();
+      var defineProperty = function() {
+        try {
+          var func = getNative(Object, "defineProperty");
+          func({}, "", {});
+          return func;
+        } catch (e) {
+        }
+      }();
+      module.exports = defineProperty;
+    }
+  });
+
+  // node_modules/lodash/_baseSetToString.js
+  var require_baseSetToString = __commonJS({
+    "node_modules/lodash/_baseSetToString.js"(exports, module) {
+      var constant = require_constant();
+      var defineProperty = require_defineProperty();
+      var identity = require_identity();
+      var baseSetToString = !defineProperty ? identity : function(func, string) {
+        return defineProperty(func, "toString", {
+          "configurable": true,
+          "enumerable": false,
+          "value": constant(string),
+          "writable": true
+        });
+      };
+      module.exports = baseSetToString;
+    }
+  });
+
+  // node_modules/lodash/_shortOut.js
+  var require_shortOut = __commonJS({
+    "node_modules/lodash/_shortOut.js"(exports, module) {
+      var HOT_COUNT = 800;
+      var HOT_SPAN = 16;
+      var nativeNow = Date.now;
+      function shortOut(func) {
+        var count = 0, lastCalled = 0;
+        return function() {
+          var stamp = nativeNow(), remaining = HOT_SPAN - (stamp - lastCalled);
+          lastCalled = stamp;
+          if (remaining > 0) {
+            if (++count >= HOT_COUNT) {
+              return arguments[0];
+            }
+          } else {
+            count = 0;
+          }
+          return func.apply(void 0, arguments);
+        };
+      }
+      __name(shortOut, "shortOut");
+      module.exports = shortOut;
+    }
+  });
+
+  // node_modules/lodash/_setToString.js
+  var require_setToString = __commonJS({
+    "node_modules/lodash/_setToString.js"(exports, module) {
+      var baseSetToString = require_baseSetToString();
+      var shortOut = require_shortOut();
+      var setToString = shortOut(baseSetToString);
+      module.exports = setToString;
+    }
+  });
+
+  // node_modules/lodash/_baseRest.js
+  var require_baseRest = __commonJS({
+    "node_modules/lodash/_baseRest.js"(exports, module) {
+      var identity = require_identity();
+      var overRest = require_overRest();
+      var setToString = require_setToString();
+      function baseRest(func, start) {
+        return setToString(overRest(func, start, identity), func + "");
+      }
+      __name(baseRest, "baseRest");
+      module.exports = baseRest;
+    }
+  });
+
+  // node_modules/lodash/_nativeCreate.js
+  var require_nativeCreate = __commonJS({
+    "node_modules/lodash/_nativeCreate.js"(exports, module) {
+      var getNative = require_getNative();
+      var nativeCreate = getNative(Object, "create");
+      module.exports = nativeCreate;
+    }
+  });
+
+  // node_modules/lodash/_hashClear.js
+  var require_hashClear = __commonJS({
+    "node_modules/lodash/_hashClear.js"(exports, module) {
+      var nativeCreate = require_nativeCreate();
+      function hashClear() {
+        this.__data__ = nativeCreate ? nativeCreate(null) : {};
+        this.size = 0;
+      }
+      __name(hashClear, "hashClear");
+      module.exports = hashClear;
+    }
+  });
+
+  // node_modules/lodash/_hashDelete.js
+  var require_hashDelete = __commonJS({
+    "node_modules/lodash/_hashDelete.js"(exports, module) {
+      function hashDelete(key) {
+        var result = this.has(key) && delete this.__data__[key];
+        this.size -= result ? 1 : 0;
+        return result;
+      }
+      __name(hashDelete, "hashDelete");
+      module.exports = hashDelete;
+    }
+  });
+
+  // node_modules/lodash/_hashGet.js
+  var require_hashGet = __commonJS({
+    "node_modules/lodash/_hashGet.js"(exports, module) {
+      var nativeCreate = require_nativeCreate();
+      var HASH_UNDEFINED = "__lodash_hash_undefined__";
+      var objectProto = Object.prototype;
+      var hasOwnProperty = objectProto.hasOwnProperty;
+      function hashGet(key) {
+        var data = this.__data__;
+        if (nativeCreate) {
+          var result = data[key];
+          return result === HASH_UNDEFINED ? void 0 : result;
+        }
+        return hasOwnProperty.call(data, key) ? data[key] : void 0;
+      }
+      __name(hashGet, "hashGet");
+      module.exports = hashGet;
+    }
+  });
+
+  // node_modules/lodash/_hashHas.js
+  var require_hashHas = __commonJS({
+    "node_modules/lodash/_hashHas.js"(exports, module) {
+      var nativeCreate = require_nativeCreate();
+      var objectProto = Object.prototype;
+      var hasOwnProperty = objectProto.hasOwnProperty;
+      function hashHas(key) {
+        var data = this.__data__;
+        return nativeCreate ? data[key] !== void 0 : hasOwnProperty.call(data, key);
+      }
+      __name(hashHas, "hashHas");
+      module.exports = hashHas;
+    }
+  });
+
+  // node_modules/lodash/_hashSet.js
+  var require_hashSet = __commonJS({
+    "node_modules/lodash/_hashSet.js"(exports, module) {
+      var nativeCreate = require_nativeCreate();
+      var HASH_UNDEFINED = "__lodash_hash_undefined__";
+      function hashSet(key, value) {
+        var data = this.__data__;
+        this.size += this.has(key) ? 0 : 1;
+        data[key] = nativeCreate && value === void 0 ? HASH_UNDEFINED : value;
+        return this;
+      }
+      __name(hashSet, "hashSet");
+      module.exports = hashSet;
+    }
+  });
+
+  // node_modules/lodash/_Hash.js
+  var require_Hash = __commonJS({
+    "node_modules/lodash/_Hash.js"(exports, module) {
+      var hashClear = require_hashClear();
+      var hashDelete = require_hashDelete();
+      var hashGet = require_hashGet();
+      var hashHas = require_hashHas();
+      var hashSet = require_hashSet();
+      function Hash(entries) {
+        var index = -1, length = entries == null ? 0 : entries.length;
+        this.clear();
+        while (++index < length) {
+          var entry = entries[index];
+          this.set(entry[0], entry[1]);
+        }
+      }
+      __name(Hash, "Hash");
+      Hash.prototype.clear = hashClear;
+      Hash.prototype["delete"] = hashDelete;
+      Hash.prototype.get = hashGet;
+      Hash.prototype.has = hashHas;
+      Hash.prototype.set = hashSet;
+      module.exports = Hash;
+    }
+  });
+
+  // node_modules/lodash/_listCacheClear.js
+  var require_listCacheClear = __commonJS({
+    "node_modules/lodash/_listCacheClear.js"(exports, module) {
+      function listCacheClear() {
+        this.__data__ = [];
+        this.size = 0;
+      }
+      __name(listCacheClear, "listCacheClear");
+      module.exports = listCacheClear;
+    }
+  });
+
+  // node_modules/lodash/eq.js
+  var require_eq = __commonJS({
+    "node_modules/lodash/eq.js"(exports, module) {
+      function eq(value, other) {
+        return value === other || value !== value && other !== other;
+      }
+      __name(eq, "eq");
+      module.exports = eq;
+    }
+  });
+
+  // node_modules/lodash/_assocIndexOf.js
+  var require_assocIndexOf = __commonJS({
+    "node_modules/lodash/_assocIndexOf.js"(exports, module) {
+      var eq = require_eq();
+      function assocIndexOf(array, key) {
+        var length = array.length;
+        while (length--) {
+          if (eq(array[length][0], key)) {
+            return length;
+          }
+        }
+        return -1;
+      }
+      __name(assocIndexOf, "assocIndexOf");
+      module.exports = assocIndexOf;
+    }
+  });
+
+  // node_modules/lodash/_listCacheDelete.js
+  var require_listCacheDelete = __commonJS({
+    "node_modules/lodash/_listCacheDelete.js"(exports, module) {
+      var assocIndexOf = require_assocIndexOf();
+      var arrayProto = Array.prototype;
+      var splice = arrayProto.splice;
+      function listCacheDelete(key) {
+        var data = this.__data__, index = assocIndexOf(data, key);
+        if (index < 0) {
+          return false;
+        }
+        var lastIndex = data.length - 1;
+        if (index == lastIndex) {
+          data.pop();
+        } else {
+          splice.call(data, index, 1);
+        }
+        --this.size;
+        return true;
+      }
+      __name(listCacheDelete, "listCacheDelete");
+      module.exports = listCacheDelete;
+    }
+  });
+
+  // node_modules/lodash/_listCacheGet.js
+  var require_listCacheGet = __commonJS({
+    "node_modules/lodash/_listCacheGet.js"(exports, module) {
+      var assocIndexOf = require_assocIndexOf();
+      function listCacheGet(key) {
+        var data = this.__data__, index = assocIndexOf(data, key);
+        return index < 0 ? void 0 : data[index][1];
+      }
+      __name(listCacheGet, "listCacheGet");
+      module.exports = listCacheGet;
+    }
+  });
+
+  // node_modules/lodash/_listCacheHas.js
+  var require_listCacheHas = __commonJS({
+    "node_modules/lodash/_listCacheHas.js"(exports, module) {
+      var assocIndexOf = require_assocIndexOf();
+      function listCacheHas(key) {
+        return assocIndexOf(this.__data__, key) > -1;
+      }
+      __name(listCacheHas, "listCacheHas");
+      module.exports = listCacheHas;
+    }
+  });
+
+  // node_modules/lodash/_listCacheSet.js
+  var require_listCacheSet = __commonJS({
+    "node_modules/lodash/_listCacheSet.js"(exports, module) {
+      var assocIndexOf = require_assocIndexOf();
+      function listCacheSet(key, value) {
+        var data = this.__data__, index = assocIndexOf(data, key);
+        if (index < 0) {
+          ++this.size;
+          data.push([key, value]);
+        } else {
+          data[index][1] = value;
+        }
+        return this;
+      }
+      __name(listCacheSet, "listCacheSet");
+      module.exports = listCacheSet;
+    }
+  });
+
+  // node_modules/lodash/_ListCache.js
+  var require_ListCache = __commonJS({
+    "node_modules/lodash/_ListCache.js"(exports, module) {
+      var listCacheClear = require_listCacheClear();
+      var listCacheDelete = require_listCacheDelete();
+      var listCacheGet = require_listCacheGet();
+      var listCacheHas = require_listCacheHas();
+      var listCacheSet = require_listCacheSet();
+      function ListCache(entries) {
+        var index = -1, length = entries == null ? 0 : entries.length;
+        this.clear();
+        while (++index < length) {
+          var entry = entries[index];
+          this.set(entry[0], entry[1]);
+        }
+      }
+      __name(ListCache, "ListCache");
+      ListCache.prototype.clear = listCacheClear;
+      ListCache.prototype["delete"] = listCacheDelete;
+      ListCache.prototype.get = listCacheGet;
+      ListCache.prototype.has = listCacheHas;
+      ListCache.prototype.set = listCacheSet;
+      module.exports = ListCache;
+    }
+  });
+
+  // node_modules/lodash/_Map.js
+  var require_Map = __commonJS({
+    "node_modules/lodash/_Map.js"(exports, module) {
+      var getNative = require_getNative();
+      var root = require_root();
+      var Map2 = getNative(root, "Map");
+      module.exports = Map2;
+    }
+  });
+
+  // node_modules/lodash/_mapCacheClear.js
+  var require_mapCacheClear = __commonJS({
+    "node_modules/lodash/_mapCacheClear.js"(exports, module) {
+      var Hash = require_Hash();
+      var ListCache = require_ListCache();
+      var Map2 = require_Map();
+      function mapCacheClear() {
+        this.size = 0;
+        this.__data__ = {
+          "hash": new Hash(),
+          "map": new (Map2 || ListCache)(),
+          "string": new Hash()
+        };
+      }
+      __name(mapCacheClear, "mapCacheClear");
+      module.exports = mapCacheClear;
+    }
+  });
+
+  // node_modules/lodash/_isKeyable.js
+  var require_isKeyable = __commonJS({
+    "node_modules/lodash/_isKeyable.js"(exports, module) {
+      function isKeyable(value) {
+        var type = typeof value;
+        return type == "string" || type == "number" || type == "symbol" || type == "boolean" ? value !== "__proto__" : value === null;
+      }
+      __name(isKeyable, "isKeyable");
+      module.exports = isKeyable;
+    }
+  });
+
+  // node_modules/lodash/_getMapData.js
+  var require_getMapData = __commonJS({
+    "node_modules/lodash/_getMapData.js"(exports, module) {
+      var isKeyable = require_isKeyable();
+      function getMapData(map, key) {
+        var data = map.__data__;
+        return isKeyable(key) ? data[typeof key == "string" ? "string" : "hash"] : data.map;
+      }
+      __name(getMapData, "getMapData");
+      module.exports = getMapData;
+    }
+  });
+
+  // node_modules/lodash/_mapCacheDelete.js
+  var require_mapCacheDelete = __commonJS({
+    "node_modules/lodash/_mapCacheDelete.js"(exports, module) {
+      var getMapData = require_getMapData();
+      function mapCacheDelete(key) {
+        var result = getMapData(this, key)["delete"](key);
+        this.size -= result ? 1 : 0;
+        return result;
+      }
+      __name(mapCacheDelete, "mapCacheDelete");
+      module.exports = mapCacheDelete;
+    }
+  });
+
+  // node_modules/lodash/_mapCacheGet.js
+  var require_mapCacheGet = __commonJS({
+    "node_modules/lodash/_mapCacheGet.js"(exports, module) {
+      var getMapData = require_getMapData();
+      function mapCacheGet(key) {
+        return getMapData(this, key).get(key);
+      }
+      __name(mapCacheGet, "mapCacheGet");
+      module.exports = mapCacheGet;
+    }
+  });
+
+  // node_modules/lodash/_mapCacheHas.js
+  var require_mapCacheHas = __commonJS({
+    "node_modules/lodash/_mapCacheHas.js"(exports, module) {
+      var getMapData = require_getMapData();
+      function mapCacheHas(key) {
+        return getMapData(this, key).has(key);
+      }
+      __name(mapCacheHas, "mapCacheHas");
+      module.exports = mapCacheHas;
+    }
+  });
+
+  // node_modules/lodash/_mapCacheSet.js
+  var require_mapCacheSet = __commonJS({
+    "node_modules/lodash/_mapCacheSet.js"(exports, module) {
+      var getMapData = require_getMapData();
+      function mapCacheSet(key, value) {
+        var data = getMapData(this, key), size = data.size;
+        data.set(key, value);
+        this.size += data.size == size ? 0 : 1;
+        return this;
+      }
+      __name(mapCacheSet, "mapCacheSet");
+      module.exports = mapCacheSet;
+    }
+  });
+
+  // node_modules/lodash/_MapCache.js
+  var require_MapCache = __commonJS({
+    "node_modules/lodash/_MapCache.js"(exports, module) {
+      var mapCacheClear = require_mapCacheClear();
+      var mapCacheDelete = require_mapCacheDelete();
+      var mapCacheGet = require_mapCacheGet();
+      var mapCacheHas = require_mapCacheHas();
+      var mapCacheSet = require_mapCacheSet();
+      function MapCache(entries) {
+        var index = -1, length = entries == null ? 0 : entries.length;
+        this.clear();
+        while (++index < length) {
+          var entry = entries[index];
+          this.set(entry[0], entry[1]);
+        }
+      }
+      __name(MapCache, "MapCache");
+      MapCache.prototype.clear = mapCacheClear;
+      MapCache.prototype["delete"] = mapCacheDelete;
+      MapCache.prototype.get = mapCacheGet;
+      MapCache.prototype.has = mapCacheHas;
+      MapCache.prototype.set = mapCacheSet;
+      module.exports = MapCache;
+    }
+  });
+
+  // node_modules/lodash/_setCacheAdd.js
+  var require_setCacheAdd = __commonJS({
+    "node_modules/lodash/_setCacheAdd.js"(exports, module) {
+      var HASH_UNDEFINED = "__lodash_hash_undefined__";
+      function setCacheAdd(value) {
+        this.__data__.set(value, HASH_UNDEFINED);
+        return this;
+      }
+      __name(setCacheAdd, "setCacheAdd");
+      module.exports = setCacheAdd;
+    }
+  });
+
+  // node_modules/lodash/_setCacheHas.js
+  var require_setCacheHas = __commonJS({
+    "node_modules/lodash/_setCacheHas.js"(exports, module) {
+      function setCacheHas(value) {
+        return this.__data__.has(value);
+      }
+      __name(setCacheHas, "setCacheHas");
+      module.exports = setCacheHas;
+    }
+  });
+
+  // node_modules/lodash/_SetCache.js
+  var require_SetCache = __commonJS({
+    "node_modules/lodash/_SetCache.js"(exports, module) {
+      var MapCache = require_MapCache();
+      var setCacheAdd = require_setCacheAdd();
+      var setCacheHas = require_setCacheHas();
+      function SetCache(values) {
+        var index = -1, length = values == null ? 0 : values.length;
+        this.__data__ = new MapCache();
+        while (++index < length) {
+          this.add(values[index]);
+        }
+      }
+      __name(SetCache, "SetCache");
+      SetCache.prototype.add = SetCache.prototype.push = setCacheAdd;
+      SetCache.prototype.has = setCacheHas;
+      module.exports = SetCache;
+    }
+  });
+
+  // node_modules/lodash/_baseFindIndex.js
+  var require_baseFindIndex = __commonJS({
+    "node_modules/lodash/_baseFindIndex.js"(exports, module) {
+      function baseFindIndex(array, predicate, fromIndex, fromRight) {
+        var length = array.length, index = fromIndex + (fromRight ? 1 : -1);
+        while (fromRight ? index-- : ++index < length) {
+          if (predicate(array[index], index, array)) {
+            return index;
+          }
+        }
+        return -1;
+      }
+      __name(baseFindIndex, "baseFindIndex");
+      module.exports = baseFindIndex;
+    }
+  });
+
+  // node_modules/lodash/_baseIsNaN.js
+  var require_baseIsNaN = __commonJS({
+    "node_modules/lodash/_baseIsNaN.js"(exports, module) {
+      function baseIsNaN(value) {
+        return value !== value;
+      }
+      __name(baseIsNaN, "baseIsNaN");
+      module.exports = baseIsNaN;
+    }
+  });
+
+  // node_modules/lodash/_strictIndexOf.js
+  var require_strictIndexOf = __commonJS({
+    "node_modules/lodash/_strictIndexOf.js"(exports, module) {
+      function strictIndexOf(array, value, fromIndex) {
+        var index = fromIndex - 1, length = array.length;
+        while (++index < length) {
+          if (array[index] === value) {
+            return index;
+          }
+        }
+        return -1;
+      }
+      __name(strictIndexOf, "strictIndexOf");
+      module.exports = strictIndexOf;
+    }
+  });
+
+  // node_modules/lodash/_baseIndexOf.js
+  var require_baseIndexOf = __commonJS({
+    "node_modules/lodash/_baseIndexOf.js"(exports, module) {
+      var baseFindIndex = require_baseFindIndex();
+      var baseIsNaN = require_baseIsNaN();
+      var strictIndexOf = require_strictIndexOf();
+      function baseIndexOf(array, value, fromIndex) {
+        return value === value ? strictIndexOf(array, value, fromIndex) : baseFindIndex(array, baseIsNaN, fromIndex);
+      }
+      __name(baseIndexOf, "baseIndexOf");
+      module.exports = baseIndexOf;
+    }
+  });
+
+  // node_modules/lodash/_arrayIncludes.js
+  var require_arrayIncludes = __commonJS({
+    "node_modules/lodash/_arrayIncludes.js"(exports, module) {
+      var baseIndexOf = require_baseIndexOf();
+      function arrayIncludes(array, value) {
+        var length = array == null ? 0 : array.length;
+        return !!length && baseIndexOf(array, value, 0) > -1;
+      }
+      __name(arrayIncludes, "arrayIncludes");
+      module.exports = arrayIncludes;
+    }
+  });
+
+  // node_modules/lodash/_arrayIncludesWith.js
+  var require_arrayIncludesWith = __commonJS({
+    "node_modules/lodash/_arrayIncludesWith.js"(exports, module) {
+      function arrayIncludesWith(array, value, comparator) {
+        var index = -1, length = array == null ? 0 : array.length;
+        while (++index < length) {
+          if (comparator(value, array[index])) {
+            return true;
+          }
+        }
+        return false;
+      }
+      __name(arrayIncludesWith, "arrayIncludesWith");
+      module.exports = arrayIncludesWith;
+    }
+  });
+
+  // node_modules/lodash/_cacheHas.js
+  var require_cacheHas = __commonJS({
+    "node_modules/lodash/_cacheHas.js"(exports, module) {
+      function cacheHas(cache, key) {
+        return cache.has(key);
+      }
+      __name(cacheHas, "cacheHas");
+      module.exports = cacheHas;
+    }
+  });
+
+  // node_modules/lodash/_Set.js
+  var require_Set = __commonJS({
+    "node_modules/lodash/_Set.js"(exports, module) {
+      var getNative = require_getNative();
+      var root = require_root();
+      var Set2 = getNative(root, "Set");
+      module.exports = Set2;
+    }
+  });
+
+  // node_modules/lodash/noop.js
+  var require_noop = __commonJS({
+    "node_modules/lodash/noop.js"(exports, module) {
+      function noop() {
+      }
+      __name(noop, "noop");
+      module.exports = noop;
+    }
+  });
+
+  // node_modules/lodash/_setToArray.js
+  var require_setToArray = __commonJS({
+    "node_modules/lodash/_setToArray.js"(exports, module) {
+      function setToArray(set) {
+        var index = -1, result = Array(set.size);
+        set.forEach(function(value) {
+          result[++index] = value;
+        });
+        return result;
+      }
+      __name(setToArray, "setToArray");
+      module.exports = setToArray;
+    }
+  });
+
+  // node_modules/lodash/_createSet.js
+  var require_createSet = __commonJS({
+    "node_modules/lodash/_createSet.js"(exports, module) {
+      var Set2 = require_Set();
+      var noop = require_noop();
+      var setToArray = require_setToArray();
+      var INFINITY = 1 / 0;
+      var createSet = !(Set2 && 1 / setToArray(new Set2([, -0]))[1] == INFINITY) ? noop : function(values) {
+        return new Set2(values);
+      };
+      module.exports = createSet;
+    }
+  });
+
+  // node_modules/lodash/_baseUniq.js
+  var require_baseUniq = __commonJS({
+    "node_modules/lodash/_baseUniq.js"(exports, module) {
+      var SetCache = require_SetCache();
+      var arrayIncludes = require_arrayIncludes();
+      var arrayIncludesWith = require_arrayIncludesWith();
+      var cacheHas = require_cacheHas();
+      var createSet = require_createSet();
+      var setToArray = require_setToArray();
+      var LARGE_ARRAY_SIZE = 200;
+      function baseUniq(array, iteratee, comparator) {
+        var index = -1, includes = arrayIncludes, length = array.length, isCommon = true, result = [], seen = result;
+        if (comparator) {
+          isCommon = false;
+          includes = arrayIncludesWith;
+        } else if (length >= LARGE_ARRAY_SIZE) {
+          var set = iteratee ? null : createSet(array);
+          if (set) {
+            return setToArray(set);
+          }
+          isCommon = false;
+          includes = cacheHas;
+          seen = new SetCache();
+        } else {
+          seen = iteratee ? [] : result;
+        }
+        outer:
+          while (++index < length) {
+            var value = array[index], computed = iteratee ? iteratee(value) : value;
+            value = comparator || value !== 0 ? value : 0;
+            if (isCommon && computed === computed) {
+              var seenIndex = seen.length;
+              while (seenIndex--) {
+                if (seen[seenIndex] === computed) {
+                  continue outer;
+                }
+              }
+              if (iteratee) {
+                seen.push(computed);
+              }
+              result.push(value);
+            } else if (!includes(seen, computed, comparator)) {
+              if (seen !== result) {
+                seen.push(computed);
+              }
+              result.push(value);
+            }
+          }
+        return result;
+      }
+      __name(baseUniq, "baseUniq");
+      module.exports = baseUniq;
+    }
+  });
+
+  // node_modules/lodash/isLength.js
+  var require_isLength = __commonJS({
+    "node_modules/lodash/isLength.js"(exports, module) {
+      var MAX_SAFE_INTEGER = 9007199254740991;
+      function isLength(value) {
+        return typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+      }
+      __name(isLength, "isLength");
+      module.exports = isLength;
+    }
+  });
+
+  // node_modules/lodash/isArrayLike.js
+  var require_isArrayLike = __commonJS({
+    "node_modules/lodash/isArrayLike.js"(exports, module) {
+      var isFunction = require_isFunction();
+      var isLength = require_isLength();
+      function isArrayLike(value) {
+        return value != null && isLength(value.length) && !isFunction(value);
+      }
+      __name(isArrayLike, "isArrayLike");
+      module.exports = isArrayLike;
+    }
+  });
+
+  // node_modules/lodash/isArrayLikeObject.js
+  var require_isArrayLikeObject = __commonJS({
+    "node_modules/lodash/isArrayLikeObject.js"(exports, module) {
+      var isArrayLike = require_isArrayLike();
+      var isObjectLike = require_isObjectLike();
+      function isArrayLikeObject(value) {
+        return isObjectLike(value) && isArrayLike(value);
+      }
+      __name(isArrayLikeObject, "isArrayLikeObject");
+      module.exports = isArrayLikeObject;
+    }
+  });
+
+  // node_modules/lodash/union.js
+  var require_union = __commonJS({
+    "node_modules/lodash/union.js"(exports, module) {
+      var baseFlatten = require_baseFlatten();
+      var baseRest = require_baseRest();
+      var baseUniq = require_baseUniq();
+      var isArrayLikeObject = require_isArrayLikeObject();
+      var union2 = baseRest(function(arrays) {
+        return baseUniq(baseFlatten(arrays, 1, isArrayLikeObject, true));
+      });
+      module.exports = union2;
+    }
+  });
+
   // src/index.js
   var import_bootstrap_bundle_min = __toESM(require_bootstrap_bundle_min(), 1);
+
+  // node_modules/uuid/dist/esm-browser/rng.js
+  var getRandomValues;
+  var rnds8 = new Uint8Array(16);
+  function rng() {
+    if (!getRandomValues) {
+      getRandomValues = typeof crypto !== "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
+      if (!getRandomValues) {
+        throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
+      }
+    }
+    return getRandomValues(rnds8);
+  }
+  __name(rng, "rng");
+
+  // node_modules/uuid/dist/esm-browser/stringify.js
+  var byteToHex = [];
+  for (let i = 0; i < 256; ++i) {
+    byteToHex.push((i + 256).toString(16).slice(1));
+  }
+  function unsafeStringify(arr, offset = 0) {
+    return byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]];
+  }
+  __name(unsafeStringify, "unsafeStringify");
+
+  // node_modules/uuid/dist/esm-browser/native.js
+  var randomUUID = typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
+  var native_default = {
+    randomUUID
+  };
+
+  // node_modules/uuid/dist/esm-browser/v4.js
+  function v4(options, buf, offset) {
+    if (native_default.randomUUID && !buf && !options) {
+      return native_default.randomUUID();
+    }
+    options = options || {};
+    const rnds = options.random || (options.rng || rng)();
+    rnds[6] = rnds[6] & 15 | 64;
+    rnds[8] = rnds[8] & 63 | 128;
+    if (buf) {
+      offset = offset || 0;
+      for (let i = 0; i < 16; ++i) {
+        buf[offset + i] = rnds[i];
+      }
+      return buf;
+    }
+    return unsafeStringify(rnds);
+  }
+  __name(v4, "v4");
+  var v4_default = v4;
+
+  // plug-ins/node/Node.js
+  var import_union = __toESM(require_union(), 1);
 
   // plug-ins/properties/Property.js
   var Property = class {
@@ -2535,7 +3757,7 @@
     observe(eventPath, observerCallback, options) {
       const [name, path] = eventPath.split(".", 2);
       if (!this.properties[name])
-        throw new Error("property not defined");
+        throw new Error(`property "${name}" not defined`);
       this.disposable(this.properties[name].observe(path || name, observerCallback, options));
     }
     //
@@ -2552,11 +3774,21 @@
     properties;
     constructor(object) {
       this.properties = new Properties(this);
-      for (const key in object) {
-        if (object.hasOwnProperty(key)) {
-          this[key] = object[key];
-          this.properties.install(key);
-        }
+      const baseProperties = {
+        x: 0,
+        y: 0,
+        w: 32,
+        h: 32,
+        H: 0,
+        r: 0,
+        b: 0,
+        p: 0,
+        s: 0
+      };
+      const nodeProperties = (0, import_union.default)(Object.keys(baseProperties), Object.keys(object));
+      for (const propertyName of nodeProperties) {
+        this[propertyName] = object[propertyName];
+        this.properties.install(propertyName);
       }
     }
   };
@@ -2626,112 +3858,6 @@
     stop() {
       this.properties.stop();
       this.properties.status();
-    }
-  };
-
-  // node_modules/uuid/dist/esm-browser/rng.js
-  var getRandomValues;
-  var rnds8 = new Uint8Array(16);
-  function rng() {
-    if (!getRandomValues) {
-      getRandomValues = typeof crypto !== "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
-      if (!getRandomValues) {
-        throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
-      }
-    }
-    return getRandomValues(rnds8);
-  }
-  __name(rng, "rng");
-
-  // node_modules/uuid/dist/esm-browser/stringify.js
-  var byteToHex = [];
-  for (let i = 0; i < 256; ++i) {
-    byteToHex.push((i + 256).toString(16).slice(1));
-  }
-  function unsafeStringify(arr, offset = 0) {
-    return byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]];
-  }
-  __name(unsafeStringify, "unsafeStringify");
-
-  // node_modules/uuid/dist/esm-browser/native.js
-  var randomUUID = typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
-  var native_default = {
-    randomUUID
-  };
-
-  // node_modules/uuid/dist/esm-browser/v4.js
-  function v4(options, buf, offset) {
-    if (native_default.randomUUID && !buf && !options) {
-      return native_default.randomUUID();
-    }
-    options = options || {};
-    const rnds = options.random || (options.rng || rng)();
-    rnds[6] = rnds[6] & 15 | 64;
-    rnds[8] = rnds[8] & 63 | 128;
-    if (buf) {
-      offset = offset || 0;
-      for (let i = 0; i < 16; ++i) {
-        buf[offset + i] = rnds[i];
-      }
-      return buf;
-    }
-    return unsafeStringify(rnds);
-  }
-  __name(v4, "v4");
-  var v4_default = v4;
-
-  // plug-ins/windows/Component.js
-  var Component = class {
-    static {
-      __name(this, "Component");
-    }
-    properties;
-    // property management
-    id = v4_default();
-    started = false;
-    g;
-    // svg group node to contain everything
-    el = {};
-    // bag of elements
-    x = 0;
-    y = 0;
-    w = 10;
-    h = 10;
-    r = 0;
-    box;
-    container;
-    // the visual parent container holding the child
-    data;
-    // raw object that described the initial configuration of the component
-    constructor() {
-      this.properties = new Properties(this);
-      this.properties.install("started");
-      this.properties.install("data");
-      this.properties.install("x");
-      this.properties.install("y");
-      this.properties.install("w");
-      this.properties.install("h");
-      this.properties.install("r");
-      this.properties.install("b");
-      this.properties.observe("data", (data) => {
-        if (!data)
-          return;
-        this.properties.disposable(data.properties.observe("x", (x) => this.x = x));
-        this.properties.disposable(data.properties.observe("y", (y) => this.y = y));
-        this.properties.disposable(data.properties.observe("w", (w) => this.w = w));
-        this.properties.disposable(data.properties.observe("h", (h) => this.h = h));
-        this.properties.disposable(data.properties.observe("r", (r) => this.r = r));
-      });
-    }
-    start() {
-      this.started = true;
-      Object.values(this.el).forEach((el) => this.g.appendChild(el));
-    }
-    stop() {
-      this.started = false;
-      this.properties.stop();
-      this.properties.status();
-      Object.values(this.el).map((el) => el.remove());
     }
   };
 
@@ -2814,13 +3940,200 @@
     }
   }, "update");
 
-  // plug-ins/windows/Tray.js
-  var Tray = class extends Component {
+  // plug-ins/windows/Component.js
+  var Component = class {
     static {
-      __name(this, "Tray");
+      __name(this, "Component");
     }
+    properties;
+    // property management
+    id = v4_default();
+    name = "unnamed";
+    started = false;
+    root;
+    // root container
+    container;
+    // Component super-class that this is a child of
+    scene;
+    // svg group node to contain everything
+    g = svg.g({ class: "component" });
+    // svg group node to contain everything
+    el = {};
+    // bag of elements
+    x = 0;
+    y = 0;
+    w = 10;
+    h = 10;
+    H = 110;
+    // min h
+    r = 0;
+    b = 0;
+    // border
+    p = 0;
+    // padding
+    s = 2;
+    // spacer/gap
+    container;
+    // the visual parent container holding the child
+    data;
+    // raw object that described the initial configuration of the component
+    constructor() {
+      this.properties = new Properties(this);
+      this.properties.install("started");
+      this.properties.install("name");
+      this.properties.install("data");
+      this.properties.install("scene");
+      this.properties.install("x");
+      this.properties.install("y");
+      this.properties.install("w");
+      this.properties.install("h");
+      this.properties.install("H");
+      this.properties.install("r");
+      this.properties.install("b");
+      this.properties.install("p");
+      this.properties.install("s");
+      this.properties.observe("scene", (scene) => {
+        if (scene)
+          this.scene.appendChild(this.g);
+      });
+      this.properties.observe("data", (data) => {
+        if (!data)
+          return;
+        this.properties.disposable(data.properties.observe("x", (x) => this.x = x));
+        this.properties.disposable(data.properties.observe("y", (y) => this.y = y));
+        this.properties.disposable(data.properties.observe("w", (w) => this.w = w));
+        this.properties.disposable(data.properties.observe("h", (h) => this.h = h));
+        this.properties.disposable(data.properties.observe("r", (r) => this.r = r));
+        this.properties.disposable(data.properties.observe("b", (b) => this.b = b));
+        this.properties.disposable(data.properties.observe("p", (p) => this.p = p));
+      });
+    }
+    start() {
+      Object.values(this.el).forEach((el) => this.g.appendChild(el));
+      this.started = true;
+    }
+    stop() {
+      this.started = false;
+      this.properties.stop();
+      this.properties.status();
+      Object.values(this.el).map((el) => el.remove());
+    }
+    // Introducing Concept of Root
+    // NOTE: this is for both containers and controls so that they can find their way all the way up - therefore it belongs to Component.js
+    get isRoot() {
+      return !this.container;
+    }
+    get root() {
+      let response = null;
+      if (this.isRoot) {
+        response = this;
+      } else {
+        response = this.container.root;
+      }
+      return response;
+    }
+    ///
+  };
+
+  // plug-ins/windows/Layout.js
+  var BOTH_SIDES = 2;
+  var Layout = class {
+    static {
+      __name(this, "Layout");
+    }
+    container;
+    constructor(container) {
+      this.container = container;
+    }
+    manage(child) {
+    }
+    calculateChildW() {
+      return 320 * Math.random();
+    }
+    calculateH() {
+      return 200 * Math.random();
+    }
+    calculateChildX(container, child) {
+      return 800 * Math.random();
+    }
+    calculateChildY(container, child) {
+      return 600 * Math.random();
+    }
+    above(container, child) {
+      return container.children.slice(0, container.children.indexOf(child));
+    }
+    #cleanup = [];
+    cleanup(...arg) {
+      this.#cleanup.push(...arg);
+    }
+  };
+  var VerticalLayout = class extends Layout {
+    static {
+      __name(this, "VerticalLayout");
+    }
+    manage(child) {
+      child.x = this.calculateChildX(child);
+      child.y = this.calculateChildY(child);
+      child.w = this.calculateChildW(child);
+      this.container.properties.observe("x", () => child.x = this.calculateChildX(child));
+      this.container.properties.observe("y", () => child.y = this.calculateChildY(child));
+      this.container.properties.observe("w", () => child.w = this.calculateChildW(child));
+      child.properties.observe("h", () => this.container.h = this.calculateH());
+      this.container.properties.observe("h", () => child.y = this.calculateChildY(child));
+    }
+    calculateChildW(child) {
+      console.log(`Calculating child width in ${this.container.name} for child ${child.name || child.text}`);
+      console.log(`My width is ${this.container.w}.`);
+      const response = this.container.w - (this.container.b + this.container.p) * BOTH_SIDES;
+      console.log(`Returning ${response}`);
+      return response;
+    }
+    calculateH() {
+      let heightOfChildren = 0;
+      const children = this.container.children;
+      heightOfChildren = children.reduce((total, c) => total + c.h, 0) + this.container.s * 2 * (children.length > 0 ? children.length - 1 : 0);
+      let response = this.container.b + this.container.p + // this.container.H + // NOT A MISTAKE design can hold a base h that is used in calculations
+      heightOfChildren + this.container.p + this.container.b;
+      if (response < this.container.H)
+        response = this.container.H;
+      return response;
+    }
+    calculateChildX() {
+      const response = this.container.x + // use my own x
+      this.container.b + // add border
+      this.container.p;
+      return response;
+    }
+    calculateChildY(child) {
+      const response = this.container.y + this.container.b + this.container.p + this.above(this.container, child).reduce((total, child2) => total + child2.h, 0) + this.container.s * 2 * this.above(this.container, child).length;
+      return response;
+    }
+  };
+
+  // plug-ins/windows/Container.js
+  var Container = class extends Component {
+    static {
+      __name(this, "Container");
+    }
+    // NOTE: only containers have children, controls do not
+    children = [];
+    // NOTE: only containers have a layout, becasue they have children
+    // NOTE: a layout applies to children only, this will not set xywh of the root component
+    layout;
     constructor(...a) {
       super(...a);
+      this.layout = new VerticalLayout(this);
+      this.properties.install("children");
+      this.properties.observe("children.created", (item) => {
+        item.container = this;
+        item.g = this.g;
+        this.layout.manage(item);
+        item.start();
+      });
+      this.properties.observe("children.removed", (item) => {
+        item.stop();
+        this.layout.forget(item);
+      });
       this.el.Container = svg.rect({
         name: this.name,
         class: "node-box",
@@ -2834,24 +4147,96 @@
         x: this.x,
         y: this.y
       });
-      this.properties.observe("started", (started) => {
-        if (started) {
-          this.properties.observe("w", (width) => update(this.el.Container, { width }));
-          this.properties.observe("h", (height) => update(this.el.Container, { height }));
-          this.properties.observe("x", (x) => update(this.el.Container, { x }));
-          this.properties.observe("y", (y) => update(this.el.Container, { y }));
-          this.properties.observe("r", (ry) => update(this.el.Container, { ry }));
-        } else {
-        }
-      });
+      this.properties.observe("started", (started) => this.#onStart({ started }));
+      this.properties.observe("name", (name) => update(this.el.Container, { name }));
     }
     start() {
       super.start();
-      console.log(`I am a tray and I just got started... my id is ${this.id}::${this.data.id}`);
+      console.log(`I am a container and I just got started... my id is ${this.id}::${this.data.id}`);
     }
     stop() {
       super.stop();
     }
+    /// OnX - concept upgrade - boundary layer -
+    #onStart({ started }) {
+      if (started) {
+        this.properties.observe("w", (width) => update(this.el.Container, { width }));
+        this.properties.observe("h", (height) => update(this.el.Container, { height }));
+        this.properties.observe("x", (x) => update(this.el.Container, { x }));
+        this.properties.observe("y", (y) => update(this.el.Container, { y }));
+        this.properties.observe("r", (ry) => update(this.el.Container, { ry }));
+      } else {
+      }
+    }
+  };
+
+  // plug-ins/windows/Control.js
+  var Control = class extends Component {
+    static {
+      __name(this, "Control");
+    }
+    // h = 64;
+    constructor(...a) {
+      super(...a);
+      this.h = 32;
+      this.el.Container = svg.rect({
+        name: this.name,
+        class: "node-box",
+        ry: this.r,
+        "stroke-width": 1,
+        // set initial values
+        // these are special, handeled by the layout manager
+        // NOTE: these are observables, getter returns a value, setter notifies listeners, and you can ```this.observe('x', v=>{...})```
+        width: this.w,
+        height: this.h,
+        x: this.x,
+        y: this.y
+      });
+      this.properties.observe("started", (started) => this.#onStart({ started }));
+    }
+    start() {
+      super.start();
+      console.log(`I am a CONTROL!!!! and I just got started... my id is ${this.id}::${this.data?.id}`);
+    }
+    stop() {
+      super.stop();
+    }
+    /// OnX - concept upgrade - boundary layer -
+    #onStart({ started }) {
+      if (started) {
+        this.properties.observe("w", (width) => update(this.el.Container, { width }));
+        this.properties.observe("h", (height) => update(this.el.Container, { height }));
+        this.properties.observe("x", (x) => update(this.el.Container, { x }));
+        this.properties.observe("y", (y) => update(this.el.Container, { y }));
+        this.properties.observe("r", (ry) => update(this.el.Container, { ry }));
+      } else {
+      }
+    }
+  };
+
+  // plug-ins/windows/Tray.js
+  var Tray = class extends Container {
+    static {
+      __name(this, "Tray");
+    }
+    constructor(...a) {
+      super(...a);
+      let caption = new Control();
+      let toolbar = new Control();
+      this.children.create(caption);
+      this.children.create(toolbar);
+      toolbar.h = 16;
+    }
+    // #onStart({started}){
+    //
+    //   if(started){
+    //
+    //
+    //   }else{
+    //
+    //   }
+    //
+    // }
   };
 
   // src/Universe.js
@@ -2865,9 +4250,12 @@
     started = false;
     name = "";
     svg;
-    g;
+    scene;
     trays = /* @__PURE__ */ new Map();
     lines = /* @__PURE__ */ new Map();
+    ///
+    #supportedTypes = [Tray];
+    // What can the universe create?
     constructor() {
       this.properties = new Properties(this);
       this.properties.install("archetypes");
@@ -2895,14 +4283,12 @@
       if (started) {
         console.log(`Universe started = ${started}`);
         this.properties.observe("worlds.created", (item) => {
-          console.log(`creating a world of type ${item.type} (should be more specific like Vpl Tray or Design Area)`);
-          const supportedTypes = [Tray];
-          const Component2 = supportedTypes.find((o) => o.name == item.type);
+          const Component2 = this.#supportedTypes.find((o) => o.name == item.type);
           if (!Component2)
             throw new Error("Unrecongnized type");
           const component = new Component2();
           this.trays.set(item.id, component);
-          component.g = this.g;
+          component.scene = this.scene;
           component.container = this;
           component.data = item;
           component.start({ view: this });
@@ -2927,43 +4313,17 @@
   var universe = new Universe();
   universe.name = "Universe Window";
   universe.svg = document.querySelector("#editor-svg");
-  universe.g = document.querySelector("#editor-scene");
+  universe.scene = document.querySelector("#editor-scene");
   universe.started = true;
   console.log("index.js creating a world in the universe!");
-  var testTrays = [];
-  for (let i = 0; i < 10; i++) {
-    testTrays.push(
-      new Node2({
-        id: i,
-        type: "Tray",
-        x: 800 * Math.random(),
-        y: 800 * Math.random(),
-        w: 800 * Math.random(),
-        h: 600 * Math.random(),
-        r: 6
-      })
-    );
-  }
-  setInterval((x) => {
-    for (const tray of testTrays) {
-      tray.x = Math.random() >= 0.5 ? tray.x - 1 : tray.x + 1;
-      tray.y = Math.random() >= 0.5 ? tray.y - 1 : tray.y + 1;
-      tray.w = Math.random() >= 0.5 ? tray.w - 1 : tray.w + 1;
-      tray.h = Math.random() >= 0.5 ? tray.h - 1 : tray.h + 1;
-      tray.r = Math.random() >= 0.5 ? tray.r - 1 : tray.r + 1;
-      if (tray.r < 1)
-        tray.r = 1;
-      if (tray.r > 32)
-        tray.r = 32;
-      if (tray.w < 1)
-        tray.w = 100;
-      if (tray.h < 1)
-        tray.h = 132;
+  async function main() {
+    const project = await (await fetch("templates/hello-project.json")).json();
+    for (const item of project.data) {
+      universe.worlds.create(new Node2(item.meta));
     }
-  }, 1e3 / 60);
-  for (const tray of testTrays) {
-    universe.worlds.create(tray);
   }
+  __name(main, "main");
+  main();
 })();
 /*! Bundled license information:
 

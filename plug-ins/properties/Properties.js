@@ -70,7 +70,7 @@ export default class Properties {
   // Enable Observing
   observe(eventPath, observerCallback, options){
     const [name, path] = eventPath.split('.', 2);
-    if(!this.properties[name]) throw new Error("property not defined");
+    if(!this.properties[name]) throw new Error(`property "${name}" not defined`);
     this.disposable( this.properties[name].observe(path||name, observerCallback, options) );
   }
 

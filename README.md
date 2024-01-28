@@ -4,9 +4,10 @@ User Friendly Visual Programming Language
 
 ## TODO
 
-- load universe/worlds from a json file
 - make the tray into a draggable Window
-- give it connections, and a Generator
+- give trays connections
+- create special IO nodes in the node world, when added it makes a port in the world box
+- and a Generator
 
 - give worlds their nodes, and make the code generator visit
 

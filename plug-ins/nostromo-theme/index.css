@@ -32,9 +32,10 @@ svg.editor-interface {
 .editor-background {
     /* fill: var(--darkest); */
     /* stroke: var(--primary-color); */
+    fill: transparent;
 }
 .editor-scene {
-
+  fill: transparent;
 }
 
 /* Node is the main thing that contains caption ports, etc.. */
