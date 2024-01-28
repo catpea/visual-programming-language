@@ -17,13 +17,12 @@ universe.started = true;
 
 console.log('index.js creating a world in the universe!');
 
-
 const testTrays = [];
 
 for (let i = 0; i < 10; i++) {
   testTrays.push(
     new Node({
-      id: 1,
+      id: i,
       type: 'Tray',
       x: 800*Math.random(),
       y: 800*Math.random(),
@@ -34,16 +33,13 @@ for (let i = 0; i < 10; i++) {
   )
 }
 
-
 setInterval(x=>{
 
   for (const tray of testTrays) {
     tray.x = Math.random()>=0.5 ?tray.x-1:tray.x+1;
     tray.y = Math.random()>=0.5 ?tray.y-1:tray.y+1;
-
     tray.w = Math.random()>=0.5 ?tray.w-1:tray.w+1;
     tray.h = Math.random()>=0.5 ?tray.h-1:tray.h+1;
-
     tray.r = Math.random()>=0.5 ?tray.r-1:tray.r+1;
     if(tray.r<1) tray.r = 1;
     if(tray.r>32) tray.r = 32;

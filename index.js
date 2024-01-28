@@ -2880,34 +2880,7 @@
       this.properties.observe("name", (v) => {
         document.querySelector("title").innerText = v;
       });
-      this.properties.observe("started", (started) => {
-        if (started) {
-          console.log(`Universe started = ${started}`);
-          this.properties.observe("worlds.created", (item) => {
-            console.log(`creating a world of type ${item.type} (should be more specific like Vpl Tray or Design Area)`);
-            const supportedTypes = [Tray];
-            const Component2 = supportedTypes.find((o) => o.name == item.type);
-            if (!Component2)
-              throw new Error("Unrecongnized type");
-            const component = new Component2();
-            this.trays.set(item.id, component);
-            component.g = this.g;
-            component.container = this;
-            component.data = item;
-            component.start({ view: this });
-          }, { replay: true });
-          this.properties.observe("worlds.removed", ({ id }) => {
-            this.trays.get(id).stop();
-            this.trays.delete(id);
-          });
-        } else {
-          console.log(`There are ${this.trays.size} this.trays to remove`);
-          for (const { id } of this.trays) {
-            this.trays.get(id).stop();
-            this.trays.delete(id);
-          }
-        }
-      });
+      this.properties.observe("started", (started) => this.onStart({ started }));
     }
     // constructor
     start() {
@@ -2917,6 +2890,34 @@
       this.started = false;
       this.properties.stop();
       this.properties.status();
+    }
+    onStart({ started }) {
+      if (started) {
+        console.log(`Universe started = ${started}`);
+        this.properties.observe("worlds.created", (item) => {
+          console.log(`creating a world of type ${item.type} (should be more specific like Vpl Tray or Design Area)`);
+          const supportedTypes = [Tray];
+          const Component2 = supportedTypes.find((o) => o.name == item.type);
+          if (!Component2)
+            throw new Error("Unrecongnized type");
+          const component = new Component2();
+          this.trays.set(item.id, component);
+          component.g = this.g;
+          component.container = this;
+          component.data = item;
+          component.start({ view: this });
+        }, { replay: true });
+        this.properties.observe("worlds.removed", ({ id }) => {
+          this.trays.get(id).stop();
+          this.trays.delete(id);
+        });
+      } else {
+        console.log(`There are ${this.trays.size} this.trays to remove`);
+        for (const { id } of this.trays) {
+          this.trays.get(id).stop();
+          this.trays.delete(id);
+        }
+      }
     }
   };
 
@@ -2933,7 +2934,7 @@
   for (let i = 0; i < 10; i++) {
     testTrays.push(
       new Node2({
-        id: 1,
+        id: i,
         type: "Tray",
         x: 800 * Math.random(),
         y: 800 * Math.random(),
