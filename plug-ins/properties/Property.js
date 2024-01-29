@@ -34,6 +34,7 @@ export default class Property {
     if (this.#value == data) return;
     this.constrain(data);
     this.#value = data;
+    console.log('>>>>>>>>>>>>>>>>>NOTIFY', this.name, this.#value);
     this.notify(this.name, this.#value);
   }
 
@@ -54,7 +55,10 @@ export default class Property {
     this.#observers[eventName] = this.#observers[eventName].filter((obs) => obs !== observerCallback);
   }
   notify(eventName, eventData, ...extra) {
-    if (Array.isArray(this.#observers[eventName])) this.#observers[eventName].forEach((observerCallback) => observerCallback(eventData, ...extra));
+    if (Array.isArray(this.#observers[eventName])){
+      console.log('>>>>>>>>>>>>> NOTOFY '+eventName,this.#observers[eventName]);
+      this.#observers[eventName].forEach((observerCallback) => observerCallback(eventData, ...extra));
+    }
   }
   status(){
 

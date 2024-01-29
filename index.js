@@ -3549,6 +3549,7 @@
         return;
       this.constrain(data);
       this.#value = data;
+      console.log(">>>>>>>>>>>>>>>>>NOTIFY", this.name, this.#value);
       this.notify(this.name, this.#value);
     }
     // Install Observer Functionality
@@ -3569,8 +3570,10 @@
       this.#observers[eventName] = this.#observers[eventName].filter((obs) => obs !== observerCallback);
     }
     notify(eventName, eventData, ...extra) {
-      if (Array.isArray(this.#observers[eventName]))
+      if (Array.isArray(this.#observers[eventName])) {
+        console.log(">>>>>>>>>>>>> NOTOFY " + eventName, this.#observers[eventName]);
         this.#observers[eventName].forEach((observerCallback) => observerCallback(eventData, ...extra));
+      }
     }
     status() {
       return {
@@ -3705,7 +3708,6 @@
     static {
       __name(this, "Properties");
     }
-    client = null;
     properties = {};
     constructor(client) {
       this.client = client;
@@ -3715,8 +3717,14 @@
       if (this.properties[name]) {
         throw new Error(`property "${name}" already defined`);
       }
-      const value = this.client[name];
+      console.error("FIX ME PROPERTIES CAN BE INITIALIZERS");
+      let value;
+      if (this.client[name]) {
+        value = this.client[name];
+        delete this.client[name];
+      }
       if (Array.isArray(value)) {
+        console.log(`creating array`, name);
         this.installArray(name, value);
       } else {
         this.installSimple(name, value);
@@ -3724,14 +3732,14 @@
     }
     installSimple(name, value) {
       this.properties[name] = new Property(name, value);
-      Object.defineProperty(this.client, name, {
+      Object.defineProperty(Object.getPrototypeOf(this.client), name, {
         get: () => this.properties[name].value,
         set: (value2) => this.properties[name].value = value2
       });
     }
     installArray(name, value) {
       this.properties[name] = new PropertyList(name, value);
-      Object.defineProperty(this.client, name, {
+      Object.defineProperty(Object.getPrototypeOf(this.client), name, {
         get: () => this.properties[name],
         set: (value2) => {
           throw new Error(`observable array ${name} cannot be replaced`);
@@ -3762,7 +3770,6 @@
     }
     //
     status() {
-      console.log(Object.entries(this.properties).flatMap(([k, v]) => `${k} observers: ${v.status().observerCount}`));
     }
   };
 
@@ -3772,8 +3779,12 @@
       __name(this, "Node");
     }
     properties;
-    constructor(object) {
+    constructor(object = {}) {
       this.properties = new Properties(this);
+      for (const propertyName in object) {
+        this[propertyName] = object[propertyName];
+        this.properties.install(propertyName);
+      }
       const baseProperties = {
         x: 0,
         y: 0,
@@ -3785,10 +3796,11 @@
         p: 0,
         s: 0
       };
-      const nodeProperties = (0, import_union.default)(Object.keys(baseProperties), Object.keys(object));
-      for (const propertyName of nodeProperties) {
-        this[propertyName] = object[propertyName];
-        this.properties.install(propertyName);
+      for (const propertyName in baseProperties) {
+        if (!this[propertyName]) {
+          this[propertyName] = baseProperties[propertyName];
+          this.properties.install(propertyName);
+        }
       }
     }
   };
@@ -3954,8 +3966,7 @@
     // root container
     container;
     // Component super-class that this is a child of
-    scene;
-    // svg group node to contain everything
+    // scene; // svg group node to contain everything
     g = svg.g({ class: "component" });
     // svg group node to contain everything
     el = {};
@@ -3971,52 +3982,40 @@
     // border
     p = 0;
     // padding
-    s = 2;
+    s = 0;
     // spacer/gap
-    container;
+    container = null;
     // the visual parent container holding the child
-    data;
+    data = 0;
     // raw object that described the initial configuration of the component
     constructor() {
-      this.properties = new Properties(this);
-      this.properties.install("started");
-      this.properties.install("name");
-      this.properties.install("data");
-      this.properties.install("scene");
-      this.properties.install("x");
-      this.properties.install("y");
-      this.properties.install("w");
-      this.properties.install("h");
-      this.properties.install("H");
-      this.properties.install("r");
-      this.properties.install("b");
-      this.properties.install("p");
-      this.properties.install("s");
-      this.properties.observe("scene", (scene) => {
-        if (scene)
-          this.scene.appendChild(this.g);
-      });
+      this.properties = new Properties();
+      this.properties.install(this, "started");
+      this.properties.install(this, "name");
+      this.properties.install(this, "scene");
+      this.properties.install(this, "data");
+      this.properties.install(this, "x");
+      this.properties.install(this, "y");
+      this.properties.install(this, "w");
+      this.properties.install(this, "h");
+      this.properties.install(this, "H");
+      this.properties.install(this, "r");
+      this.properties.install(this, "b");
+      this.properties.install(this, "p");
+      this.properties.install(this, "s");
+      console.log(this.id, 'this.properties.observe("data"...');
       this.properties.observe("data", (data) => {
+        console.log("############### DATA OBSERVING ##########################", data);
         if (!data)
           return;
-        this.properties.disposable(data.properties.observe("x", (x) => this.x = x));
-        this.properties.disposable(data.properties.observe("y", (y) => this.y = y));
-        this.properties.disposable(data.properties.observe("w", (w) => this.w = w));
-        this.properties.disposable(data.properties.observe("h", (h) => this.h = h));
-        this.properties.disposable(data.properties.observe("r", (r) => this.r = r));
-        this.properties.disposable(data.properties.observe("b", (b) => this.b = b));
-        this.properties.disposable(data.properties.observe("p", (p) => this.p = p));
+        data.properties.observe("x", (x) => this.x = x);
+        data.properties.observe("y", (y) => this.y = y);
+        data.properties.observe("w", (w) => this.w = w);
+        data.properties.observe("h", (h) => this.h = h);
+        data.properties.observe("r", (r) => this.r = r);
+        data.properties.observe("b", (b) => this.b = b);
+        data.properties.observe("p", (p) => this.p = p);
       });
-    }
-    start() {
-      Object.values(this.el).forEach((el) => this.g.appendChild(el));
-      this.started = true;
-    }
-    stop() {
-      this.started = false;
-      this.properties.stop();
-      this.properties.status();
-      Object.values(this.el).map((el) => el.remove());
     }
     // Introducing Concept of Root
     // NOTE: this is for both containers and controls so that they can find their way all the way up - therefore it belongs to Component.js
@@ -4123,17 +4122,7 @@
     constructor(...a) {
       super(...a);
       this.layout = new VerticalLayout(this);
-      this.properties.install("children");
-      this.properties.observe("children.created", (item) => {
-        item.container = this;
-        item.g = this.g;
-        this.layout.manage(item);
-        item.start();
-      });
-      this.properties.observe("children.removed", (item) => {
-        item.stop();
-        this.layout.forget(item);
-      });
+      this.properties.install(this, "children");
       this.el.Container = svg.rect({
         name: this.name,
         class: "node-box",
@@ -4147,26 +4136,32 @@
         x: this.x,
         y: this.y
       });
-      this.properties.observe("started", (started) => this.#onStart({ started }));
       this.properties.observe("name", (name) => update(this.el.Container, { name }));
-    }
-    start() {
-      super.start();
-      console.log(`I am a container and I just got started... my id is ${this.id}::${this.data.id}`);
-    }
-    stop() {
-      super.stop();
+      this.properties.observe("started", (started) => started ? this.#onStart() : this.#onStop());
     }
     /// OnX - concept upgrade - boundary layer -
-    #onStart({ started }) {
-      if (started) {
-        this.properties.observe("w", (width) => update(this.el.Container, { width }));
-        this.properties.observe("h", (height) => update(this.el.Container, { height }));
-        this.properties.observe("x", (x) => update(this.el.Container, { x }));
-        this.properties.observe("y", (y) => update(this.el.Container, { y }));
-        this.properties.observe("r", (ry) => update(this.el.Container, { ry }));
-      } else {
-      }
+    #onStart() {
+      this.properties.observe("w", (width) => update(this.el.Container, { width }));
+      this.properties.observe("h", (height) => update(this.el.Container, { height }));
+      this.properties.observe("x", (x) => update(this.el.Container, { x }));
+      this.properties.observe("y", (y) => update(this.el.Container, { y }));
+      this.properties.observe("r", (ry) => update(this.el.Container, { ry }));
+      Object.values(this.el).forEach((el) => this.g.appendChild(el));
+      this.properties.observe("children.created", (item) => {
+        item.container = this;
+        item.g = this.g;
+        this.layout.manage(item);
+        item.started = true;
+      }, { replay: true });
+      this.properties.observe("children.removed", (item) => {
+        item.stop();
+        this.layout.forget(item);
+      });
+    }
+    #onStop() {
+      this.properties.stop();
+      this.properties.status();
+      Object.values(this.el).map((el) => el.remove());
     }
   };
 
@@ -4192,25 +4187,22 @@
         x: this.x,
         y: this.y
       });
-      this.properties.observe("started", (started) => this.#onStart({ started }));
-    }
-    start() {
-      super.start();
-      console.log(`I am a CONTROL!!!! and I just got started... my id is ${this.id}::${this.data?.id}`);
-    }
-    stop() {
-      super.stop();
+      this.properties.observe("name", (name) => update(this.el.Container, { name }));
+      this.properties.observe("started", (started) => started ? this.#onStart() : this.#onStop());
     }
     /// OnX - concept upgrade - boundary layer -
-    #onStart({ started }) {
-      if (started) {
-        this.properties.observe("w", (width) => update(this.el.Container, { width }));
-        this.properties.observe("h", (height) => update(this.el.Container, { height }));
-        this.properties.observe("x", (x) => update(this.el.Container, { x }));
-        this.properties.observe("y", (y) => update(this.el.Container, { y }));
-        this.properties.observe("r", (ry) => update(this.el.Container, { ry }));
-      } else {
-      }
+    #onStart() {
+      this.properties.observe("w", (width) => update(this.el.Container, { width }));
+      this.properties.observe("h", (height) => update(this.el.Container, { height }));
+      this.properties.observe("x", (x) => update(this.el.Container, { x }));
+      this.properties.observe("y", (y) => update(this.el.Container, { y }));
+      this.properties.observe("r", (ry) => update(this.el.Container, { ry }));
+      Object.values(this.el).forEach((el) => this.g.appendChild(el));
+    }
+    #onStop() {
+      this.properties.stop();
+      this.properties.status();
+      Object.values(this.el).map((el) => el.remove());
     }
   };
 
@@ -4220,23 +4212,14 @@
       __name(this, "Tray");
     }
     constructor(...a) {
+      console.log("CREATING TRAY");
       super(...a);
       let caption = new Control();
-      let toolbar = new Control();
       this.children.create(caption);
+      let toolbar = new Control();
       this.children.create(toolbar);
-      toolbar.h = 16;
+      console.log("TRAY CREATED");
     }
-    // #onStart({started}){
-    //
-    //   if(started){
-    //
-    //
-    //   }else{
-    //
-    //   }
-    //
-    // }
   };
 
   // src/Universe.js
@@ -4264,46 +4247,41 @@
       this.properties.install("started");
       this.properties.install("name");
       this.properties.install("svg");
-      this.properties.install("g");
+      this.properties.install("scene");
       this.properties.observe("name", (v) => {
         document.querySelector("title").innerText = v;
       });
-      this.properties.observe("started", (started) => this.onStart({ started }));
+      this.properties.observe("started", (started) => started ? this.#onStart() : this.#onStop());
     }
     // constructor
-    start() {
-      this.started = true;
+    #onStart() {
+      console.log(`Universe onStart, world count: ${this.worlds.length}`);
+      this.properties.observe("worlds.created", (node) => {
+        const Component2 = this.#supportedTypes.find((o) => o.name == node.type);
+        if (!Component2)
+          throw new Error("Unrecongnized type");
+        const component = new Component2();
+        this.trays.set(node.id, component);
+        this.scene.appendChild(component.g);
+        component.container = this;
+        console.log("SETTING DATA ON", component);
+        component.data = node;
+        console.log("STARTING", component);
+        component.started = true;
+      }, { replay: true });
+      this.properties.observe("worlds.removed", ({ id }) => {
+        this.trays.get(id).started = false;
+        this.trays.delete(id);
+      });
     }
-    stop() {
-      this.started = false;
+    #onStop() {
+      console.log(`There are ${this.trays.size} this.trays to remove`);
+      for (const { id } of this.trays) {
+        this.trays.get(id).started = false;
+        this.trays.delete(id);
+      }
       this.properties.stop();
       this.properties.status();
-    }
-    onStart({ started }) {
-      if (started) {
-        console.log(`Universe started = ${started}`);
-        this.properties.observe("worlds.created", (item) => {
-          const Component2 = this.#supportedTypes.find((o) => o.name == item.type);
-          if (!Component2)
-            throw new Error("Unrecongnized type");
-          const component = new Component2();
-          this.trays.set(item.id, component);
-          component.scene = this.scene;
-          component.container = this;
-          component.data = item;
-          component.start({ view: this });
-        }, { replay: true });
-        this.properties.observe("worlds.removed", ({ id }) => {
-          this.trays.get(id).stop();
-          this.trays.delete(id);
-        });
-      } else {
-        console.log(`There are ${this.trays.size} this.trays to remove`);
-        for (const { id } of this.trays) {
-          this.trays.get(id).stop();
-          this.trays.delete(id);
-        }
-      }
     }
   };
 
@@ -4314,13 +4292,15 @@
   universe.name = "Universe Window";
   universe.svg = document.querySelector("#editor-svg");
   universe.scene = document.querySelector("#editor-scene");
-  universe.started = true;
   console.log("index.js creating a world in the universe!");
   async function main() {
+    console.log("universe.worlds", universe.worlds);
     const project = await (await fetch("templates/hello-project.json")).json();
     for (const item of project.data) {
-      universe.worlds.create(new Node2(item.meta));
+      const node = new Node2(item.meta);
+      universe.worlds.create(node);
     }
+    universe.started = true;
   }
   __name(main, "main");
   main();

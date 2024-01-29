@@ -18,20 +18,9 @@ export default class Container extends Component {
   constructor(...a) {
     super(...a);
 
-
     this.layout = new VerticalLayout(this);
-    this.properties.install("children");
-    
-    this.properties.observe("children.created", (item) => {
-      item.container = this;
-      item.g = this.g;
-      this.layout.manage(item);
-			item.start(); // sets started
-    });
-    this.properties.observe("children.removed", (item) => {
-      item.stop();
-      this.layout.forget(item);
-    });
+
+    this.properties.install(this, "children");
 
     this.el.Container = svg.rect({
       name: this.name,
@@ -48,43 +37,50 @@ export default class Container extends Component {
     });
 
 
-    this.properties.observe("started", started=>this.#onStart({started}));
     this.properties.observe('name',  name=>update(this.el.Container,{name}), );
 
-  }
-
-  start() {
-    super.start();
-
-
-
-
-    console.log(`I am a container and I just got started... my id is ${this.id}::${this.data.id}`);
-
+    this.properties.observe("started", started=>started?this.#onStart():this.#onStop());
 
   }
-
-  stop() {
-    super.stop();
-  }
-
 
   /// OnX - concept upgrade - boundary layer -
 
-  #onStart({started}){
+  #onStart(){
 
-    if(started){
+    this.properties.observe('w',  width=>update(this.el.Container,{width}), );
+    this.properties.observe('h', height=>update(this.el.Container,{height}),);
+    this.properties.observe('x',      x=>update(this.el.Container,{x}),     );
+    this.properties.observe('y',      y=>update(this.el.Container,{y}),     );
+    this.properties.observe('r',     ry=>update(this.el.Container,{ry}),     );
 
-      this.properties.observe('w',  width=>update(this.el.Container,{width}), );
-      this.properties.observe('h', height=>update(this.el.Container,{height}),);
-      this.properties.observe('x',      x=>update(this.el.Container,{x}),     );
-      this.properties.observe('y',      y=>update(this.el.Container,{y}),     );
-      this.properties.observe('r',     ry=>update(this.el.Container,{ry}),     );
+    Object.values(this.el).forEach(el => this.g.appendChild(el));
 
-    }else{
+    this.properties.observe("children.created", (item) => {
+      item.container = this;
+      item.g = this.g;
+      this.layout.manage(item);
+			item.started = true;
+    }, {replay: true});
 
-    }
+    this.properties.observe("children.removed", (item) => {
+      item.stop();
+      this.layout.forget(item);
+    });
 
   }
+
+  #onStop(){
+      this.properties.stop();
+      this.properties.status();
+      Object.values(this.el).map(el=>el.remove());
+  }
+
+
+
+
+
+
+
+
 
 }

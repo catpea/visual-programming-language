@@ -4,6 +4,9 @@ User Friendly Visual Programming Language
 
 ## TODO
 
+- new inheritance model is being overriden by properties that used to provide default value
+universe.worlds must be removed, and the value set in install
+
 - make the tray into a draggable Window
 - give trays connections
 - create special IO nodes in the node world, when added it makes a port in the world box

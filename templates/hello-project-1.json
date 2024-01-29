@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "id": "17b1cb2a-1a08-4eec-a3fc-f3835cbbdfab",
+    "name": "Hello Project",
+    "description": "Convert a string of text to uppercase."
+  },
+
+  "data": [
+    {
+      "meta": {
+        "id": "1a18d5a3-59c4-4b59-a340-83ed1154a740",
+        "type": "Tray",
+        "x": 117,
+        "y": 612,
+        "w": 126,
+        "h": 5,
+        "r": 6
+      },
+      "data": "hello-world.json"
+    },
+    {
+      "meta": {
+        "id": "0524d52e-68c8-442a-b40c-17badc2a10f8",
+        "type": "Tray",
+        "x": 523,
+        "y": 474,
+        "w": 728,
+        "h": 415,
+        "r": 6
+      },
+      "data": "hello-world.json"
+    },
+    {
+      "meta": {
+        "id": "39777530-9e93-498e-ab86-58bfb98360fc",
+        "type": "Tray",
+        "x": 339,
+        "y": 57,
+        "w": 451,
+        "h": 242,
+        "r": 6
+      },
+      "data": "hello-world.json"
+    },
+    {
+      "meta": {
+        "id": "75fcac23-7941-471f-b586-5a6b01797511",
+        "type": "Tray",
+        "x": 18,
+        "y": 93,
+        "w": 175,
+        "h": 302,
+        "r": 6
+      },
+      "data": "hello-world.json"
+    },
+    {
+      "meta": {
+        "id": "c2f103ab-ea3b-48f8-a880-0fdd12a990e0",
+        "type": "Tray",
+        "x": 529,
+        "y": 511,
+        "w": 122,
+        "h": 191,
+        "r": 6
+      },
+      "data": "hello-world.json"
+    },
+    {
+      "meta": {
+        "id": "98d2328a-9232-4320-99f7-966eeaec7126",
+        "type": "Tray",
+        "x": 765,
+        "y": 421,
+        "w": 590,
+        "h": 298,
+        "r": 6
+      },
+      "data": "hello-world.json"
+    },
+    {
+      "meta": {
+        "id": "dfb2ffb4-c24f-4938-aaa8-33160cbc1da2",
+        "type": "Tray",
+        "x": 756,
+        "y": 688,
+        "w": 211,
+        "h": 524,
+        "r": 6
+      },
+      "data": "hello-world.json"
+    },
+    {
+      "meta": {
+        "id": "ba108fa1-4eac-474b-9271-7a38b9c4df8a",
+        "type": "Tray",
+        "x": 444,
+        "y": 683,
+        "w": 269,
+        "h": 420,
+        "r": 6
+      },
+      "data": "hello-world.json"
+    },
+    {
+      "meta": {
+        "id": "249c0be0-f3a1-47c3-b3d2-236c561a0669",
+        "type": "Tray",
+        "x": 321,
+        "y": 424,
+        "w": 107,
+        "h": 190,
+        "r": 6
+      },
+      "data": "hello-world.json"
+    },
+    {
+      "meta": {
+        "id": "9ea365b1-576f-4874-98e8-1bbef20271e8",
+        "type": "Tray",
+        "x": 398,
+        "y": 221,
+        "w": 284,
+        "h": 299,
+        "r": 6
+      },
+      "data": "hello-world.json"
+    }
+  ]
+}

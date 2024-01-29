@@ -8,6 +8,24 @@
 - [x] fixed width font for speedy text calculation
 - [x] nodes set to fixed width for simple resizing
 
+
+
+
+  // setInterval(x=>{
+  // for (const tray of universe.worlds) {
+  //     tray.x = Math.random()>=0.5 ?tray.x-1:tray.x+1;
+  //     tray.y = Math.random()>=0.5 ?tray.y-1:tray.y+1;
+  //     tray.w = Math.random()>=0.5 ?tray.w-1:tray.w+1;
+  //     tray.h = Math.random()>=0.5 ?tray.h-1:tray.h+1;
+  //     tray.r = Math.random()>=0.5 ?tray.r-1:tray.r+1;
+  //     if(tray.r<1) tray.r = 1;
+  //     if(tray.r>32) tray.r = 32;
+  //     if(tray.w<1) tray.w = 100;
+  //     if(tray.h<1) tray.h = 132;
+  //   }
+  // }, 1_000/22)
+
+  
 ## TODO
 
 - [ ] Workspace

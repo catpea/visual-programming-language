@@ -12,7 +12,6 @@ export default class Control extends Component {
     super(...a);
     this.h = 32;
 
-
     this.el.Container = svg.rect({
       name: this.name,
       class: 'node-box',
@@ -27,43 +26,31 @@ export default class Control extends Component {
       y: this.y,
     });
 
-    this.properties.observe("started", started=>this.#onStart({started}));
+    this.properties.observe('name',  name=>update(this.el.Container,{name}), );
+
+    this.properties.observe("started", started=>started?this.#onStart():this.#onStop());
 
   }
-
-  start() {
-    super.start();
-
-      // setTimeout(()=>{
-      //    this.H = 164;
-      //  }, 3333)
-
-    console.log(`I am a CONTROL!!!! and I just got started... my id is ${this.id}::${this.data?.id}`);
-
-
-  }
-
-  stop() {
-    super.stop();
-  }
-
 
   /// OnX - concept upgrade - boundary layer -
 
-  #onStart({started}){
+  #onStart(){
 
-    if(started){
+    this.properties.observe('w',  width=>update(this.el.Container,{width}), );
+    this.properties.observe('h', height=>update(this.el.Container,{height}),);
+    this.properties.observe('x',      x=>update(this.el.Container,{x}),     );
+    this.properties.observe('y',      y=>update(this.el.Container,{y}),     );
+    this.properties.observe('r',     ry=>update(this.el.Container,{ry}),     );
 
-      this.properties.observe('w',  width=>update(this.el.Container,{width}), );
-      this.properties.observe('h', height=>update(this.el.Container,{height}),);
-      this.properties.observe('x',      x=>update(this.el.Container,{x}),     );
-      this.properties.observe('y',      y=>update(this.el.Container,{y}),     );
-      this.properties.observe('r',     ry=>update(this.el.Container,{ry}),     );
-
-    }else{
-
-    }
+    Object.values(this.el).forEach(el => this.g.appendChild(el));
 
   }
+
+  #onStop(){
+      this.properties.stop();
+      this.properties.status();
+      Object.values(this.el).map(el=>el.remove());
+  }
+
 
 }

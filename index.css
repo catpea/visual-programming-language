@@ -11365,7 +11365,7 @@ fieldset:disabled .btn {
   --selected-border: var(--selected-color);
 }
 body {
-  background-color: orange;
+  background-color: black;
 }
 rect {
   vector-effect: non-scaling-stroke;

@@ -3,7 +3,7 @@ import PropertyList from './PropertyList.js';
 
 export default class Properties {
 
-  client = null;
+
   properties = {};
 
   constructor(client){
@@ -17,9 +17,15 @@ export default class Properties {
       throw new Error(`property "${name}" already defined`);
     }
 
-    const value = this.client[name];
+    console.error('FIX ME PROPERTIES CAN BE INITIALIZERS');
+    let value;
+    if(this.client[name]){
+    value = this.client[name];
+    delete this.client[name];
+    }
 
     if (Array.isArray(value)){
+      console.log(`creating array`, name);
       this.installArray(name, value);
     }else{
       this.installSimple(name, value);
@@ -30,7 +36,7 @@ export default class Properties {
   installSimple(name, value){
     this.properties[name] = new Property(name, value);
     // install over existing value
-    Object.defineProperty(this.client, name, {
+    Object.defineProperty(Object.getPrototypeOf(this.client), name, {
       get: () => this.properties[name].value,
       set: (value) => this.properties[name].value = value,
     });
@@ -38,11 +44,9 @@ export default class Properties {
 
   installArray(name, value){
     this.properties[name] = new PropertyList(name, value);
-
-    Object.defineProperty(this.client, name, {
-
+    // install over existing value
+    Object.defineProperty(Object.getPrototypeOf(this.client), name, {
       get: () => this.properties[name],
-
       set: (value) => {throw new Error(`observable array ${name} cannot be replaced`)},
     });
   }
@@ -81,7 +85,7 @@ export default class Properties {
 
   status(){
     // console.log(Object.keys(this.properties));
-    console.log( Object.entries( this.properties ).flatMap(([k,v])=>`${k} observers: ${v.status().observerCount}`) );
+    // console.log( Object.entries( this.properties ).flatMap(([k,v])=>`${k} observers: ${v.status().observerCount}`) );
   }
 
 }

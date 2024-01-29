@@ -4,8 +4,15 @@ import Properties from "#plug-ins/properties/Properties.js";
 
 export default class Node {
   properties;
-  constructor(object){
+
+  constructor(object={}){
+
     this.properties = new Properties(this);
+
+    for (const propertyName in object) {
+      this[propertyName] = object[propertyName];
+      this.properties.install(propertyName);
+    }
 
     const baseProperties = {
       x:0,
@@ -19,12 +26,14 @@ export default class Node {
       s:0,
     }; // required by the system
 
-    const nodeProperties = union(Object.keys(baseProperties), Object.keys(object));
-
-    for (const propertyName of nodeProperties) {
-      this[propertyName] = object[propertyName];
-      this.properties.install(propertyName);
+    for (const propertyName in baseProperties) {
+      if(!this[propertyName]){
+        this[propertyName] = baseProperties[propertyName];
+        this.properties.install(propertyName);
+      }
     }
+
+    ///
 
   }
 }

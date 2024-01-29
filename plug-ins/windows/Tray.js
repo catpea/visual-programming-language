@@ -8,31 +8,21 @@ import { svg, update } from "domek";
 export default class Tray extends Container {
 
   constructor(...a) {
+    console.log('CREATING TRAY');
     super(...a);
 
-
     let caption = new Control();
+    this.children.create(caption);
+
     let toolbar = new Control();
-    this.children.create(caption)
-    this.children.create(toolbar)
+    this.children.create(toolbar);
 
-    // this.properties.observe("started", started=>this.#onStart({started}));
-
-
-    toolbar.h = 16; // forces redraw
-
+    // toolbar.h = 16; // forces redraw
+    console.log('TRAY CREATED');
 
   }
 
-  // #onStart({started}){
-  //
-  //   if(started){
-  //
-  //
-  //   }else{
-  //
-  //   }
-  //
-  // }
+
+
 
 }
