@@ -5,7 +5,7 @@
   var __getOwnPropNames = Object.getOwnPropertyNames;
   var __getProtoOf = Object.getPrototypeOf;
   var __hasOwnProp = Object.prototype.hasOwnProperty;
-  var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+  var __name = (target, value2) => __defProp(target, "name", { value: value2, configurable: true });
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
@@ -69,7 +69,7 @@
         }, "c"), h = /* @__PURE__ */ __name(() => {
         }, "h"), d = /* @__PURE__ */ __name((t2) => {
           t2.offsetHeight;
-        }, "d"), u = /* @__PURE__ */ __name(() => window.jQuery && !document.body.hasAttribute("data-bs-no-jquery") ? window.jQuery : null, "u"), f = [], p = /* @__PURE__ */ __name(() => "rtl" === document.documentElement.dir, "p"), m = /* @__PURE__ */ __name((t2) => {
+        }, "d"), u = /* @__PURE__ */ __name(() => window.jQuery && !document.body.hasAttribute("data-bs-no-jquery") ? window.jQuery : null, "u"), f = [], p2 = /* @__PURE__ */ __name(() => "rtl" === document.documentElement.dir, "p"), m = /* @__PURE__ */ __name((t2) => {
           var e2;
           e2 = /* @__PURE__ */ __name(() => {
             const e3 = u();
@@ -583,10 +583,10 @@
             this._interval && (clearInterval(this._interval), this._interval = null);
           }
           _directionToOrder(t2) {
-            return p() ? t2 === ct ? lt : at : t2 === ct ? at : lt;
+            return p2() ? t2 === ct ? lt : at : t2 === ct ? at : lt;
           }
           _orderToDirection(t2) {
-            return p() ? t2 === lt ? ct : ht : t2 === lt ? ht : ct;
+            return p2() ? t2 === lt ? ct : ht : t2 === lt ? ht : ct;
           }
           static jQueryInterface(t2) {
             return this.each(function() {
@@ -874,7 +874,7 @@
           if (o2 && r2) {
             var h2 = function(t3, e3) {
               return Pe("number" != typeof (t3 = "function" == typeof t3 ? t3(Object.assign({}, e3.rects, { placement: e3.placement })) : t3) ? t3 : Me(t3, Qt));
-            }(s2.padding, i2), d2 = Ce(o2), u2 = "y" === l2 ? zt : Vt, f2 = "y" === l2 ? Rt : qt, p2 = i2.rects.reference[c2] + i2.rects.reference[l2] - r2[l2] - i2.rects.popper[c2], m2 = r2[l2] - i2.rects.reference[l2], g2 = $e(o2), _2 = g2 ? "y" === l2 ? g2.clientHeight || 0 : g2.clientWidth || 0 : 0, b2 = p2 / 2 - m2 / 2, v2 = h2[u2], y2 = _2 - d2[c2] - h2[f2], w2 = _2 / 2 - d2[c2] / 2 + b2, A2 = Ne(v2, w2, y2), E2 = l2;
+            }(s2.padding, i2), d2 = Ce(o2), u2 = "y" === l2 ? zt : Vt, f2 = "y" === l2 ? Rt : qt, p3 = i2.rects.reference[c2] + i2.rects.reference[l2] - r2[l2] - i2.rects.popper[c2], m2 = r2[l2] - i2.rects.reference[l2], g2 = $e(o2), _2 = g2 ? "y" === l2 ? g2.clientHeight || 0 : g2.clientWidth || 0 : 0, b2 = p3 / 2 - m2 / 2, v2 = h2[u2], y2 = _2 - d2[c2] - h2[f2], w2 = _2 / 2 - d2[c2] / 2 + b2, A2 = Ne(v2, w2, y2), E2 = l2;
             i2.modifiersData[n2] = ((e2 = {})[E2] = A2, e2.centerOffset = A2 - w2, e2);
           }
         }, effect: function(t2) {
@@ -887,7 +887,7 @@
         __name(Fe, "Fe");
         var He = { top: "auto", right: "auto", bottom: "auto", left: "auto" };
         function We(t2) {
-          var e2, i2 = t2.popper, n2 = t2.popperRect, s2 = t2.placement, o2 = t2.variation, r2 = t2.offsets, a2 = t2.position, l2 = t2.gpuAcceleration, c2 = t2.adaptive, h2 = t2.roundOffsets, d2 = t2.isFixed, u2 = r2.x, f2 = void 0 === u2 ? 0 : u2, p2 = r2.y, m2 = void 0 === p2 ? 0 : p2, g2 = "function" == typeof h2 ? h2({ x: f2, y: m2 }) : { x: f2, y: m2 };
+          var e2, i2 = t2.popper, n2 = t2.popperRect, s2 = t2.placement, o2 = t2.variation, r2 = t2.offsets, a2 = t2.position, l2 = t2.gpuAcceleration, c2 = t2.adaptive, h2 = t2.roundOffsets, d2 = t2.isFixed, u2 = r2.x, f2 = void 0 === u2 ? 0 : u2, p3 = r2.y, m2 = void 0 === p3 ? 0 : p3, g2 = "function" == typeof h2 ? h2({ x: f2, y: m2 }) : { x: f2, y: m2 };
           f2 = g2.x, m2 = g2.y;
           var _2 = r2.hasOwnProperty("x"), b2 = r2.hasOwnProperty("y"), v2 = Vt, y2 = zt, w2 = window;
           if (c2) {
@@ -1012,7 +1012,7 @@
         __name(ei, "ei");
         function ii(t2, e2) {
           void 0 === e2 && (e2 = {});
-          var i2 = e2, n2 = i2.placement, s2 = void 0 === n2 ? t2.placement : n2, o2 = i2.strategy, r2 = void 0 === o2 ? t2.strategy : o2, a2 = i2.boundary, l2 = void 0 === a2 ? Ut : a2, c2 = i2.rootBoundary, h2 = void 0 === c2 ? Gt : c2, d2 = i2.elementContext, u2 = void 0 === d2 ? Jt : d2, f2 = i2.altBoundary, p2 = void 0 !== f2 && f2, m2 = i2.padding, g2 = void 0 === m2 ? 0 : m2, _2 = Pe("number" != typeof g2 ? g2 : Me(g2, Qt)), b2 = u2 === Jt ? Zt : Jt, v2 = t2.rects.popper, y2 = t2.elements[p2 ? b2 : u2], w2 = function(t3, e3, i3, n3) {
+          var i2 = e2, n2 = i2.placement, s2 = void 0 === n2 ? t2.placement : n2, o2 = i2.strategy, r2 = void 0 === o2 ? t2.strategy : o2, a2 = i2.boundary, l2 = void 0 === a2 ? Ut : a2, c2 = i2.rootBoundary, h2 = void 0 === c2 ? Gt : c2, d2 = i2.elementContext, u2 = void 0 === d2 ? Jt : d2, f2 = i2.altBoundary, p3 = void 0 !== f2 && f2, m2 = i2.padding, g2 = void 0 === m2 ? 0 : m2, _2 = Pe("number" != typeof g2 ? g2 : Me(g2, Qt)), b2 = u2 === Jt ? Zt : Jt, v2 = t2.rects.popper, y2 = t2.elements[p3 ? b2 : u2], w2 = function(t3, e3, i3, n3) {
             var s3 = "clippingParents" === e3 ? function(t4) {
               var e4 = Je(Se(t4)), i4 = ["absolute", "fixed"].indexOf(xe(t4).position) >= 0 && me(t4) ? $e(t4) : t4;
               return pe(i4) ? e4.filter(function(t5) {
@@ -1053,13 +1053,13 @@
         const si = { name: "flip", enabled: true, phase: "main", fn: function(t2) {
           var e2 = t2.state, i2 = t2.options, n2 = t2.name;
           if (!e2.modifiersData[n2]._skip) {
-            for (var s2 = i2.mainAxis, o2 = void 0 === s2 || s2, r2 = i2.altAxis, a2 = void 0 === r2 || r2, l2 = i2.fallbackPlacements, c2 = i2.padding, h2 = i2.boundary, d2 = i2.rootBoundary, u2 = i2.altBoundary, f2 = i2.flipVariations, p2 = void 0 === f2 || f2, m2 = i2.allowedAutoPlacements, g2 = e2.options.placement, _2 = be(g2), b2 = l2 || (_2 !== g2 && p2 ? function(t3) {
+            for (var s2 = i2.mainAxis, o2 = void 0 === s2 || s2, r2 = i2.altAxis, a2 = void 0 === r2 || r2, l2 = i2.fallbackPlacements, c2 = i2.padding, h2 = i2.boundary, d2 = i2.rootBoundary, u2 = i2.altBoundary, f2 = i2.flipVariations, p3 = void 0 === f2 || f2, m2 = i2.allowedAutoPlacements, g2 = e2.options.placement, _2 = be(g2), b2 = l2 || (_2 !== g2 && p3 ? function(t3) {
               if (be(t3) === Kt)
                 return [];
               var e3 = Ve(t3);
               return [Qe(t3), e3, Qe(e3)];
             }(g2) : [Ve(g2)]), v2 = [g2].concat(b2).reduce(function(t3, i3) {
-              return t3.concat(be(i3) === Kt ? ni(e2, { placement: i3, boundary: h2, rootBoundary: d2, padding: c2, flipVariations: p2, allowedAutoPlacements: m2 }) : i3);
+              return t3.concat(be(i3) === Kt ? ni(e2, { placement: i3, boundary: h2, rootBoundary: d2, padding: c2, flipVariations: p3, allowedAutoPlacements: m2 }) : i3);
             }, []), y2 = e2.rects.reference, w2 = e2.rects.popper, A2 = /* @__PURE__ */ new Map(), E2 = true, T2 = v2[0], C2 = 0; C2 < v2.length; C2++) {
               var O2 = v2[C2], x2 = be(O2), k2 = Fe(O2) === Xt, L2 = [zt, Rt].indexOf(x2) >= 0, S2 = L2 ? "width" : "height", D2 = ii(e2, { placement: O2, boundary: h2, rootBoundary: d2, altBoundary: u2, padding: c2 }), $2 = L2 ? k2 ? qt : Vt : k2 ? Rt : zt;
               y2[S2] > w2[S2] && ($2 = Ve($2));
@@ -1083,7 +1083,7 @@
                 });
                 if (e3)
                   return T2 = e3, "break";
-              }, M2 = p2 ? 3 : 1; M2 > 0 && "break" !== P2(M2); M2--)
+              }, M2 = p3 ? 3 : 1; M2 > 0 && "break" !== P2(M2); M2--)
                 ;
             e2.placement !== T2 && (e2.modifiersData[n2]._skip = true, e2.placement = T2, e2.reset = true);
           }
@@ -1113,7 +1113,7 @@
           var e2 = t2.state, i2 = t2.name;
           e2.modifiersData[i2] = ei({ reference: e2.rects.reference, element: e2.rects.popper, strategy: "absolute", placement: e2.placement });
         }, data: {} }, hi = { name: "preventOverflow", enabled: true, phase: "main", fn: function(t2) {
-          var e2 = t2.state, i2 = t2.options, n2 = t2.name, s2 = i2.mainAxis, o2 = void 0 === s2 || s2, r2 = i2.altAxis, a2 = void 0 !== r2 && r2, l2 = i2.boundary, c2 = i2.rootBoundary, h2 = i2.altBoundary, d2 = i2.padding, u2 = i2.tether, f2 = void 0 === u2 || u2, p2 = i2.tetherOffset, m2 = void 0 === p2 ? 0 : p2, g2 = ii(e2, { boundary: l2, rootBoundary: c2, padding: d2, altBoundary: h2 }), _2 = be(e2.placement), b2 = Fe(e2.placement), v2 = !b2, y2 = Ie(_2), w2 = "x" === y2 ? "y" : "x", A2 = e2.modifiersData.popperOffsets, E2 = e2.rects.reference, T2 = e2.rects.popper, C2 = "function" == typeof m2 ? m2(Object.assign({}, e2.rects, { placement: e2.placement })) : m2, O2 = "number" == typeof C2 ? { mainAxis: C2, altAxis: C2 } : Object.assign({ mainAxis: 0, altAxis: 0 }, C2), x2 = e2.modifiersData.offset ? e2.modifiersData.offset[e2.placement] : null, k2 = { x: 0, y: 0 };
+          var e2 = t2.state, i2 = t2.options, n2 = t2.name, s2 = i2.mainAxis, o2 = void 0 === s2 || s2, r2 = i2.altAxis, a2 = void 0 !== r2 && r2, l2 = i2.boundary, c2 = i2.rootBoundary, h2 = i2.altBoundary, d2 = i2.padding, u2 = i2.tether, f2 = void 0 === u2 || u2, p3 = i2.tetherOffset, m2 = void 0 === p3 ? 0 : p3, g2 = ii(e2, { boundary: l2, rootBoundary: c2, padding: d2, altBoundary: h2 }), _2 = be(e2.placement), b2 = Fe(e2.placement), v2 = !b2, y2 = Ie(_2), w2 = "x" === y2 ? "y" : "x", A2 = e2.modifiersData.popperOffsets, E2 = e2.rects.reference, T2 = e2.rects.popper, C2 = "function" == typeof m2 ? m2(Object.assign({}, e2.rects, { placement: e2.placement })) : m2, O2 = "number" == typeof C2 ? { mainAxis: C2, altAxis: C2 } : Object.assign({ mainAxis: 0, altAxis: 0 }, C2), x2 = e2.modifiersData.offset ? e2.modifiersData.offset[e2.placement] : null, k2 = { x: 0, y: 0 };
           if (A2) {
             if (o2) {
               var L2, S2 = "y" === y2 ? zt : Vt, D2 = "y" === y2 ? Rt : qt, $2 = "y" === y2 ? "height" : "width", I2 = A2[y2], N2 = I2 + g2[S2], P2 = I2 - g2[D2], M2 = f2 ? -T2[$2] / 2 : 0, j2 = b2 === Xt ? E2[$2] : T2[$2], F2 = b2 === Xt ? -T2[$2] : -E2[$2], H2 = e2.elements.arrow, W2 = f2 && H2 ? Ce(H2) : { width: 0, height: 0 }, B2 = e2.modifiersData["arrow#persistent"] ? e2.modifiersData["arrow#persistent"].padding : { top: 0, right: 0, bottom: 0, left: 0 }, z2 = B2[S2], R2 = B2[D2], q2 = Ne(0, E2[$2], W2[$2]), V2 = v2 ? E2[$2] / 2 - M2 - q2 - z2 - O2.mainAxis : j2 - q2 - z2 - O2.mainAxis, K2 = v2 ? -E2[$2] / 2 + M2 + q2 + R2 + O2.mainAxis : F2 + q2 + R2 + O2.mainAxis, Q2 = e2.elements.arrow && $e(e2.elements.arrow), X2 = Q2 ? "y" === y2 ? Q2.clientTop || 0 : Q2.clientLeft || 0 : 0, Y2 = null != (L2 = null == x2 ? void 0 : x2[y2]) ? L2 : 0, U2 = I2 + K2 - Y2, G2 = Ne(f2 ? ye(N2, I2 + V2 - Y2 - X2) : N2, I2, f2 ? ve(P2, U2) : P2);
@@ -1239,7 +1239,7 @@
         }
         __name(mi, "mi");
         var gi = mi(), _i = mi({ defaultModifiers: [Re, ci, Be, _e] }), bi = mi({ defaultModifiers: [Re, ci, Be, _e, li, si, hi, je, ai] });
-        const vi = Object.freeze(Object.defineProperty({ __proto__: null, afterMain: ae, afterRead: se, afterWrite: he, applyStyles: _e, arrow: je, auto: Kt, basePlacements: Qt, beforeMain: oe, beforeRead: ie, beforeWrite: le, bottom: Rt, clippingParents: Ut, computeStyles: Be, createPopper: bi, createPopperBase: gi, createPopperLite: _i, detectOverflow: ii, end: Yt, eventListeners: Re, flip: si, hide: ai, left: Vt, main: re, modifierPhases: de, offset: li, placements: ee, popper: Jt, popperGenerator: mi, popperOffsets: ci, preventOverflow: hi, read: ne, reference: Zt, right: qt, start: Xt, top: zt, variationPlacements: te, viewport: Gt, write: ce }, Symbol.toStringTag, { value: "Module" })), yi = "dropdown", wi = ".bs.dropdown", Ai = ".data-api", Ei = "ArrowUp", Ti = "ArrowDown", Ci = `hide${wi}`, Oi = `hidden${wi}`, xi = `show${wi}`, ki = `shown${wi}`, Li = `click${wi}${Ai}`, Si = `keydown${wi}${Ai}`, Di = `keyup${wi}${Ai}`, $i = "show", Ii = '[data-bs-toggle="dropdown"]:not(.disabled):not(:disabled)', Ni = `${Ii}.${$i}`, Pi = ".dropdown-menu", Mi = p() ? "top-end" : "top-start", ji = p() ? "top-start" : "top-end", Fi = p() ? "bottom-end" : "bottom-start", Hi = p() ? "bottom-start" : "bottom-end", Wi = p() ? "left-start" : "right-start", Bi = p() ? "right-start" : "left-start", zi = { autoClose: true, boundary: "clippingParents", display: "dynamic", offset: [0, 2], popperConfig: null, reference: "toggle" }, Ri = { autoClose: "(boolean|string)", boundary: "(string|element)", display: "string", offset: "(array|string|function)", popperConfig: "(null|object|function)", reference: "(string|element|object)" };
+        const vi = Object.freeze(Object.defineProperty({ __proto__: null, afterMain: ae, afterRead: se, afterWrite: he, applyStyles: _e, arrow: je, auto: Kt, basePlacements: Qt, beforeMain: oe, beforeRead: ie, beforeWrite: le, bottom: Rt, clippingParents: Ut, computeStyles: Be, createPopper: bi, createPopperBase: gi, createPopperLite: _i, detectOverflow: ii, end: Yt, eventListeners: Re, flip: si, hide: ai, left: Vt, main: re, modifierPhases: de, offset: li, placements: ee, popper: Jt, popperGenerator: mi, popperOffsets: ci, preventOverflow: hi, read: ne, reference: Zt, right: qt, start: Xt, top: zt, variationPlacements: te, viewport: Gt, write: ce }, Symbol.toStringTag, { value: "Module" })), yi = "dropdown", wi = ".bs.dropdown", Ai = ".data-api", Ei = "ArrowUp", Ti = "ArrowDown", Ci = `hide${wi}`, Oi = `hidden${wi}`, xi = `show${wi}`, ki = `shown${wi}`, Li = `click${wi}${Ai}`, Si = `keydown${wi}${Ai}`, Di = `keyup${wi}${Ai}`, $i = "show", Ii = '[data-bs-toggle="dropdown"]:not(.disabled):not(:disabled)', Ni = `${Ii}.${$i}`, Pi = ".dropdown-menu", Mi = p2() ? "top-end" : "top-start", ji = p2() ? "top-start" : "top-end", Fi = p2() ? "bottom-end" : "bottom-start", Hi = p2() ? "bottom-start" : "bottom-end", Wi = p2() ? "left-start" : "right-start", Bi = p2() ? "right-start" : "left-start", zi = { autoClose: true, boundary: "clippingParents", display: "dynamic", offset: [0, 2], popperConfig: null, reference: "toggle" }, Ri = { autoClose: "(boolean|string)", boundary: "(string|element)", display: "string", offset: "(array|string|function)", popperConfig: "(null|object|function)", reference: "(string|element|object)" };
         class qi extends W {
           static {
             __name(this, "qi");
@@ -1597,11 +1597,11 @@
           _adjustDialog() {
             const t2 = this._element.scrollHeight > document.documentElement.clientHeight, e2 = this._scrollBar.getWidth(), i2 = e2 > 0;
             if (i2 && !t2) {
-              const t3 = p() ? "paddingLeft" : "paddingRight";
+              const t3 = p2() ? "paddingLeft" : "paddingRight";
               this._element.style[t3] = `${e2}px`;
             }
             if (!i2 && t2) {
-              const t3 = p() ? "paddingRight" : "paddingLeft";
+              const t3 = p2() ? "paddingRight" : "paddingLeft";
               this._element.style[t3] = `${e2}px`;
             }
           }
@@ -1780,7 +1780,7 @@
             e2.textContent = t2.textContent;
           }
         }
-        const Zn = /* @__PURE__ */ new Set(["sanitize", "allowList", "sanitizeFn"]), ts = "fade", es = "show", is = ".modal", ns = "hide.bs.modal", ss = "hover", os = "focus", rs = { AUTO: "auto", TOP: "top", RIGHT: p() ? "left" : "right", BOTTOM: "bottom", LEFT: p() ? "right" : "left" }, as = { allowList: Vn, animation: true, boundary: "clippingParents", container: false, customClass: "", delay: 0, fallbackPlacements: ["top", "right", "bottom", "left"], html: false, offset: [0, 6], placement: "top", popperConfig: null, sanitize: true, sanitizeFn: null, selector: false, template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>', title: "", trigger: "hover focus" }, ls = { allowList: "object", animation: "boolean", boundary: "(string|element)", container: "(string|element|boolean)", customClass: "(string|function)", delay: "(number|object)", fallbackPlacements: "array", html: "boolean", offset: "(array|string|function)", placement: "(string|function)", popperConfig: "(null|object|function)", sanitize: "boolean", sanitizeFn: "(null|function)", selector: "(string|boolean)", template: "string", title: "(string|element|function)", trigger: "string" };
+        const Zn = /* @__PURE__ */ new Set(["sanitize", "allowList", "sanitizeFn"]), ts = "fade", es = "show", is = ".modal", ns = "hide.bs.modal", ss = "hover", os = "focus", rs = { AUTO: "auto", TOP: "top", RIGHT: p2() ? "left" : "right", BOTTOM: "bottom", LEFT: p2() ? "right" : "left" }, as = { allowList: Vn, animation: true, boundary: "clippingParents", container: false, customClass: "", delay: 0, fallbackPlacements: ["top", "right", "bottom", "left"], html: false, offset: [0, 6], placement: "top", popperConfig: null, sanitize: true, sanitizeFn: null, selector: false, template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>', title: "", trigger: "hover focus" }, ls = { allowList: "object", animation: "boolean", boundary: "(string|element)", container: "(string|element|boolean)", customClass: "(string|function)", delay: "(number|object)", fallbackPlacements: "array", html: "boolean", offset: "(array|string|function)", placement: "(string|function)", popperConfig: "(null|object|function)", sanitize: "boolean", sanitizeFn: "(null|function)", selector: "(string|boolean)", template: "string", title: "(string|element|function)", trigger: "string" };
         class cs extends W {
           static {
             __name(this, "cs");
@@ -2339,19 +2339,19 @@
       var hasOwnProperty = objectProto.hasOwnProperty;
       var nativeObjectToString = objectProto.toString;
       var symToStringTag = Symbol2 ? Symbol2.toStringTag : void 0;
-      function getRawTag(value) {
-        var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
+      function getRawTag(value2) {
+        var isOwn = hasOwnProperty.call(value2, symToStringTag), tag = value2[symToStringTag];
         try {
-          value[symToStringTag] = void 0;
+          value2[symToStringTag] = void 0;
           var unmasked = true;
         } catch (e) {
         }
-        var result = nativeObjectToString.call(value);
+        var result = nativeObjectToString.call(value2);
         if (unmasked) {
           if (isOwn) {
-            value[symToStringTag] = tag;
+            value2[symToStringTag] = tag;
           } else {
-            delete value[symToStringTag];
+            delete value2[symToStringTag];
           }
         }
         return result;
@@ -2366,8 +2366,8 @@
     "node_modules/lodash/_objectToString.js"(exports, module) {
       var objectProto = Object.prototype;
       var nativeObjectToString = objectProto.toString;
-      function objectToString(value) {
-        return nativeObjectToString.call(value);
+      function objectToString(value2) {
+        return nativeObjectToString.call(value2);
       }
       __name(objectToString, "objectToString");
       module.exports = objectToString;
@@ -2383,11 +2383,11 @@
       var nullTag = "[object Null]";
       var undefinedTag = "[object Undefined]";
       var symToStringTag = Symbol2 ? Symbol2.toStringTag : void 0;
-      function baseGetTag(value) {
-        if (value == null) {
-          return value === void 0 ? undefinedTag : nullTag;
+      function baseGetTag(value2) {
+        if (value2 == null) {
+          return value2 === void 0 ? undefinedTag : nullTag;
         }
-        return symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
+        return symToStringTag && symToStringTag in Object(value2) ? getRawTag(value2) : objectToString(value2);
       }
       __name(baseGetTag, "baseGetTag");
       module.exports = baseGetTag;
@@ -2397,8 +2397,8 @@
   // node_modules/lodash/isObjectLike.js
   var require_isObjectLike = __commonJS({
     "node_modules/lodash/isObjectLike.js"(exports, module) {
-      function isObjectLike(value) {
-        return value != null && typeof value == "object";
+      function isObjectLike(value2) {
+        return value2 != null && typeof value2 == "object";
       }
       __name(isObjectLike, "isObjectLike");
       module.exports = isObjectLike;
@@ -2411,8 +2411,8 @@
       var baseGetTag = require_baseGetTag();
       var isObjectLike = require_isObjectLike();
       var argsTag = "[object Arguments]";
-      function baseIsArguments(value) {
-        return isObjectLike(value) && baseGetTag(value) == argsTag;
+      function baseIsArguments(value2) {
+        return isObjectLike(value2) && baseGetTag(value2) == argsTag;
       }
       __name(baseIsArguments, "baseIsArguments");
       module.exports = baseIsArguments;
@@ -2429,8 +2429,8 @@
       var propertyIsEnumerable = objectProto.propertyIsEnumerable;
       var isArguments = baseIsArguments(/* @__PURE__ */ function() {
         return arguments;
-      }()) ? baseIsArguments : function(value) {
-        return isObjectLike(value) && hasOwnProperty.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
+      }()) ? baseIsArguments : function(value2) {
+        return isObjectLike(value2) && hasOwnProperty.call(value2, "callee") && !propertyIsEnumerable.call(value2, "callee");
       };
       module.exports = isArguments;
     }
@@ -2451,8 +2451,8 @@
       var isArguments = require_isArguments();
       var isArray = require_isArray();
       var spreadableSymbol = Symbol2 ? Symbol2.isConcatSpreadable : void 0;
-      function isFlattenable(value) {
-        return isArray(value) || isArguments(value) || !!(spreadableSymbol && value && value[spreadableSymbol]);
+      function isFlattenable(value2) {
+        return isArray(value2) || isArguments(value2) || !!(spreadableSymbol && value2 && value2[spreadableSymbol]);
       }
       __name(isFlattenable, "isFlattenable");
       module.exports = isFlattenable;
@@ -2469,15 +2469,15 @@
         predicate || (predicate = isFlattenable);
         result || (result = []);
         while (++index < length) {
-          var value = array[index];
-          if (depth > 0 && predicate(value)) {
+          var value2 = array[index];
+          if (depth > 0 && predicate(value2)) {
             if (depth > 1) {
-              baseFlatten(value, depth - 1, predicate, isStrict, result);
+              baseFlatten(value2, depth - 1, predicate, isStrict, result);
             } else {
-              arrayPush(result, value);
+              arrayPush(result, value2);
             }
           } else if (!isStrict) {
-            result[result.length] = value;
+            result[result.length] = value2;
           }
         }
         return result;
@@ -2490,8 +2490,8 @@
   // node_modules/lodash/identity.js
   var require_identity = __commonJS({
     "node_modules/lodash/identity.js"(exports, module) {
-      function identity(value) {
-        return value;
+      function identity(value2) {
+        return value2;
       }
       __name(identity, "identity");
       module.exports = identity;
@@ -2548,9 +2548,9 @@
   // node_modules/lodash/constant.js
   var require_constant = __commonJS({
     "node_modules/lodash/constant.js"(exports, module) {
-      function constant(value) {
+      function constant(value2) {
         return function() {
-          return value;
+          return value2;
         };
       }
       __name(constant, "constant");
@@ -2561,9 +2561,9 @@
   // node_modules/lodash/isObject.js
   var require_isObject = __commonJS({
     "node_modules/lodash/isObject.js"(exports, module) {
-      function isObject(value) {
-        var type = typeof value;
-        return value != null && (type == "object" || type == "function");
+      function isObject(value2) {
+        var type = typeof value2;
+        return value2 != null && (type == "object" || type == "function");
       }
       __name(isObject, "isObject");
       module.exports = isObject;
@@ -2579,11 +2579,11 @@
       var funcTag = "[object Function]";
       var genTag = "[object GeneratorFunction]";
       var proxyTag = "[object Proxy]";
-      function isFunction(value) {
-        if (!isObject(value)) {
+      function isFunction(value2) {
+        if (!isObject(value2)) {
           return false;
         }
-        var tag = baseGetTag(value);
+        var tag = baseGetTag(value2);
         return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
       }
       __name(isFunction, "isFunction");
@@ -2655,12 +2655,12 @@
       var reIsNative = RegExp(
         "^" + funcToString.call(hasOwnProperty).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
       );
-      function baseIsNative(value) {
-        if (!isObject(value) || isMasked(value)) {
+      function baseIsNative(value2) {
+        if (!isObject(value2) || isMasked(value2)) {
           return false;
         }
-        var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
-        return pattern.test(toSource(value));
+        var pattern = isFunction(value2) ? reIsNative : reIsHostCtor;
+        return pattern.test(toSource(value2));
       }
       __name(baseIsNative, "baseIsNative");
       module.exports = baseIsNative;
@@ -2684,8 +2684,8 @@
       var baseIsNative = require_baseIsNative();
       var getValue = require_getValue();
       function getNative(object, key) {
-        var value = getValue(object, key);
-        return baseIsNative(value) ? value : void 0;
+        var value2 = getValue(object, key);
+        return baseIsNative(value2) ? value2 : void 0;
       }
       __name(getNative, "getNative");
       module.exports = getNative;
@@ -2851,10 +2851,10 @@
     "node_modules/lodash/_hashSet.js"(exports, module) {
       var nativeCreate = require_nativeCreate();
       var HASH_UNDEFINED = "__lodash_hash_undefined__";
-      function hashSet(key, value) {
+      function hashSet(key, value2) {
         var data = this.__data__;
         this.size += this.has(key) ? 0 : 1;
-        data[key] = nativeCreate && value === void 0 ? HASH_UNDEFINED : value;
+        data[key] = nativeCreate && value2 === void 0 ? HASH_UNDEFINED : value2;
         return this;
       }
       __name(hashSet, "hashSet");
@@ -2903,8 +2903,8 @@
   // node_modules/lodash/eq.js
   var require_eq = __commonJS({
     "node_modules/lodash/eq.js"(exports, module) {
-      function eq(value, other) {
-        return value === other || value !== value && other !== other;
+      function eq(value2, other) {
+        return value2 === other || value2 !== value2 && other !== other;
       }
       __name(eq, "eq");
       module.exports = eq;
@@ -2983,13 +2983,13 @@
   var require_listCacheSet = __commonJS({
     "node_modules/lodash/_listCacheSet.js"(exports, module) {
       var assocIndexOf = require_assocIndexOf();
-      function listCacheSet(key, value) {
+      function listCacheSet(key, value2) {
         var data = this.__data__, index = assocIndexOf(data, key);
         if (index < 0) {
           ++this.size;
-          data.push([key, value]);
+          data.push([key, value2]);
         } else {
-          data[index][1] = value;
+          data[index][1] = value2;
         }
         return this;
       }
@@ -3056,9 +3056,9 @@
   // node_modules/lodash/_isKeyable.js
   var require_isKeyable = __commonJS({
     "node_modules/lodash/_isKeyable.js"(exports, module) {
-      function isKeyable(value) {
-        var type = typeof value;
-        return type == "string" || type == "number" || type == "symbol" || type == "boolean" ? value !== "__proto__" : value === null;
+      function isKeyable(value2) {
+        var type = typeof value2;
+        return type == "string" || type == "number" || type == "symbol" || type == "boolean" ? value2 !== "__proto__" : value2 === null;
       }
       __name(isKeyable, "isKeyable");
       module.exports = isKeyable;
@@ -3120,9 +3120,9 @@
   var require_mapCacheSet = __commonJS({
     "node_modules/lodash/_mapCacheSet.js"(exports, module) {
       var getMapData = require_getMapData();
-      function mapCacheSet(key, value) {
+      function mapCacheSet(key, value2) {
         var data = getMapData(this, key), size = data.size;
-        data.set(key, value);
+        data.set(key, value2);
         this.size += data.size == size ? 0 : 1;
         return this;
       }
@@ -3161,8 +3161,8 @@
   var require_setCacheAdd = __commonJS({
     "node_modules/lodash/_setCacheAdd.js"(exports, module) {
       var HASH_UNDEFINED = "__lodash_hash_undefined__";
-      function setCacheAdd(value) {
-        this.__data__.set(value, HASH_UNDEFINED);
+      function setCacheAdd(value2) {
+        this.__data__.set(value2, HASH_UNDEFINED);
         return this;
       }
       __name(setCacheAdd, "setCacheAdd");
@@ -3173,8 +3173,8 @@
   // node_modules/lodash/_setCacheHas.js
   var require_setCacheHas = __commonJS({
     "node_modules/lodash/_setCacheHas.js"(exports, module) {
-      function setCacheHas(value) {
-        return this.__data__.has(value);
+      function setCacheHas(value2) {
+        return this.__data__.has(value2);
       }
       __name(setCacheHas, "setCacheHas");
       module.exports = setCacheHas;
@@ -3221,8 +3221,8 @@
   // node_modules/lodash/_baseIsNaN.js
   var require_baseIsNaN = __commonJS({
     "node_modules/lodash/_baseIsNaN.js"(exports, module) {
-      function baseIsNaN(value) {
-        return value !== value;
+      function baseIsNaN(value2) {
+        return value2 !== value2;
       }
       __name(baseIsNaN, "baseIsNaN");
       module.exports = baseIsNaN;
@@ -3232,10 +3232,10 @@
   // node_modules/lodash/_strictIndexOf.js
   var require_strictIndexOf = __commonJS({
     "node_modules/lodash/_strictIndexOf.js"(exports, module) {
-      function strictIndexOf(array, value, fromIndex) {
+      function strictIndexOf(array, value2, fromIndex) {
         var index = fromIndex - 1, length = array.length;
         while (++index < length) {
-          if (array[index] === value) {
+          if (array[index] === value2) {
             return index;
           }
         }
@@ -3252,8 +3252,8 @@
       var baseFindIndex = require_baseFindIndex();
       var baseIsNaN = require_baseIsNaN();
       var strictIndexOf = require_strictIndexOf();
-      function baseIndexOf(array, value, fromIndex) {
-        return value === value ? strictIndexOf(array, value, fromIndex) : baseFindIndex(array, baseIsNaN, fromIndex);
+      function baseIndexOf(array, value2, fromIndex) {
+        return value2 === value2 ? strictIndexOf(array, value2, fromIndex) : baseFindIndex(array, baseIsNaN, fromIndex);
       }
       __name(baseIndexOf, "baseIndexOf");
       module.exports = baseIndexOf;
@@ -3264,9 +3264,9 @@
   var require_arrayIncludes = __commonJS({
     "node_modules/lodash/_arrayIncludes.js"(exports, module) {
       var baseIndexOf = require_baseIndexOf();
-      function arrayIncludes(array, value) {
+      function arrayIncludes(array, value2) {
         var length = array == null ? 0 : array.length;
-        return !!length && baseIndexOf(array, value, 0) > -1;
+        return !!length && baseIndexOf(array, value2, 0) > -1;
       }
       __name(arrayIncludes, "arrayIncludes");
       module.exports = arrayIncludes;
@@ -3276,10 +3276,10 @@
   // node_modules/lodash/_arrayIncludesWith.js
   var require_arrayIncludesWith = __commonJS({
     "node_modules/lodash/_arrayIncludesWith.js"(exports, module) {
-      function arrayIncludesWith(array, value, comparator) {
+      function arrayIncludesWith(array, value2, comparator) {
         var index = -1, length = array == null ? 0 : array.length;
         while (++index < length) {
-          if (comparator(value, array[index])) {
+          if (comparator(value2, array[index])) {
             return true;
           }
         }
@@ -3326,8 +3326,8 @@
     "node_modules/lodash/_setToArray.js"(exports, module) {
       function setToArray(set) {
         var index = -1, result = Array(set.size);
-        set.forEach(function(value) {
-          result[++index] = value;
+        set.forEach(function(value2) {
+          result[++index] = value2;
         });
         return result;
       }
@@ -3378,8 +3378,8 @@
         }
         outer:
           while (++index < length) {
-            var value = array[index], computed = iteratee ? iteratee(value) : value;
-            value = comparator || value !== 0 ? value : 0;
+            var value2 = array[index], computed = iteratee ? iteratee(value2) : value2;
+            value2 = comparator || value2 !== 0 ? value2 : 0;
             if (isCommon && computed === computed) {
               var seenIndex = seen.length;
               while (seenIndex--) {
@@ -3390,12 +3390,12 @@
               if (iteratee) {
                 seen.push(computed);
               }
-              result.push(value);
+              result.push(value2);
             } else if (!includes(seen, computed, comparator)) {
               if (seen !== result) {
                 seen.push(computed);
               }
-              result.push(value);
+              result.push(value2);
             }
           }
         return result;
@@ -3409,8 +3409,8 @@
   var require_isLength = __commonJS({
     "node_modules/lodash/isLength.js"(exports, module) {
       var MAX_SAFE_INTEGER = 9007199254740991;
-      function isLength(value) {
-        return typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+      function isLength(value2) {
+        return typeof value2 == "number" && value2 > -1 && value2 % 1 == 0 && value2 <= MAX_SAFE_INTEGER;
       }
       __name(isLength, "isLength");
       module.exports = isLength;
@@ -3422,8 +3422,8 @@
     "node_modules/lodash/isArrayLike.js"(exports, module) {
       var isFunction = require_isFunction();
       var isLength = require_isLength();
-      function isArrayLike(value) {
-        return value != null && isLength(value.length) && !isFunction(value);
+      function isArrayLike(value2) {
+        return value2 != null && isLength(value2.length) && !isFunction(value2);
       }
       __name(isArrayLike, "isArrayLike");
       module.exports = isArrayLike;
@@ -3435,8 +3435,8 @@
     "node_modules/lodash/isArrayLikeObject.js"(exports, module) {
       var isArrayLike = require_isArrayLike();
       var isObjectLike = require_isObjectLike();
-      function isArrayLikeObject(value) {
-        return isObjectLike(value) && isArrayLike(value);
+      function isArrayLikeObject(value2) {
+        return isObjectLike(value2) && isArrayLike(value2);
       }
       __name(isArrayLikeObject, "isArrayLikeObject");
       module.exports = isArrayLikeObject;
@@ -3522,21 +3522,15 @@
     name = null;
     #value = null;
     constraints = [];
-    constructor(name, value) {
+    constructor(name, value2) {
       this.name = name;
-      this.#value = value;
+      this.#value = value2;
     }
     constrain(data) {
-      const value = data || this.#value;
+      const value2 = data || this.#value;
       this.constraints.forEach(({ test, message }) => {
-        if (!test(value)) {
-          let text;
-          if (typeof message === "string") {
-            text = message;
-          } else {
-            text = message(value);
-          }
-          throw new Error(`\u{1F354} constraint error: ${text}`);
+        if (!test(value2)) {
+          throw new Error(`\u{1F354} constraint error: ${message} (attempted to set: ${value2})`);
         }
       });
     }
@@ -3548,9 +3542,10 @@
       if (this.#value == data)
         return;
       this.constrain(data);
+      const previousValue = this.#value;
+      this.notify(`${this.name}.before`, this.#value, previousValue);
       this.#value = data;
-      console.log(">>>>>>>>>>>>>>>>>NOTIFY", this.name, this.#value);
-      this.notify(this.name, this.#value);
+      this.notify(this.name, this.#value, previousValue);
     }
     // Install Observer Functionality
     #observers = {};
@@ -3571,8 +3566,8 @@
     }
     notify(eventName, eventData, ...extra) {
       if (Array.isArray(this.#observers[eventName])) {
-        console.log(">>>>>>>>>>>>> NOTOFY " + eventName, this.#observers[eventName]);
         this.#observers[eventName].forEach((observerCallback) => observerCallback(eventData, ...extra));
+      } else {
       }
     }
     status() {
@@ -3590,22 +3585,16 @@
     name = null;
     #value = [];
     constraints = [];
-    constructor(name, value) {
+    constructor(name, value2) {
       this.name = name;
-      this.#value.push(...value);
+      this.#value.push(...value2);
       this.constrain();
     }
     constrain() {
       for (const item of this.#value) {
         this.constraints.forEach(({ test, message }) => {
           if (!test(item)) {
-            let text;
-            if (typeof message === "string") {
-              text = message;
-            } else {
-              text = message(item);
-            }
-            throw new Error(`\u{1F354} constraint error: ${text}`);
+            throw new Error(`\u{1F354} constraint error: ${message} (attempted to set: ${value})`);
           }
         });
       }
@@ -3710,47 +3699,65 @@
     }
     properties = {};
     constructor(client) {
+      if (!client) {
+        throw new Error(`You must specify client in the constructor of Properties()`);
+      }
       this.client = client;
+      if (client.on) {
+        throw new Error(`Error .on Already Defined`);
+      }
+      client.on = (...a) => this.observe(...a);
+      if (!client.defaults) {
+        console.warn("no client defaults on", client);
+      } else {
+        for (const [name, value2] of Object.entries(client.defaults)) {
+          this.install(name, value2);
+        }
+      }
+      if (!client.constraints) {
+        console.warn(`danger: no client constraints on ${client.constructor.name} class`);
+      } else {
+        for (const [name, constraints] of Object.entries(client.constraints)) {
+          for (const message in constraints) {
+            this.constrain(name, message, constraints[message]);
+          }
+        }
+      }
     }
     // installer with overloading
-    install(name) {
+    install(name, value2) {
       if (this.properties[name]) {
         throw new Error(`property "${name}" already defined`);
       }
-      console.error("FIX ME PROPERTIES CAN BE INITIALIZERS");
-      let value;
-      if (this.client[name]) {
-        value = this.client[name];
-        delete this.client[name];
-      }
-      if (Array.isArray(value)) {
-        console.log(`creating array`, name);
-        this.installArray(name, value);
+      if (Array.isArray(value2)) {
+        this.installArray(name, value2);
       } else {
-        this.installSimple(name, value);
+        this.installPrimitive(name, value2);
       }
     }
-    installSimple(name, value) {
-      this.properties[name] = new Property(name, value);
+    installPrimitive(name, value2) {
+      this.properties[name] = new Property(name, value2);
       Object.defineProperty(Object.getPrototypeOf(this.client), name, {
         get: () => this.properties[name].value,
-        set: (value2) => this.properties[name].value = value2
+        set: (value3) => this.properties[name].value = value3,
+        configurable: true
       });
     }
-    installArray(name, value) {
-      this.properties[name] = new PropertyList(name, value);
+    installArray(name, value2) {
+      this.properties[name] = new PropertyList(name, value2);
       Object.defineProperty(Object.getPrototypeOf(this.client), name, {
         get: () => this.properties[name],
-        set: (value2) => {
+        set: (value3) => {
           throw new Error(`observable array ${name} cannot be replaced`);
-        }
+        },
+        configurable: true
       });
     }
     // Throw in a constraint system
-    constrain(name, constraint) {
+    constrain(name, message, test) {
       if (!this.properties[name])
         throw new Error("property not defined");
-      this.properties[name].constraints.push(constraint);
+      this.properties[name].constraints.push({ message, test });
       this.properties[name].constrain();
     }
     // Install Cleaning System, to enable tracking observers
@@ -3779,29 +3786,42 @@
       __name(this, "Node");
     }
     properties;
+    #id;
+    #type;
+    defaults = {
+      x: 0,
+      y: 0,
+      w: 32,
+      h: 32,
+      H: 0,
+      r: 0,
+      b: 0,
+      p: 0,
+      s: 0
+    };
     constructor(object = {}) {
       this.properties = new Properties(this);
       for (const propertyName in object) {
-        this[propertyName] = object[propertyName];
-        this.properties.install(propertyName);
-      }
-      const baseProperties = {
-        x: 0,
-        y: 0,
-        w: 32,
-        h: 32,
-        H: 0,
-        r: 0,
-        b: 0,
-        p: 0,
-        s: 0
-      };
-      for (const propertyName in baseProperties) {
-        if (!this[propertyName]) {
-          this[propertyName] = baseProperties[propertyName];
-          this.properties.install(propertyName);
+        if (propertyName in this) {
+          this[propertyName] = object[propertyName];
+        } else {
+          console.log("Install", propertyName, object[propertyName]);
+          this.properties.install(propertyName, object[propertyName]);
         }
       }
+    }
+    // Read Only
+    set id(v) {
+      this.#id = v;
+    }
+    set type(v) {
+      this.#type = v;
+    }
+    get id() {
+      return this.#id;
+    }
+    get type() {
+      return this.#type;
     }
   };
 
@@ -3842,27 +3862,35 @@
     static {
       __name(this, "Themes");
     }
-    theme = "nostromo";
-    themes = [new Nostromo({ subtle: true }), new Obsidian({ subtle: true })];
+    defaults = {
+      theme: "obsidian",
+      themes: [new Nostromo({ subtle: true }), new Obsidian({ subtle: true })]
+    };
+    constraints = {
+      theme: {
+        "all themes are lower-case": (theme) => !theme.match(/[A-Z]/),
+        "specified theme does not exist": (theme) => this.themes.map((o) => o.id).includes(theme)
+      },
+      themes: { "theme is not a prototype of #abstract/Theme": (v) => Theme.prototype.isPrototypeOf(v) }
+    };
     constructor() {
       this.properties = new Properties(this);
-      this.properties.install("theme");
-      this.properties.constrain("theme", { message: (v) => `theme with id "${v}" is not installed`, test: (v) => this.themes.map((o) => o.id).includes(v) });
-      this.properties.observe("theme", (id) => {
+      this.on("theme.before", (id) => {
+        console.info("About To Change Theme To", id);
+      });
+      this.on("theme", (id, old) => {
+        console.info(`Theme Change from ${old} to ${id}`);
         document.querySelector("html").dataset.uiTheme = id;
         console.info("dataset.uiTheme", document.querySelector("html").dataset);
       });
-      this.properties.observe("theme", (id) => {
-      });
-      this.properties.install("themes");
-      this.properties.constrain("themes", { message: (v) => `theme "${v.id}" is not a prototype of #abstract/Theme`, test: (v) => Theme.prototype.isPrototypeOf(v) });
-      this.properties.observe("themes.created", (list) => {
+      this.on("themes.created", (list) => {
+        p;
         console.log("created", { list });
       });
-      this.properties.observe("themes.removed", (list) => {
+      this.on("themes.removed", (list) => {
         console.log("removed", { list });
       });
-      this.properties.observe("themes", (list) => {
+      this.on("themes", (list) => {
       });
     }
     start() {
@@ -3932,21 +3960,21 @@
     const els = Array.isArray(elements) ? elements : [elements];
     for (const el of els) {
       for (const key in properties) {
-        let value = properties[key];
-        if (key == "style" && typeof value == "object") {
-          for (const name in value) {
-            console.log("XXX", name, value[name]);
-            el.style[name] = value[name];
+        let value2 = properties[key];
+        if (key == "style" && typeof value2 == "object") {
+          for (const name in value2) {
+            console.log("XXX", name, value2[name]);
+            el.style[name] = value2[name];
           }
           continue;
-        } else if (typeof value == "object") {
-          value = Object.entries(value).map(([k, v]) => `${k}: ${v};`).join(" ");
-          console.log("TRANSLATE", properties[key], value);
+        } else if (typeof value2 == "object") {
+          value2 = Object.entries(value2).map(([k, v]) => `${k}: ${v};`).join(" ");
+          console.log("TRANSLATE", properties[key], value2);
         }
         if (el.namespaceURI == "http://www.w3.org/2000/svg") {
-          el.setAttributeNS(null, key, value);
+          el.setAttributeNS(null, key, value2);
         } else {
-          el.setAttribute(key, value);
+          el.setAttribute(key, value2);
         }
       }
     }
@@ -3959,52 +3987,40 @@
     }
     properties;
     // property management
+    defaults = {
+      started: void 0,
+      scene: void 0,
+      // main svg group node to contain everything
+      data: void 0,
+      // raw object that described the initial configuration of the component
+      name: "unnamed",
+      x: 0,
+      y: 0,
+      w: 10,
+      h: 10,
+      H: 110,
+      // min h
+      r: 0,
+      b: 0,
+      // border
+      p: 0,
+      // padding
+      s: 0
+      // spacer/gap
+    };
     id = v4_default();
-    name = "unnamed";
-    started = false;
-    root;
-    // root container
     container;
-    // Component super-class that this is a child of
-    // scene; // svg group node to contain everything
+    // Component super-class (Container or Control) that this is a child of
     g = svg.g({ class: "component" });
     // svg group node to contain everything
     el = {};
     // bag of elements
-    x = 0;
-    y = 0;
-    w = 10;
-    h = 10;
-    H = 110;
-    // min h
-    r = 0;
-    b = 0;
-    // border
-    p = 0;
-    // padding
-    s = 0;
-    // spacer/gap
     container = null;
     // the visual parent container holding the child
-    data = 0;
-    // raw object that described the initial configuration of the component
     constructor() {
-      this.properties = new Properties();
-      this.properties.install(this, "started");
-      this.properties.install(this, "name");
-      this.properties.install(this, "scene");
-      this.properties.install(this, "data");
-      this.properties.install(this, "x");
-      this.properties.install(this, "y");
-      this.properties.install(this, "w");
-      this.properties.install(this, "h");
-      this.properties.install(this, "H");
-      this.properties.install(this, "r");
-      this.properties.install(this, "b");
-      this.properties.install(this, "p");
-      this.properties.install(this, "s");
+      this.properties = new Properties(this);
       console.log(this.id, 'this.properties.observe("data"...');
-      this.properties.observe("data", (data) => {
+      this.on("data", (data) => {
         console.log("############### DATA OBSERVING ##########################", data);
         if (!data)
           return;
@@ -4014,7 +4030,7 @@
         data.properties.observe("h", (h) => this.h = h);
         data.properties.observe("r", (r) => this.r = r);
         data.properties.observe("b", (b) => this.b = b);
-        data.properties.observe("p", (p) => this.p = p);
+        data.properties.observe("p", (p2) => this.p = p2);
       });
     }
     // Introducing Concept of Root
@@ -4114,15 +4130,13 @@
     static {
       __name(this, "Container");
     }
-    // NOTE: only containers have children, controls do not
-    children = [];
     // NOTE: only containers have a layout, becasue they have children
     // NOTE: a layout applies to children only, this will not set xywh of the root component
     layout;
     constructor(...a) {
       super(...a);
       this.layout = new VerticalLayout(this);
-      this.properties.install(this, "children");
+      this.properties.install("children", []);
       this.el.Container = svg.rect({
         name: this.name,
         class: "node-box",
@@ -4227,13 +4241,18 @@
     static {
       __name(this, "Universe");
     }
-    archetypes = [];
-    worlds = [];
-    connections = [];
-    started = false;
-    name = "";
-    svg;
-    scene;
+    defaults = {
+      archetypes: [],
+      worlds: [],
+      connections: [],
+      started: void 0,
+      name: "Bork",
+      svg: void 0,
+      scene: void 0
+    };
+    constraints = {
+      started: { "properties .svg and .scene are required to start the universe": (v) => v == true ? !(this.svg === void 0 || this.scene === void 0) : Infinity }
+    };
     trays = /* @__PURE__ */ new Map();
     lines = /* @__PURE__ */ new Map();
     ///
@@ -4241,22 +4260,23 @@
     // What can the universe create?
     constructor() {
       this.properties = new Properties(this);
-      this.properties.install("archetypes");
-      this.properties.install("worlds");
-      this.properties.install("connections");
-      this.properties.install("started");
-      this.properties.install("name");
-      this.properties.install("svg");
-      this.properties.install("scene");
-      this.properties.observe("name", (v) => {
-        document.querySelector("title").innerText = v;
+      this.on("name", (v) => {
+        if (v)
+          document.querySelector("title").innerText = v;
       });
-      this.properties.observe("started", (started) => started ? this.#onStart() : this.#onStop());
+      this.on("started", (started) => {
+        if (started === true) {
+          this.#onStart();
+        } else if (started === false) {
+          this.#onStop();
+        }
+      });
     }
     // constructor
     #onStart() {
       console.log(`Universe onStart, world count: ${this.worlds.length}`);
-      this.properties.observe("worlds.created", (node) => {
+      this.on("worlds.created", (node) => {
+        console.log("worlds.created", node);
         const Component2 = this.#supportedTypes.find((o) => o.name == node.type);
         if (!Component2)
           throw new Error("Unrecongnized type");
@@ -4269,7 +4289,7 @@
         console.log("STARTING", component);
         component.started = true;
       }, { replay: true });
-      this.properties.observe("worlds.removed", ({ id }) => {
+      this.on("worlds.removed", ({ id }) => {
         this.trays.get(id).started = false;
         this.trays.delete(id);
       });
@@ -4289,12 +4309,12 @@
   var themes = new Themes();
   themes.theme = "nostromo";
   var universe = new Universe();
+  window.universe = universe;
   universe.name = "Universe Window";
   universe.svg = document.querySelector("#editor-svg");
   universe.scene = document.querySelector("#editor-scene");
-  console.log("index.js creating a world in the universe!");
+  console.info("index.js creating a world in the universe!");
   async function main() {
-    console.log("universe.worlds", universe.worlds);
     const project = await (await fetch("templates/hello-project.json")).json();
     for (const item of project.data) {
       const node = new Node2(item.meta);

@@ -7,54 +7,43 @@ import { svg } from "domek";
 export default class Component {
   properties; // property management
 
+  defaults = {
+
+    started:  undefined,
+    scene:  undefined, // main svg group node to contain everything
+    data:  undefined, // raw object that described the initial configuration of the component
+
+    name:  'unnamed',
+    
+    x: 0,
+    y: 0,
+    w: 10,
+    h: 10,
+    H: 110, // min h
+    r: 0,
+
+    b: 0, // border
+    p: 0, // padding
+    s: 0, // spacer/gap
+
+  };
+
   id = uuid();
-  name = "unnamed"
 
-  started = false;
+  container; // Component super-class (Container or Control) that this is a child of
 
-  root; // root container
-  container; // Component super-class that this is a child of
-
-  // scene; // svg group node to contain everything
   g = svg.g({class:'component'}); // svg group node to contain everything
 
   el = {}; // bag of elements
 
-  x=0;
-  y=0;
-  w=10;
-  h=10;
-  H=110; // min h
-  r=0;
-
-  b=0; // border
-  p=0; // padding
-  s=0; // spacer/gap
 
   container = null; // the visual parent container holding the child
-  data = 0; // raw object that described the initial configuration of the component
 
   constructor() {
 
-    this.properties = new Properties();
+    this.properties = new Properties(this);
 
 
-    this.properties.install(this, "started");
-    this.properties.install(this, "name");
-    this.properties.install(this, "scene");
-    this.properties.install(this, "data");
-
-
-    this.properties.install(this, "x");
-    this.properties.install(this, "y");
-    this.properties.install(this, "w");
-    this.properties.install(this, "h");
-    this.properties.install(this, "H");
-    this.properties.install(this, "r");
-
-    this.properties.install(this, "b");
-    this.properties.install(this, "p");
-    this.properties.install(this, "s");
 
     // this.properties.observe("scene", (scene) => {
     //   console.log('SCENE', {scene});
@@ -68,7 +57,7 @@ export default class Component {
 
 
     console.log(this.id, 'this.properties.observe("data"...');
-    this.properties.observe("data", (data) => {
+    this.on("data", (data) => {
 
       console.log('############### DATA OBSERVING ##########################', data);
       if(!data) return;

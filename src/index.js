@@ -9,17 +9,18 @@ import Themes from './Themes.js';
 const themes = new Themes();
 themes.theme = 'nostromo';
 
+
 import Universe from './Universe.js';
 const universe = new Universe();
+window.universe = universe;
 
 universe.name = 'Universe Window';
 universe.svg = document.querySelector('#editor-svg');
 universe.scene = document.querySelector('#editor-scene');
-
-console.log('index.js creating a world in the universe!');
+console.info('index.js creating a world in the universe!');
 
 async function main(){
-  console.log('universe.worlds', universe.worlds);
+
   const project = await (await fetch('templates/hello-project.json')).json();
   for (const item of project.data) {
     const node =  new Node(item.meta);

@@ -8,8 +8,7 @@ import { svg, update } from "domek";
 
 export default class Container extends Component {
 
-  // NOTE: only containers have children, controls do not
-  children = [];
+
 
   // NOTE: only containers have a layout, becasue they have children
   // NOTE: a layout applies to children only, this will not set xywh of the root component
@@ -20,7 +19,8 @@ export default class Container extends Component {
 
     this.layout = new VerticalLayout(this);
 
-    this.properties.install(this, "children");
+    // NOTE: only containers have children, controls do not
+    this.properties.install('children', []);
 
     this.el.Container = svg.rect({
       name: this.name,

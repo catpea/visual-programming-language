@@ -3,15 +3,19 @@ import Tray from "#plug-ins/windows/Tray.js";
 
 export default class Universe {
 
-  archetypes = [];
-  worlds = [];
-  connections = [];
+  defaults = {
+    archetypes: [],
+    worlds: [],
+    connections: [],
+    started: undefined,
+    name: "Bork",
+    svg: undefined,
+    scene: undefined,
+  }
 
-  started = false;
-  name = "";
-
-  svg;
-  scene;
+  constraints = {
+    started: { 'properties .svg and .scene are required to start the universe': (v) => v==true?!(this.svg===undefined||this.scene===undefined):Infinity }
+  }
 
   trays = new Map();
   lines = new Map();
@@ -24,23 +28,17 @@ export default class Universe {
 
     this.properties = new Properties(this);
 
-    this.properties.install("archetypes");
-    this.properties.install("worlds");
-    this.properties.install("connections");
-
-    this.properties.install("started");
-
-    this.properties.install("name");
-
-    this.properties.install("svg");
-    this.properties.install("scene");
-
-    this.properties.observe("name", v=> {
-      document.querySelector('title').innerText = v;
+    this.on('name', v=> {
+      if(v) document.querySelector('title').innerText = v;
     });
 
-    // example of hoisting concepts from observable to event-like
-    this.properties.observe("started", started=>started?this.#onStart():this.#onStop());
+    this.on("started", started=>{
+      if(started === true){
+        this.#onStart();
+      }else if(started === false){
+        this.#onStop()
+      }
+    });
 
   } // constructor
 
@@ -49,8 +47,8 @@ export default class Universe {
 
       console.log(`Universe onStart, world count: ${this.worlds.length}`, );
 
-      this.properties.observe("worlds.created", (node) => {
-
+      this.on("worlds.created", (node) => {
+        console.log('worlds.created', node);
         const Component = this.#supportedTypes.find(o=>o.name==node.type);
         if(!Component) throw new Error('Unrecongnized type');
     		const component = new Component();
@@ -65,7 +63,7 @@ export default class Universe {
         component.started = true;
       }, {replay:true});
 
-      this.properties.observe("worlds.removed", ({id}) => {
+      this.on("worlds.removed", ({id}) => {
         // stops and removes trays
         this.trays.get(id).started = false;
         this.trays.delete(id);

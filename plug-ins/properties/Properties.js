@@ -7,38 +7,68 @@ export default class Properties {
   properties = {};
 
   constructor(client){
+
+    if(!client){
+      throw new Error(`You must specify client in the constructor of Properties()`);
+    }
+
     this.client = client;
+
+    if(client.on){
+      throw new Error(`Error .on Already Defined`);
+    }
+
+    client.on = (...a) => this.observe(...a);
+
+    if(!client.defaults){
+      console.warn('no client defaults on', client);
+    }else{
+      for (const [name, value] of Object.entries(client.defaults)) {
+        this.install(name, value)
+      }
+    }
+
+    if(!client.constraints){
+      console.warn(`danger: no client constraints on ${client.constructor.name} class`);
+    }else{
+      for (const [name, constraints] of Object.entries(client.constraints)) {
+        for (const message in constraints) {
+          this.constrain(name, message, constraints[message])
+        }
+      }
+    }
+
+
+
+
+
+
+
+
   }
 
   // installer with overloading
-  install(name){
+  install(name, value){
 
     if(this.properties[name]){
       throw new Error(`property "${name}" already defined`);
     }
 
-    console.error('FIX ME PROPERTIES CAN BE INITIALIZERS');
-    let value;
-    if(this.client[name]){
-    value = this.client[name];
-    delete this.client[name];
-    }
-
     if (Array.isArray(value)){
-      console.log(`creating array`, name);
       this.installArray(name, value);
     }else{
-      this.installSimple(name, value);
+      this.installPrimitive(name, value);
     }
   }
 
 
-  installSimple(name, value){
+  installPrimitive(name, value){
     this.properties[name] = new Property(name, value);
     // install over existing value
     Object.defineProperty(Object.getPrototypeOf(this.client), name, {
       get: () => this.properties[name].value,
       set: (value) => this.properties[name].value = value,
+      configurable: true,
     });
   }
 
@@ -48,6 +78,7 @@ export default class Properties {
     Object.defineProperty(Object.getPrototypeOf(this.client), name, {
       get: () => this.properties[name],
       set: (value) => {throw new Error(`observable array ${name} cannot be replaced`)},
+      configurable: true,
     });
   }
 
@@ -56,11 +87,12 @@ export default class Properties {
 
 
   // Throw in a constraint system
-  constrain(name, constraint){
+  constrain(name, message, test){
     if(!this.properties[name]) throw new Error("property not defined");
-    this.properties[name].constraints.push(constraint);
+    this.properties[name].constraints.push({message, test});
     this.properties[name].constrain();
   }
+
 
   // Install Cleaning System, to enable tracking observers
   #trash = [];

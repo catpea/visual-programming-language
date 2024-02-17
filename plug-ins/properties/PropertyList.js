@@ -14,13 +14,7 @@ export default class PropertyList {
     for (const item of this.#value) {
       this.constraints.forEach(({ test, message }) => {
         if (!test(item)) {
-          let text;
-          if (typeof message === "string") {
-            text = message;
-          } else {
-            text = message(item);
-          }
-          throw new Error(`🍔 constraint error: ${text}`);
+          throw new Error(`🍔 constraint error: ${message} (attempted to set: ${value})`);
         }
       });
     }
