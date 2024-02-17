@@ -4,14 +4,15 @@ import Tray from "#plug-ins/windows/Tray.js";
 export default class Universe {
 
   defaults = {
-    archetypes: [],
-    worlds: [],
-    connections: [],
     started: undefined,
     name: "Bork",
     svg: undefined,
     scene: undefined,
-  }
+
+    archetypes: [],
+    worlds: [],
+    connections: [],
+  };
 
   constraints = {
     started: { 'properties .svg and .scene are required to start the universe': (v) => v==true?!(this.svg===undefined||this.scene===undefined):Infinity }
@@ -56,8 +57,8 @@ export default class Universe {
         this.scene.appendChild(component.g);
 
         component.container = this;
-        console.log('SETTING DATA ON', component);
-        component.data = node;
+        console.log('SETTING DATA ON', component, node);
+        component.data = node; // .............................................. -> Component.js / this.on("data", (data) => {...
 
         console.log('STARTING', component);
         component.started = true;

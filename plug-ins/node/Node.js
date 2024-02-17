@@ -30,7 +30,6 @@ export default class Node {
         this.properties.install(propertyName, object[propertyName]);
       }
     }
-
   }
 
   // Read Only

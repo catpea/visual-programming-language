@@ -8,6 +8,7 @@ import { svg, update } from "domek";
 export default class Tray extends Container {
 
   constructor(...a) {
+
     console.log('CREATING TRAY');
     super(...a);
 

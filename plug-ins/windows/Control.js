@@ -28,7 +28,13 @@ export default class Control extends Component {
 
     this.properties.observe('name',  name=>update(this.el.Container,{name}), );
 
-    this.properties.observe("started", started=>started?this.#onStart():this.#onStop());
+    this.on("started", started=>{
+      if(started === true){
+        this.#onStart();
+      }else if(started === false){
+        this.#onStop()
+      }
+    });
 
   }
 

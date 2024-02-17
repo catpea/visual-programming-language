@@ -24,7 +24,11 @@ async function main(){
   const project = await (await fetch('templates/hello-project.json')).json();
   for (const item of project.data) {
     const node =  new Node(item.meta);
-    universe.worlds.create( node );
+
+
+    universe.worlds.create( node ); // -> universe #onStart ->
+
+    console.log( node.h );
   }
   universe.started = true;
 }

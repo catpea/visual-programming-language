@@ -3981,6 +3981,7 @@
   }, "update");
 
   // plug-ins/windows/Component.js
+  var NOT_SET = "NOT_SET";
   var Component = class {
     static {
       __name(this, "Component");
@@ -3991,14 +3992,14 @@
       started: void 0,
       scene: void 0,
       // main svg group node to contain everything
-      data: void 0,
+      data: NOT_SET,
       // raw object that described the initial configuration of the component
-      name: "unnamed",
+      name: "un-named",
       x: 0,
       y: 0,
       w: 10,
       h: 10,
-      H: 110,
+      H: 0,
       // min h
       r: 0,
       b: 0,
@@ -4019,18 +4020,19 @@
     // the visual parent container holding the child
     constructor() {
       this.properties = new Properties(this);
-      console.log(this.id, 'this.properties.observe("data"...');
       this.on("data", (data) => {
         console.log("############### DATA OBSERVING ##########################", data);
-        if (!data)
+        if (data === NOT_SET)
           return;
-        data.properties.observe("x", (x) => this.x = x);
-        data.properties.observe("y", (y) => this.y = y);
-        data.properties.observe("w", (w) => this.w = w);
-        data.properties.observe("h", (h) => this.h = h);
-        data.properties.observe("r", (r) => this.r = r);
-        data.properties.observe("b", (b) => this.b = b);
-        data.properties.observe("p", (p2) => this.p = p2);
+        data.on("x", (x) => this.x = x);
+        data.on("y", (y) => this.y = y);
+        data.on("w", (w) => this.w = w);
+        data.on("h", (h) => this.h = h);
+        data.on("H", (H) => this.H = H);
+        data.on("r", (r) => this.r = r);
+        data.on("b", (b) => this.b = b);
+        data.on("p", (p2) => this.p = p2);
+        data.on("s", (s) => this.s = s);
       });
     }
     // Introducing Concept of Root
@@ -4151,7 +4153,13 @@
         y: this.y
       });
       this.properties.observe("name", (name) => update(this.el.Container, { name }));
-      this.properties.observe("started", (started) => started ? this.#onStart() : this.#onStop());
+      this.on("started", (started) => {
+        if (started === true) {
+          this.#onStart();
+        } else if (started === false) {
+          this.#onStop();
+        }
+      });
     }
     /// OnX - concept upgrade - boundary layer -
     #onStart() {
@@ -4202,7 +4210,13 @@
         y: this.y
       });
       this.properties.observe("name", (name) => update(this.el.Container, { name }));
-      this.properties.observe("started", (started) => started ? this.#onStart() : this.#onStop());
+      this.on("started", (started) => {
+        if (started === true) {
+          this.#onStart();
+        } else if (started === false) {
+          this.#onStop();
+        }
+      });
     }
     /// OnX - concept upgrade - boundary layer -
     #onStart() {
@@ -4242,13 +4256,13 @@
       __name(this, "Universe");
     }
     defaults = {
-      archetypes: [],
-      worlds: [],
-      connections: [],
       started: void 0,
       name: "Bork",
       svg: void 0,
-      scene: void 0
+      scene: void 0,
+      archetypes: [],
+      worlds: [],
+      connections: []
     };
     constraints = {
       started: { "properties .svg and .scene are required to start the universe": (v) => v == true ? !(this.svg === void 0 || this.scene === void 0) : Infinity }
@@ -4284,7 +4298,7 @@
         this.trays.set(node.id, component);
         this.scene.appendChild(component.g);
         component.container = this;
-        console.log("SETTING DATA ON", component);
+        console.log("SETTING DATA ON", component, node);
         component.data = node;
         console.log("STARTING", component);
         component.started = true;
@@ -4319,6 +4333,7 @@
     for (const item of project.data) {
       const node = new Node2(item.meta);
       universe.worlds.create(node);
+      console.log(node.h);
     }
     universe.started = true;
   }

@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "id": "17b1cb2a-1a08-4eec-a3fc-f3835cbbdfab",
+    "name": "Hello Project",
+    "description": "Convert a string of text to uppercase."
+  },
+
+  "data": [
+    {
+      "meta": {
+        "id": "1a18d5a3-59c4-4b59-a340-83ed1154a740",
+        "type": "Tray",
+        "x": 123,
+        "y": 123,
+        "w": 666,
+        "h": 666,
+        "H": 666,
+        "r": 8
+      },
+      "data": "hello-world.json"
+    }
+  ]
+}

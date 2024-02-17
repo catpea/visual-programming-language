@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid";
 
 import { svg } from "domek";
 
+const NOT_SET = 'NOT_SET';
 
 export default class Component {
   properties; // property management
@@ -11,15 +12,15 @@ export default class Component {
 
     started:  undefined,
     scene:  undefined, // main svg group node to contain everything
-    data:  undefined, // raw object that described the initial configuration of the component
+    data:  NOT_SET, // raw object that described the initial configuration of the component
 
-    name:  'unnamed',
-    
+    name:  'un-named',
+
     x: 0,
     y: 0,
     w: 10,
     h: 10,
-    H: 110, // min h
+    H: 0, // min h
     r: 0,
 
     b: 0, // border
@@ -56,27 +57,23 @@ export default class Component {
     // once data is asigned, it should be monitored for changes
 
 
-    console.log(this.id, 'this.properties.observe("data"...');
+
     this.on("data", (data) => {
 
       console.log('############### DATA OBSERVING ##########################', data);
-      if(!data) return;
-      // observers of data opbject copy relevant data properties to the container properties
-      data.properties.observe("x", x => this.x = x);
-      data.properties.observe("y", y => this.y = y);
-      data.properties.observe("w", w => this.w = w);
-      data.properties.observe("h", h => this.h = h);
-      data.properties.observe("r", r => this.r = r);
-      data.properties.observe("b", b => this.b = b);
-      data.properties.observe("p", p => this.p = p);
+      if(data===NOT_SET) return;
 
-      // this.properties.disposable( data.properties.observe("x", x => this.x = x) );
-      // this.properties.disposable( data.properties.observe("y", y => this.y = y) );
-      // this.properties.disposable( data.properties.observe("w", w => this.w = w) );
-      // this.properties.disposable( data.properties.observe("h", h => this.h = h) );
-      // this.properties.disposable( data.properties.observe("r", r => this.r = r) );
-      // this.properties.disposable( data.properties.observe("b", b => this.b = b) );
-      // this.properties.disposable( data.properties.observe("p", p => this.p = p) );
+      // observers of data opbject copy relevant data properties to the container properties
+      data.on("x", x => this.x = x);
+      data.on("y", y => this.y = y);
+      data.on("w", w => this.w = w);
+      data.on("h", h => this.h = h);
+      data.on("H", H => this.H = H);
+      data.on("r", r => this.r = r);
+
+      data.on("b", b => this.b = b);
+      data.on("p", p => this.p = p);
+      data.on("s", s => this.s = s);
 
     });
 
