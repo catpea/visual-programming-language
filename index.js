@@ -69,7 +69,7 @@
         }, "c"), h = /* @__PURE__ */ __name(() => {
         }, "h"), d = /* @__PURE__ */ __name((t2) => {
           t2.offsetHeight;
-        }, "d"), u = /* @__PURE__ */ __name(() => window.jQuery && !document.body.hasAttribute("data-bs-no-jquery") ? window.jQuery : null, "u"), f = [], p2 = /* @__PURE__ */ __name(() => "rtl" === document.documentElement.dir, "p"), m = /* @__PURE__ */ __name((t2) => {
+        }, "d"), u = /* @__PURE__ */ __name(() => window.jQuery && !document.body.hasAttribute("data-bs-no-jquery") ? window.jQuery : null, "u"), f = [], p = /* @__PURE__ */ __name(() => "rtl" === document.documentElement.dir, "p"), m = /* @__PURE__ */ __name((t2) => {
           var e2;
           e2 = /* @__PURE__ */ __name(() => {
             const e3 = u();
@@ -583,10 +583,10 @@
             this._interval && (clearInterval(this._interval), this._interval = null);
           }
           _directionToOrder(t2) {
-            return p2() ? t2 === ct ? lt : at : t2 === ct ? at : lt;
+            return p() ? t2 === ct ? lt : at : t2 === ct ? at : lt;
           }
           _orderToDirection(t2) {
-            return p2() ? t2 === lt ? ct : ht : t2 === lt ? ht : ct;
+            return p() ? t2 === lt ? ct : ht : t2 === lt ? ht : ct;
           }
           static jQueryInterface(t2) {
             return this.each(function() {
@@ -874,7 +874,7 @@
           if (o2 && r2) {
             var h2 = function(t3, e3) {
               return Pe("number" != typeof (t3 = "function" == typeof t3 ? t3(Object.assign({}, e3.rects, { placement: e3.placement })) : t3) ? t3 : Me(t3, Qt));
-            }(s2.padding, i2), d2 = Ce(o2), u2 = "y" === l2 ? zt : Vt, f2 = "y" === l2 ? Rt : qt, p3 = i2.rects.reference[c2] + i2.rects.reference[l2] - r2[l2] - i2.rects.popper[c2], m2 = r2[l2] - i2.rects.reference[l2], g2 = $e(o2), _2 = g2 ? "y" === l2 ? g2.clientHeight || 0 : g2.clientWidth || 0 : 0, b2 = p3 / 2 - m2 / 2, v2 = h2[u2], y2 = _2 - d2[c2] - h2[f2], w2 = _2 / 2 - d2[c2] / 2 + b2, A2 = Ne(v2, w2, y2), E2 = l2;
+            }(s2.padding, i2), d2 = Ce(o2), u2 = "y" === l2 ? zt : Vt, f2 = "y" === l2 ? Rt : qt, p2 = i2.rects.reference[c2] + i2.rects.reference[l2] - r2[l2] - i2.rects.popper[c2], m2 = r2[l2] - i2.rects.reference[l2], g2 = $e(o2), _2 = g2 ? "y" === l2 ? g2.clientHeight || 0 : g2.clientWidth || 0 : 0, b2 = p2 / 2 - m2 / 2, v2 = h2[u2], y2 = _2 - d2[c2] - h2[f2], w2 = _2 / 2 - d2[c2] / 2 + b2, A2 = Ne(v2, w2, y2), E2 = l2;
             i2.modifiersData[n2] = ((e2 = {})[E2] = A2, e2.centerOffset = A2 - w2, e2);
           }
         }, effect: function(t2) {
@@ -887,7 +887,7 @@
         __name(Fe, "Fe");
         var He = { top: "auto", right: "auto", bottom: "auto", left: "auto" };
         function We(t2) {
-          var e2, i2 = t2.popper, n2 = t2.popperRect, s2 = t2.placement, o2 = t2.variation, r2 = t2.offsets, a2 = t2.position, l2 = t2.gpuAcceleration, c2 = t2.adaptive, h2 = t2.roundOffsets, d2 = t2.isFixed, u2 = r2.x, f2 = void 0 === u2 ? 0 : u2, p3 = r2.y, m2 = void 0 === p3 ? 0 : p3, g2 = "function" == typeof h2 ? h2({ x: f2, y: m2 }) : { x: f2, y: m2 };
+          var e2, i2 = t2.popper, n2 = t2.popperRect, s2 = t2.placement, o2 = t2.variation, r2 = t2.offsets, a2 = t2.position, l2 = t2.gpuAcceleration, c2 = t2.adaptive, h2 = t2.roundOffsets, d2 = t2.isFixed, u2 = r2.x, f2 = void 0 === u2 ? 0 : u2, p2 = r2.y, m2 = void 0 === p2 ? 0 : p2, g2 = "function" == typeof h2 ? h2({ x: f2, y: m2 }) : { x: f2, y: m2 };
           f2 = g2.x, m2 = g2.y;
           var _2 = r2.hasOwnProperty("x"), b2 = r2.hasOwnProperty("y"), v2 = Vt, y2 = zt, w2 = window;
           if (c2) {
@@ -1012,7 +1012,7 @@
         __name(ei, "ei");
         function ii(t2, e2) {
           void 0 === e2 && (e2 = {});
-          var i2 = e2, n2 = i2.placement, s2 = void 0 === n2 ? t2.placement : n2, o2 = i2.strategy, r2 = void 0 === o2 ? t2.strategy : o2, a2 = i2.boundary, l2 = void 0 === a2 ? Ut : a2, c2 = i2.rootBoundary, h2 = void 0 === c2 ? Gt : c2, d2 = i2.elementContext, u2 = void 0 === d2 ? Jt : d2, f2 = i2.altBoundary, p3 = void 0 !== f2 && f2, m2 = i2.padding, g2 = void 0 === m2 ? 0 : m2, _2 = Pe("number" != typeof g2 ? g2 : Me(g2, Qt)), b2 = u2 === Jt ? Zt : Jt, v2 = t2.rects.popper, y2 = t2.elements[p3 ? b2 : u2], w2 = function(t3, e3, i3, n3) {
+          var i2 = e2, n2 = i2.placement, s2 = void 0 === n2 ? t2.placement : n2, o2 = i2.strategy, r2 = void 0 === o2 ? t2.strategy : o2, a2 = i2.boundary, l2 = void 0 === a2 ? Ut : a2, c2 = i2.rootBoundary, h2 = void 0 === c2 ? Gt : c2, d2 = i2.elementContext, u2 = void 0 === d2 ? Jt : d2, f2 = i2.altBoundary, p2 = void 0 !== f2 && f2, m2 = i2.padding, g2 = void 0 === m2 ? 0 : m2, _2 = Pe("number" != typeof g2 ? g2 : Me(g2, Qt)), b2 = u2 === Jt ? Zt : Jt, v2 = t2.rects.popper, y2 = t2.elements[p2 ? b2 : u2], w2 = function(t3, e3, i3, n3) {
             var s3 = "clippingParents" === e3 ? function(t4) {
               var e4 = Je(Se(t4)), i4 = ["absolute", "fixed"].indexOf(xe(t4).position) >= 0 && me(t4) ? $e(t4) : t4;
               return pe(i4) ? e4.filter(function(t5) {
@@ -1053,13 +1053,13 @@
         const si = { name: "flip", enabled: true, phase: "main", fn: function(t2) {
           var e2 = t2.state, i2 = t2.options, n2 = t2.name;
           if (!e2.modifiersData[n2]._skip) {
-            for (var s2 = i2.mainAxis, o2 = void 0 === s2 || s2, r2 = i2.altAxis, a2 = void 0 === r2 || r2, l2 = i2.fallbackPlacements, c2 = i2.padding, h2 = i2.boundary, d2 = i2.rootBoundary, u2 = i2.altBoundary, f2 = i2.flipVariations, p3 = void 0 === f2 || f2, m2 = i2.allowedAutoPlacements, g2 = e2.options.placement, _2 = be(g2), b2 = l2 || (_2 !== g2 && p3 ? function(t3) {
+            for (var s2 = i2.mainAxis, o2 = void 0 === s2 || s2, r2 = i2.altAxis, a2 = void 0 === r2 || r2, l2 = i2.fallbackPlacements, c2 = i2.padding, h2 = i2.boundary, d2 = i2.rootBoundary, u2 = i2.altBoundary, f2 = i2.flipVariations, p2 = void 0 === f2 || f2, m2 = i2.allowedAutoPlacements, g2 = e2.options.placement, _2 = be(g2), b2 = l2 || (_2 !== g2 && p2 ? function(t3) {
               if (be(t3) === Kt)
                 return [];
               var e3 = Ve(t3);
               return [Qe(t3), e3, Qe(e3)];
             }(g2) : [Ve(g2)]), v2 = [g2].concat(b2).reduce(function(t3, i3) {
-              return t3.concat(be(i3) === Kt ? ni(e2, { placement: i3, boundary: h2, rootBoundary: d2, padding: c2, flipVariations: p3, allowedAutoPlacements: m2 }) : i3);
+              return t3.concat(be(i3) === Kt ? ni(e2, { placement: i3, boundary: h2, rootBoundary: d2, padding: c2, flipVariations: p2, allowedAutoPlacements: m2 }) : i3);
             }, []), y2 = e2.rects.reference, w2 = e2.rects.popper, A2 = /* @__PURE__ */ new Map(), E2 = true, T2 = v2[0], C2 = 0; C2 < v2.length; C2++) {
               var O2 = v2[C2], x2 = be(O2), k2 = Fe(O2) === Xt, L2 = [zt, Rt].indexOf(x2) >= 0, S2 = L2 ? "width" : "height", D2 = ii(e2, { placement: O2, boundary: h2, rootBoundary: d2, altBoundary: u2, padding: c2 }), $2 = L2 ? k2 ? qt : Vt : k2 ? Rt : zt;
               y2[S2] > w2[S2] && ($2 = Ve($2));
@@ -1083,7 +1083,7 @@
                 });
                 if (e3)
                   return T2 = e3, "break";
-              }, M2 = p3 ? 3 : 1; M2 > 0 && "break" !== P2(M2); M2--)
+              }, M2 = p2 ? 3 : 1; M2 > 0 && "break" !== P2(M2); M2--)
                 ;
             e2.placement !== T2 && (e2.modifiersData[n2]._skip = true, e2.placement = T2, e2.reset = true);
           }
@@ -1113,7 +1113,7 @@
           var e2 = t2.state, i2 = t2.name;
           e2.modifiersData[i2] = ei({ reference: e2.rects.reference, element: e2.rects.popper, strategy: "absolute", placement: e2.placement });
         }, data: {} }, hi = { name: "preventOverflow", enabled: true, phase: "main", fn: function(t2) {
-          var e2 = t2.state, i2 = t2.options, n2 = t2.name, s2 = i2.mainAxis, o2 = void 0 === s2 || s2, r2 = i2.altAxis, a2 = void 0 !== r2 && r2, l2 = i2.boundary, c2 = i2.rootBoundary, h2 = i2.altBoundary, d2 = i2.padding, u2 = i2.tether, f2 = void 0 === u2 || u2, p3 = i2.tetherOffset, m2 = void 0 === p3 ? 0 : p3, g2 = ii(e2, { boundary: l2, rootBoundary: c2, padding: d2, altBoundary: h2 }), _2 = be(e2.placement), b2 = Fe(e2.placement), v2 = !b2, y2 = Ie(_2), w2 = "x" === y2 ? "y" : "x", A2 = e2.modifiersData.popperOffsets, E2 = e2.rects.reference, T2 = e2.rects.popper, C2 = "function" == typeof m2 ? m2(Object.assign({}, e2.rects, { placement: e2.placement })) : m2, O2 = "number" == typeof C2 ? { mainAxis: C2, altAxis: C2 } : Object.assign({ mainAxis: 0, altAxis: 0 }, C2), x2 = e2.modifiersData.offset ? e2.modifiersData.offset[e2.placement] : null, k2 = { x: 0, y: 0 };
+          var e2 = t2.state, i2 = t2.options, n2 = t2.name, s2 = i2.mainAxis, o2 = void 0 === s2 || s2, r2 = i2.altAxis, a2 = void 0 !== r2 && r2, l2 = i2.boundary, c2 = i2.rootBoundary, h2 = i2.altBoundary, d2 = i2.padding, u2 = i2.tether, f2 = void 0 === u2 || u2, p2 = i2.tetherOffset, m2 = void 0 === p2 ? 0 : p2, g2 = ii(e2, { boundary: l2, rootBoundary: c2, padding: d2, altBoundary: h2 }), _2 = be(e2.placement), b2 = Fe(e2.placement), v2 = !b2, y2 = Ie(_2), w2 = "x" === y2 ? "y" : "x", A2 = e2.modifiersData.popperOffsets, E2 = e2.rects.reference, T2 = e2.rects.popper, C2 = "function" == typeof m2 ? m2(Object.assign({}, e2.rects, { placement: e2.placement })) : m2, O2 = "number" == typeof C2 ? { mainAxis: C2, altAxis: C2 } : Object.assign({ mainAxis: 0, altAxis: 0 }, C2), x2 = e2.modifiersData.offset ? e2.modifiersData.offset[e2.placement] : null, k2 = { x: 0, y: 0 };
           if (A2) {
             if (o2) {
               var L2, S2 = "y" === y2 ? zt : Vt, D2 = "y" === y2 ? Rt : qt, $2 = "y" === y2 ? "height" : "width", I2 = A2[y2], N2 = I2 + g2[S2], P2 = I2 - g2[D2], M2 = f2 ? -T2[$2] / 2 : 0, j2 = b2 === Xt ? E2[$2] : T2[$2], F2 = b2 === Xt ? -T2[$2] : -E2[$2], H2 = e2.elements.arrow, W2 = f2 && H2 ? Ce(H2) : { width: 0, height: 0 }, B2 = e2.modifiersData["arrow#persistent"] ? e2.modifiersData["arrow#persistent"].padding : { top: 0, right: 0, bottom: 0, left: 0 }, z2 = B2[S2], R2 = B2[D2], q2 = Ne(0, E2[$2], W2[$2]), V2 = v2 ? E2[$2] / 2 - M2 - q2 - z2 - O2.mainAxis : j2 - q2 - z2 - O2.mainAxis, K2 = v2 ? -E2[$2] / 2 + M2 + q2 + R2 + O2.mainAxis : F2 + q2 + R2 + O2.mainAxis, Q2 = e2.elements.arrow && $e(e2.elements.arrow), X2 = Q2 ? "y" === y2 ? Q2.clientTop || 0 : Q2.clientLeft || 0 : 0, Y2 = null != (L2 = null == x2 ? void 0 : x2[y2]) ? L2 : 0, U2 = I2 + K2 - Y2, G2 = Ne(f2 ? ye(N2, I2 + V2 - Y2 - X2) : N2, I2, f2 ? ve(P2, U2) : P2);
@@ -1239,7 +1239,7 @@
         }
         __name(mi, "mi");
         var gi = mi(), _i = mi({ defaultModifiers: [Re, ci, Be, _e] }), bi = mi({ defaultModifiers: [Re, ci, Be, _e, li, si, hi, je, ai] });
-        const vi = Object.freeze(Object.defineProperty({ __proto__: null, afterMain: ae, afterRead: se, afterWrite: he, applyStyles: _e, arrow: je, auto: Kt, basePlacements: Qt, beforeMain: oe, beforeRead: ie, beforeWrite: le, bottom: Rt, clippingParents: Ut, computeStyles: Be, createPopper: bi, createPopperBase: gi, createPopperLite: _i, detectOverflow: ii, end: Yt, eventListeners: Re, flip: si, hide: ai, left: Vt, main: re, modifierPhases: de, offset: li, placements: ee, popper: Jt, popperGenerator: mi, popperOffsets: ci, preventOverflow: hi, read: ne, reference: Zt, right: qt, start: Xt, top: zt, variationPlacements: te, viewport: Gt, write: ce }, Symbol.toStringTag, { value: "Module" })), yi = "dropdown", wi = ".bs.dropdown", Ai = ".data-api", Ei = "ArrowUp", Ti = "ArrowDown", Ci = `hide${wi}`, Oi = `hidden${wi}`, xi = `show${wi}`, ki = `shown${wi}`, Li = `click${wi}${Ai}`, Si = `keydown${wi}${Ai}`, Di = `keyup${wi}${Ai}`, $i = "show", Ii = '[data-bs-toggle="dropdown"]:not(.disabled):not(:disabled)', Ni = `${Ii}.${$i}`, Pi = ".dropdown-menu", Mi = p2() ? "top-end" : "top-start", ji = p2() ? "top-start" : "top-end", Fi = p2() ? "bottom-end" : "bottom-start", Hi = p2() ? "bottom-start" : "bottom-end", Wi = p2() ? "left-start" : "right-start", Bi = p2() ? "right-start" : "left-start", zi = { autoClose: true, boundary: "clippingParents", display: "dynamic", offset: [0, 2], popperConfig: null, reference: "toggle" }, Ri = { autoClose: "(boolean|string)", boundary: "(string|element)", display: "string", offset: "(array|string|function)", popperConfig: "(null|object|function)", reference: "(string|element|object)" };
+        const vi = Object.freeze(Object.defineProperty({ __proto__: null, afterMain: ae, afterRead: se, afterWrite: he, applyStyles: _e, arrow: je, auto: Kt, basePlacements: Qt, beforeMain: oe, beforeRead: ie, beforeWrite: le, bottom: Rt, clippingParents: Ut, computeStyles: Be, createPopper: bi, createPopperBase: gi, createPopperLite: _i, detectOverflow: ii, end: Yt, eventListeners: Re, flip: si, hide: ai, left: Vt, main: re, modifierPhases: de, offset: li, placements: ee, popper: Jt, popperGenerator: mi, popperOffsets: ci, preventOverflow: hi, read: ne, reference: Zt, right: qt, start: Xt, top: zt, variationPlacements: te, viewport: Gt, write: ce }, Symbol.toStringTag, { value: "Module" })), yi = "dropdown", wi = ".bs.dropdown", Ai = ".data-api", Ei = "ArrowUp", Ti = "ArrowDown", Ci = `hide${wi}`, Oi = `hidden${wi}`, xi = `show${wi}`, ki = `shown${wi}`, Li = `click${wi}${Ai}`, Si = `keydown${wi}${Ai}`, Di = `keyup${wi}${Ai}`, $i = "show", Ii = '[data-bs-toggle="dropdown"]:not(.disabled):not(:disabled)', Ni = `${Ii}.${$i}`, Pi = ".dropdown-menu", Mi = p() ? "top-end" : "top-start", ji = p() ? "top-start" : "top-end", Fi = p() ? "bottom-end" : "bottom-start", Hi = p() ? "bottom-start" : "bottom-end", Wi = p() ? "left-start" : "right-start", Bi = p() ? "right-start" : "left-start", zi = { autoClose: true, boundary: "clippingParents", display: "dynamic", offset: [0, 2], popperConfig: null, reference: "toggle" }, Ri = { autoClose: "(boolean|string)", boundary: "(string|element)", display: "string", offset: "(array|string|function)", popperConfig: "(null|object|function)", reference: "(string|element|object)" };
         class qi extends W {
           static {
             __name(this, "qi");
@@ -1597,11 +1597,11 @@
           _adjustDialog() {
             const t2 = this._element.scrollHeight > document.documentElement.clientHeight, e2 = this._scrollBar.getWidth(), i2 = e2 > 0;
             if (i2 && !t2) {
-              const t3 = p2() ? "paddingLeft" : "paddingRight";
+              const t3 = p() ? "paddingLeft" : "paddingRight";
               this._element.style[t3] = `${e2}px`;
             }
             if (!i2 && t2) {
-              const t3 = p2() ? "paddingRight" : "paddingLeft";
+              const t3 = p() ? "paddingRight" : "paddingLeft";
               this._element.style[t3] = `${e2}px`;
             }
           }
@@ -1780,7 +1780,7 @@
             e2.textContent = t2.textContent;
           }
         }
-        const Zn = /* @__PURE__ */ new Set(["sanitize", "allowList", "sanitizeFn"]), ts = "fade", es = "show", is = ".modal", ns = "hide.bs.modal", ss = "hover", os = "focus", rs = { AUTO: "auto", TOP: "top", RIGHT: p2() ? "left" : "right", BOTTOM: "bottom", LEFT: p2() ? "right" : "left" }, as = { allowList: Vn, animation: true, boundary: "clippingParents", container: false, customClass: "", delay: 0, fallbackPlacements: ["top", "right", "bottom", "left"], html: false, offset: [0, 6], placement: "top", popperConfig: null, sanitize: true, sanitizeFn: null, selector: false, template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>', title: "", trigger: "hover focus" }, ls = { allowList: "object", animation: "boolean", boundary: "(string|element)", container: "(string|element|boolean)", customClass: "(string|function)", delay: "(number|object)", fallbackPlacements: "array", html: "boolean", offset: "(array|string|function)", placement: "(string|function)", popperConfig: "(null|object|function)", sanitize: "boolean", sanitizeFn: "(null|function)", selector: "(string|boolean)", template: "string", title: "(string|element|function)", trigger: "string" };
+        const Zn = /* @__PURE__ */ new Set(["sanitize", "allowList", "sanitizeFn"]), ts = "fade", es = "show", is = ".modal", ns = "hide.bs.modal", ss = "hover", os = "focus", rs = { AUTO: "auto", TOP: "top", RIGHT: p() ? "left" : "right", BOTTOM: "bottom", LEFT: p() ? "right" : "left" }, as = { allowList: Vn, animation: true, boundary: "clippingParents", container: false, customClass: "", delay: 0, fallbackPlacements: ["top", "right", "bottom", "left"], html: false, offset: [0, 6], placement: "top", popperConfig: null, sanitize: true, sanitizeFn: null, selector: false, template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>', title: "", trigger: "hover focus" }, ls = { allowList: "object", animation: "boolean", boundary: "(string|element)", container: "(string|element|boolean)", customClass: "(string|function)", delay: "(number|object)", fallbackPlacements: "array", html: "boolean", offset: "(array|string|function)", placement: "(string|function)", popperConfig: "(null|object|function)", sanitize: "boolean", sanitizeFn: "(null|function)", selector: "(string|boolean)", template: "string", title: "(string|element|function)", trigger: "string" };
         class cs extends W {
           static {
             __name(this, "cs");
@@ -3460,61 +3460,27 @@
   // src/index.js
   var import_bootstrap_bundle_min = __toESM(require_bootstrap_bundle_min(), 1);
 
-  // node_modules/uuid/dist/esm-browser/rng.js
-  var getRandomValues;
-  var rnds8 = new Uint8Array(16);
-  function rng() {
-    if (!getRandomValues) {
-      getRandomValues = typeof crypto !== "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
-      if (!getRandomValues) {
-        throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
+  // plug-ins/object-oriented-programming/index.js
+  var ObjectOrientedProgramming = class {
+    static {
+      __name(this, "ObjectOrientedProgramming");
+    }
+    inheritance = [];
+    #client;
+    initialize(client) {
+      this.#client = client;
+      this.#client.className = this.#client.constructor.name;
+      this.extendObject();
+    }
+    extendObject() {
+      if (this.#client.extends && Array.isArray(this.#client.extends)) {
+        for (const TypeClass of this.#client.extends) {
+          const typeInstance = new TypeClass();
+          this.inheritance.push(typeInstance, ...typeInstance.oop.inheritance);
+        }
       }
     }
-    return getRandomValues(rnds8);
-  }
-  __name(rng, "rng");
-
-  // node_modules/uuid/dist/esm-browser/stringify.js
-  var byteToHex = [];
-  for (let i = 0; i < 256; ++i) {
-    byteToHex.push((i + 256).toString(16).slice(1));
-  }
-  function unsafeStringify(arr, offset = 0) {
-    return byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]];
-  }
-  __name(unsafeStringify, "unsafeStringify");
-
-  // node_modules/uuid/dist/esm-browser/native.js
-  var randomUUID = typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
-  var native_default = {
-    randomUUID
   };
-
-  // node_modules/uuid/dist/esm-browser/v4.js
-  function v4(options, buf, offset) {
-    if (native_default.randomUUID && !buf && !options) {
-      return native_default.randomUUID();
-    }
-    options = options || {};
-    const rnds = options.random || (options.rng || rng)();
-    rnds[6] = rnds[6] & 15 | 64;
-    rnds[8] = rnds[8] & 63 | 128;
-    if (buf) {
-      offset = offset || 0;
-      for (let i = 0; i < 16; ++i) {
-        buf[offset + i] = rnds[i];
-      }
-      return buf;
-    }
-    return unsafeStringify(rnds);
-  }
-  __name(v4, "v4");
-  var v4_default = v4;
-
-  // plug-ins/node/Node.js
-  var import_union = __toESM(require_union(), 1);
-
-  // plug-ins/properties/Property.js
   var Property = class {
     static {
       __name(this, "Property");
@@ -3522,15 +3488,15 @@
     name = null;
     #value = null;
     constraints = [];
-    constructor(name, value2) {
-      this.name = name;
+    constructor(name2, value2) {
+      this.name = name2;
       this.#value = value2;
     }
     constrain(data) {
-      const value2 = data || this.#value;
-      this.constraints.forEach(({ test, message }) => {
-        if (!test(value2)) {
-          throw new Error(`\u{1F354} constraint error: ${message} (attempted to set: ${value2})`);
+      this.constraints.forEach(({ test: test2, message }) => {
+        const verdict = test2(data, this.#value);
+        if (verdict?.error) {
+          throw new Error(`\u{1F354} constraint error: ${message} - ${verdict.error} (attempted to set ${this.name} to ${data})`);
         }
       });
     }
@@ -3539,6 +3505,7 @@
       return this.#value;
     }
     set value(data) {
+      console.log(`Setting ${this.name} to "${data}" was: `, this.#value);
       if (this.#value == data)
         return;
       this.constrain(data);
@@ -3576,8 +3543,6 @@
       };
     }
   };
-
-  // plug-ins/properties/PropertyList.js
   var PropertyList = class {
     static {
       __name(this, "PropertyList");
@@ -3585,15 +3550,238 @@
     name = null;
     #value = [];
     constraints = [];
-    constructor(name, value2) {
-      this.name = name;
+    constructor(name2, value2) {
+      this.name = name2;
       this.#value.push(...value2);
       this.constrain();
     }
     constrain() {
       for (const item of this.#value) {
-        this.constraints.forEach(({ test, message }) => {
-          if (!test(item)) {
+        this.constraints.forEach(({ test: test2, message }) => {
+          if (!test2(item)) {
+            throw new Error(`\u{1F354} constraint error: ${message} (attempted to set: ${value})`);
+          }
+        });
+      }
+    }
+    get value() {
+      return this;
+    }
+    // Install Observer Functionality
+    #observers = {};
+    observe(eventName, observerCallback, options = { autorun: true, replay: false }) {
+      if (typeof observerCallback !== "function")
+        throw new TypeError("observer must be a function.");
+      if (!Array.isArray(this.#observers[eventName]))
+        this.#observers[eventName] = [];
+      if (options.autorun) {
+        if (eventName == this.name) {
+          for (const item of this.#value) {
+            observerCallback(item);
+          }
+        }
+      }
+      if (options.replay) {
+        for (const item of this.#value) {
+          observerCallback(item);
+        }
+      }
+      this.#observers[eventName].push(observerCallback);
+      return () => {
+        this.unobserve(eventName, observerCallback);
+      };
+    }
+    unobserve(eventName, observerCallback) {
+      this.#observers[eventName] = this.#observers[eventName].filter((obs) => obs !== observerCallback);
+    }
+    notify(eventName, eventData, ...extra) {
+      if (Array.isArray(this.#observers[eventName]))
+        this.#observers[eventName].forEach((observerCallback) => observerCallback(eventData, ...extra));
+    }
+    status() {
+      return {
+        observerCount: Object.values(this.#observers).flat().length
+      };
+    }
+    // Data Editing Functions
+    create(...items) {
+      for (const item of items) {
+        this.constrain(item);
+        this.#value.push(item);
+        this.notify("created", item);
+        this.notify("changed", this);
+      }
+    }
+    remove(item) {
+      this.#value = this.#value.filter((o) => o.id !== item.id);
+      this.notify("removed", item);
+      this.notify("changed", this);
+    }
+    // Data Reading Functions
+    [Symbol.iterator]() {
+      return this.#value[Symbol.iterator]();
+    }
+    find(callback) {
+      if (typeof callback !== "function")
+        throw new TypeError("Needs a function.");
+      return this.#value.find(callback);
+    }
+    map(callback) {
+      if (typeof callback !== "function")
+        throw new TypeError("Needs a function.");
+      return this.#value.map(callback);
+    }
+    reduce(callback, initialValue) {
+      if (typeof callback !== "function")
+        throw new TypeError("Needs a function.");
+      return this.#value.reduce(callback, initialValue);
+    }
+    filter(callback) {
+      if (typeof callback !== "function")
+        throw new TypeError("Needs a function.");
+      return this.#value.filter(callback);
+    }
+    forEach(callback) {
+      if (typeof callback !== "function")
+        throw new TypeError("Needs a function.");
+      return this.#value.forEach(callback);
+    }
+    indexOf(item) {
+      return this.#value.indexOf(item);
+    }
+    slice(...argv) {
+      return this.#value.slice(...argv);
+    }
+    get length() {
+      return this.#value.length;
+    }
+    get raw() {
+      return this.#value;
+    }
+  };
+  var Instance = class {
+    static {
+      __name(this, "Instance");
+    }
+    constructor(TypeClass) {
+      const typeInstance = new TypeClass();
+      for (const inherited of typeInstance.oop.inheritance) {
+        if (inherited.properties) {
+          for (const [propertyName, propertyValue] of Object.entries(inherited.properties)) {
+            if (propertyName in this === false) {
+              Object.defineProperty(this, propertyName, {
+                value: propertyValue,
+                writable: true,
+                enumerable: true,
+                configurable: false
+              });
+            }
+          }
+        }
+      }
+      for (const inherited of typeInstance.oop.inheritance) {
+        if (inherited.traits) {
+          for (const [traitName, traitFunction] of Object.entries(inherited.traits)) {
+            if (traitName in this === false) {
+              Object.defineProperty(this, traitName, {
+                value: traitFunction.bind(this),
+                writable: true,
+                enumerable: true,
+                configurable: false
+              });
+            }
+          }
+        }
+      }
+      for (const inherited of typeInstance.oop.inheritance) {
+        if (inherited.methods) {
+          for (const [methodName, methodFunction] of Object.entries(inherited.methods)) {
+            if (methodName in this === false) {
+              Object.defineProperty(this, methodName, {
+                value: methodFunction === true ? inherited[methodName].bind(inherited) : methodFunction.bind(inherited),
+                writable: true,
+                enumerable: true,
+                configurable: false
+              });
+            }
+          }
+        }
+      }
+      const observableData = {};
+      for (const inherited of typeInstance.oop.inheritance) {
+        if (inherited.observables) {
+          for (const [observableName, observableValue] of Object.entries(inherited.observables)) {
+            const isArray = Array.isArray(observableValue) ? true : false;
+            if (observableName in this === false) {
+              if (isArray) {
+                observableData[observableName] = new PropertyList(observableName, observableValue);
+                Object.defineProperty(this, observableName, {
+                  get: () => observableData[observableName].value,
+                  set: (value2) => {
+                    throw new Error(`observable array ${name} cannot be replaced`);
+                  },
+                  configurable: false
+                });
+              } else {
+                observableData[observableName] = new Property(observableName, observableValue);
+                Object.defineProperty(this, observableName, {
+                  get: () => observableData[observableName].value,
+                  set: (value2) => observableData[observableName].value = value2,
+                  configurable: false
+                });
+              }
+            }
+          }
+        }
+      }
+      for (const inherited of typeInstance.oop.inheritance) {
+        if (inherited.constraints) {
+          for (const [constraintName, constraintValue] of Object.entries(inherited.constraints)) {
+            if (!observableData[constraintName])
+              throw new Error("Unable to constraint a property that is not defined");
+            for (const [message, test2] of Object.entries(constraintValue)) {
+              observableData[constraintName].constraints.push({ message, test: test2.bind(this) });
+              observableData[constraintName].constrain(observableData[constraintName].value);
+            }
+          }
+        }
+      }
+      const disposables = [];
+      const disposable = /* @__PURE__ */ __name(function(...arg) {
+        disposables.push(...arg);
+      }, "disposable");
+      this.dispose = function() {
+        disposables.map((f) => f());
+      };
+      this.on = function(eventPath, observerCallback, options) {
+        const [name2, path] = eventPath.split(".", 2);
+        if (!observableData[name2])
+          throw new Error(`property "${name2}" not defined (${Object.keys(observableData).join(", ")})`);
+        disposable(observableData[name2].observe(path || name2, observerCallback, options));
+      };
+    }
+  };
+
+  // plug-ins/node/Node.js
+  var import_union = __toESM(require_union(), 1);
+
+  // plug-ins/properties/PropertyList.js
+  var PropertyList2 = class {
+    static {
+      __name(this, "PropertyList");
+    }
+    name = null;
+    #value = [];
+    constraints = [];
+    constructor(name2, value2) {
+      this.name = name2;
+      this.#value.push(...value2);
+      this.constrain();
+    }
+    constrain() {
+      for (const item of this.#value) {
+        this.constraints.forEach(({ test: test2, message }) => {
+          if (!test2(item)) {
             throw new Error(`\u{1F354} constraint error: ${message} (attempted to set: ${value})`);
           }
         });
@@ -3692,653 +3880,121 @@
     }
   };
 
-  // plug-ins/properties/Properties.js
-  var Properties = class {
+  // src/TestBase.js
+  var TestBase = class {
     static {
-      __name(this, "Properties");
+      __name(this, "TestBase");
     }
-    properties = {};
-    constructor(client) {
-      if (!client) {
-        throw new Error(`You must specify client in the constructor of Properties()`);
-      }
-      this.client = client;
-      if (client.on) {
-        throw new Error(`Error .on Already Defined`);
-      }
-      client.on = (...a) => this.observe(...a);
-      if (!client.defaults) {
-        console.warn("no client defaults on", client);
-      } else {
-        for (const [name, value2] of Object.entries(client.defaults)) {
-          this.install(name, value2);
-        }
-      }
-      if (!client.constraints) {
-        console.warn(`danger: no client constraints on ${client.constructor.name} class`);
-      } else {
-        for (const [name, constraints] of Object.entries(client.constraints)) {
-          for (const message in constraints) {
-            this.constrain(name, message, constraints[message]);
+    oop = new ObjectOrientedProgramming();
+    properties = {
+      name: "kathunk",
+      bork: null,
+      nermal: true
+    };
+    observables = {
+      hello: 1,
+      names: ["Bob"]
+    };
+    constraints = {
+      started: {
+        "nermal must be false before start": function(started) {
+          console.log({ nermal: this.nermal, started });
+          const wantsToStart = started === true;
+          if (!wantsToStart)
+            return;
+          if (this.nermal === false) {
+            return;
+          } else {
+            return { error: "Nermal is not set to false" };
           }
         }
       }
-    }
-    // installer with overloading
-    install(name, value2) {
-      if (this.properties[name]) {
-        throw new Error(`property "${name}" already defined`);
-      }
-      if (Array.isArray(value2)) {
-        this.installArray(name, value2);
-      } else {
-        this.installPrimitive(name, value2);
-      }
-    }
-    installPrimitive(name, value2) {
-      this.properties[name] = new Property(name, value2);
-      Object.defineProperty(Object.getPrototypeOf(this.client), name, {
-        get: () => this.properties[name].value,
-        set: (value3) => this.properties[name].value = value3,
-        configurable: true
-      });
-    }
-    installArray(name, value2) {
-      this.properties[name] = new PropertyList(name, value2);
-      Object.defineProperty(Object.getPrototypeOf(this.client), name, {
-        get: () => this.properties[name],
-        set: (value3) => {
-          throw new Error(`observable array ${name} cannot be replaced`);
-        },
-        configurable: true
-      });
-    }
-    // Throw in a constraint system
-    constrain(name, message, test) {
-      if (!this.properties[name])
-        throw new Error("property not defined");
-      this.properties[name].constraints.push({ message, test });
-      this.properties[name].constrain();
-    }
-    // Install Cleaning System, to enable tracking observers
-    #trash = [];
-    disposable(...arg) {
-      this.#trash.push(...arg);
-    }
-    stop() {
-      this.#trash.map((f) => f());
-    }
-    // Enable Observing
-    observe(eventPath, observerCallback, options) {
-      const [name, path] = eventPath.split(".", 2);
-      if (!this.properties[name])
-        throw new Error(`property "${name}" not defined`);
-      this.disposable(this.properties[name].observe(path || name, observerCallback, options));
-    }
-    //
-    status() {
-    }
-  };
-
-  // plug-ins/node/Node.js
-  var Node2 = class {
-    static {
-      __name(this, "Node");
-    }
-    properties;
-    #id;
-    #type;
-    defaults = {
-      x: 0,
-      y: 0,
-      w: 32,
-      h: 32,
-      H: 0,
-      r: 0,
-      b: 0,
-      p: 0,
-      s: 0
     };
-    constructor(object = {}) {
-      this.properties = new Properties(this);
-      for (const propertyName in object) {
-        if (propertyName in this) {
-          this[propertyName] = object[propertyName];
-        } else {
-          console.log("Install", propertyName, object[propertyName]);
-          this.properties.install(propertyName, object[propertyName]);
-        }
-      }
-    }
-    // Read Only
-    set id(v) {
-      this.#id = v;
-    }
-    set type(v) {
-      this.#type = v;
-    }
-    get id() {
-      return this.#id;
-    }
-    get type() {
-      return this.#type;
-    }
-  };
-
-  // abstract/Theme.js
-  var Theme = class {
-    static {
-      __name(this, "Theme");
-    }
-    id = "theme-name";
-  };
-
-  // plug-ins/nostromo-theme/index.js
-  var Nostromo = class extends Theme {
-    static {
-      __name(this, "Nostromo");
-    }
-    id = "nostromo";
-    panelBackground = "blue";
-    constructor() {
-      super();
-    }
-  };
-
-  // plug-ins/obsidian-theme/index.js
-  var Obsidian = class extends Theme {
-    static {
-      __name(this, "Obsidian");
-    }
-    id = "obsidian";
-    panelBackground = "blue";
-    constructor() {
-      super();
-    }
-  };
-
-  // src/Themes.js
-  var Themes = class {
-    static {
-      __name(this, "Themes");
-    }
-    defaults = {
-      theme: "obsidian",
-      themes: [new Nostromo({ subtle: true }), new Obsidian({ subtle: true })]
-    };
-    constraints = {
-      theme: {
-        "all themes are lower-case": (theme) => !theme.match(/[A-Z]/),
-        "specified theme does not exist": (theme) => this.themes.map((o) => o.id).includes(theme)
+    methods = {
+      helloWorld: function() {
+        console.log("%c%s", "color: white; background: red;", this.name);
       },
-      themes: { "theme is not a prototype of #abstract/Theme": (v) => Theme.prototype.isPrototypeOf(v) }
+      helloBork: true
+    };
+    traits = {
+      helloPlanet: function() {
+        console.log("%c%s", "color: yellow; background: red;", this.name);
+      }
     };
     constructor() {
-      this.properties = new Properties(this);
-      this.on("theme.before", (id) => {
-        console.info("About To Change Theme To", id);
-      });
-      this.on("theme", (id, old) => {
-        console.info(`Theme Change from ${old} to ${id}`);
-        document.querySelector("html").dataset.uiTheme = id;
-        console.info("dataset.uiTheme", document.querySelector("html").dataset);
-      });
-      this.on("themes.created", (list) => {
-        p;
-        console.log("created", { list });
-      });
-      this.on("themes.removed", (list) => {
-        console.log("removed", { list });
-      });
-      this.on("themes", (list) => {
-      });
+      this.oop.initialize(this);
     }
     start() {
     }
     stop() {
-      this.properties.stop();
-      this.properties.status();
+    }
+    destroy() {
+    }
+    // ------------------------------------------------------------------------ //
+    name = "Foo Bar";
+    helloBork() {
+      console.log("%c%s", "color: orange; background: red;", this.name);
     }
   };
 
-  // modules/domek/index.js
-  var kebabize = /* @__PURE__ */ __name((str) => str.replace(/[A-Z]+(?![a-z])|[A-Z]/g, ($, ofs) => (ofs ? "-" : "") + $.toLowerCase()), "kebabize");
-  function svgProperties(key) {
-    if (["clipPathUnits"].includes(key)) {
-      return key;
-    } else {
-      return kebabize(key);
-    }
-  }
-  __name(svgProperties, "svgProperties");
-  var svg = new Proxy({}, {
-    get: function(target, property) {
-      return function(properties, text) {
-        const el = document.createElementNS("http://www.w3.org/2000/svg", property);
-        for (const key in properties) {
-          if (properties.hasOwnProperty(key)) {
-            el.setAttributeNS(null, svgProperties(key), properties[key]);
-          }
-        }
-        if (text)
-          el.appendChild(document.createTextNode(text));
-        return el;
-      };
-    }
-  });
-  var xhtml = new Proxy({}, {
-    get: function(target, property) {
-      return function(properties, text) {
-        const el = document.createElementNS("http://www.w3.org/1999/xhtml", property);
-        for (const key in properties) {
-          if (properties.hasOwnProperty(key)) {
-            el.setAttributeNS(null, kebabize(key), properties[key]);
-          }
-        }
-        if (text)
-          el.appendChild(document.createTextNode(text));
-        return el;
-      };
-    }
-  });
-  var html = new Proxy({}, {
-    get: function(target, property) {
-      return function(properties, text) {
-        const el = document.createElement(property);
-        for (const key in properties) {
-          if (properties.hasOwnProperty(key)) {
-            el.setAttribute(kebabize(key), properties[key]);
-          }
-        }
-        if (text)
-          el.appendChild(document.createTextNode(text));
-        return el;
-      };
-    }
-  });
-  var update = /* @__PURE__ */ __name(function(elements, properties) {
-    const els = Array.isArray(elements) ? elements : [elements];
-    for (const el of els) {
-      for (const key in properties) {
-        let value2 = properties[key];
-        if (key == "style" && typeof value2 == "object") {
-          for (const name in value2) {
-            console.log("XXX", name, value2[name]);
-            el.style[name] = value2[name];
-          }
-          continue;
-        } else if (typeof value2 == "object") {
-          value2 = Object.entries(value2).map(([k, v]) => `${k}: ${v};`).join(" ");
-          console.log("TRANSLATE", properties[key], value2);
-        }
-        if (el.namespaceURI == "http://www.w3.org/2000/svg") {
-          el.setAttributeNS(null, key, value2);
-        } else {
-          el.setAttribute(key, value2);
-        }
-      }
-    }
-  }, "update");
-
-  // plug-ins/windows/Component.js
-  var NOT_SET = "NOT_SET";
-  var Component = class {
+  // src/TestMiddle.js
+  var TestMiddle = class {
     static {
-      __name(this, "Component");
+      __name(this, "TestMiddle");
     }
-    properties;
-    // property management
-    defaults = {
-      started: void 0,
-      scene: void 0,
-      // main svg group node to contain everything
-      data: NOT_SET,
-      // raw object that described the initial configuration of the component
-      name: "un-named",
-      x: 0,
-      y: 0,
-      w: 10,
-      h: 10,
-      H: 0,
-      // min h
-      r: 0,
-      b: 0,
-      // border
-      p: 0,
-      // padding
-      s: 0
-      // spacer/gap
+    oop = new ObjectOrientedProgramming();
+    extends = [TestBase];
+    properties = {
+      name: null
     };
-    id = v4_default();
-    container;
-    // Component super-class (Container or Control) that this is a child of
-    g = svg.g({ class: "component" });
-    // svg group node to contain everything
-    el = {};
-    // bag of elements
-    container = null;
-    // the visual parent container holding the child
+    observables = {
+      started: null
+    };
+    constraints = {};
     constructor() {
-      this.properties = new Properties(this);
-      this.on("data", (data) => {
-        console.log("############### DATA OBSERVING ##########################", data);
-        if (data === NOT_SET)
-          return;
-        data.on("x", (x) => this.x = x);
-        data.on("y", (y) => this.y = y);
-        data.on("w", (w) => this.w = w);
-        data.on("h", (h) => this.h = h);
-        data.on("H", (H) => this.H = H);
-        data.on("r", (r) => this.r = r);
-        data.on("b", (b) => this.b = b);
-        data.on("p", (p2) => this.p = p2);
-        data.on("s", (s) => this.s = s);
-      });
+      this.oop.initialize(this);
     }
-    // Introducing Concept of Root
-    // NOTE: this is for both containers and controls so that they can find their way all the way up - therefore it belongs to Component.js
-    get isRoot() {
-      return !this.container;
+    start() {
     }
-    get root() {
-      let response = null;
-      if (this.isRoot) {
-        response = this;
-      } else {
-        response = this.container.root;
-      }
-      return response;
+    stop() {
     }
-    ///
-  };
-
-  // plug-ins/windows/Layout.js
-  var BOTH_SIDES = 2;
-  var Layout = class {
-    static {
-      __name(this, "Layout");
-    }
-    container;
-    constructor(container) {
-      this.container = container;
-    }
-    manage(child) {
-    }
-    calculateChildW() {
-      return 320 * Math.random();
-    }
-    calculateH() {
-      return 200 * Math.random();
-    }
-    calculateChildX(container, child) {
-      return 800 * Math.random();
-    }
-    calculateChildY(container, child) {
-      return 600 * Math.random();
-    }
-    above(container, child) {
-      return container.children.slice(0, container.children.indexOf(child));
-    }
-    #cleanup = [];
-    cleanup(...arg) {
-      this.#cleanup.push(...arg);
-    }
-  };
-  var VerticalLayout = class extends Layout {
-    static {
-      __name(this, "VerticalLayout");
-    }
-    manage(child) {
-      child.x = this.calculateChildX(child);
-      child.y = this.calculateChildY(child);
-      child.w = this.calculateChildW(child);
-      this.container.properties.observe("x", () => child.x = this.calculateChildX(child));
-      this.container.properties.observe("y", () => child.y = this.calculateChildY(child));
-      this.container.properties.observe("w", () => child.w = this.calculateChildW(child));
-      child.properties.observe("h", () => this.container.h = this.calculateH());
-      this.container.properties.observe("h", () => child.y = this.calculateChildY(child));
-    }
-    calculateChildW(child) {
-      console.log(`Calculating child width in ${this.container.name} for child ${child.name || child.text}`);
-      console.log(`My width is ${this.container.w}.`);
-      const response = this.container.w - (this.container.b + this.container.p) * BOTH_SIDES;
-      console.log(`Returning ${response}`);
-      return response;
-    }
-    calculateH() {
-      let heightOfChildren = 0;
-      const children = this.container.children;
-      heightOfChildren = children.reduce((total, c) => total + c.h, 0) + this.container.s * 2 * (children.length > 0 ? children.length - 1 : 0);
-      let response = this.container.b + this.container.p + // this.container.H + // NOT A MISTAKE design can hold a base h that is used in calculations
-      heightOfChildren + this.container.p + this.container.b;
-      if (response < this.container.H)
-        response = this.container.H;
-      return response;
-    }
-    calculateChildX() {
-      const response = this.container.x + // use my own x
-      this.container.b + // add border
-      this.container.p;
-      return response;
-    }
-    calculateChildY(child) {
-      const response = this.container.y + this.container.b + this.container.p + this.above(this.container, child).reduce((total, child2) => total + child2.h, 0) + this.container.s * 2 * this.above(this.container, child).length;
-      return response;
+    destroy() {
     }
   };
 
-  // plug-ins/windows/Container.js
-  var Container = class extends Component {
+  // src/Test.js
+  var Test = class {
     static {
-      __name(this, "Container");
+      __name(this, "Test");
     }
-    // NOTE: only containers have a layout, becasue they have children
-    // NOTE: a layout applies to children only, this will not set xywh of the root component
-    layout;
-    constructor(...a) {
-      super(...a);
-      this.layout = new VerticalLayout(this);
-      this.properties.install("children", []);
-      this.el.Container = svg.rect({
-        name: this.name,
-        class: "node-box",
-        ry: this.r,
-        "stroke-width": 2,
-        // set initial values
-        // these are special, handeled by the layout manager
-        // NOTE: these are observables, getter returns a value, setter notifies listeners, and you can ```this.observe('x', v=>{...})```
-        width: this.w,
-        height: this.h,
-        x: this.x,
-        y: this.y
-      });
-      this.properties.observe("name", (name) => update(this.el.Container, { name }));
-      this.on("started", (started) => {
-        if (started === true) {
-          this.#onStart();
-        } else if (started === false) {
-          this.#onStop();
-        }
-      });
-    }
-    /// OnX - concept upgrade - boundary layer -
-    #onStart() {
-      this.properties.observe("w", (width) => update(this.el.Container, { width }));
-      this.properties.observe("h", (height) => update(this.el.Container, { height }));
-      this.properties.observe("x", (x) => update(this.el.Container, { x }));
-      this.properties.observe("y", (y) => update(this.el.Container, { y }));
-      this.properties.observe("r", (ry) => update(this.el.Container, { ry }));
-      Object.values(this.el).forEach((el) => this.g.appendChild(el));
-      this.properties.observe("children.created", (item) => {
-        item.container = this;
-        item.g = this.g;
-        this.layout.manage(item);
-        item.started = true;
-      }, { replay: true });
-      this.properties.observe("children.removed", (item) => {
-        item.stop();
-        this.layout.forget(item);
-      });
-    }
-    #onStop() {
-      this.properties.stop();
-      this.properties.status();
-      Object.values(this.el).map((el) => el.remove());
-    }
-  };
-
-  // plug-ins/windows/Control.js
-  var Control = class extends Component {
-    static {
-      __name(this, "Control");
-    }
-    // h = 64;
-    constructor(...a) {
-      super(...a);
-      this.h = 32;
-      this.el.Container = svg.rect({
-        name: this.name,
-        class: "node-box",
-        ry: this.r,
-        "stroke-width": 1,
-        // set initial values
-        // these are special, handeled by the layout manager
-        // NOTE: these are observables, getter returns a value, setter notifies listeners, and you can ```this.observe('x', v=>{...})```
-        width: this.w,
-        height: this.h,
-        x: this.x,
-        y: this.y
-      });
-      this.properties.observe("name", (name) => update(this.el.Container, { name }));
-      this.on("started", (started) => {
-        if (started === true) {
-          this.#onStart();
-        } else if (started === false) {
-          this.#onStop();
-        }
-      });
-    }
-    /// OnX - concept upgrade - boundary layer -
-    #onStart() {
-      this.properties.observe("w", (width) => update(this.el.Container, { width }));
-      this.properties.observe("h", (height) => update(this.el.Container, { height }));
-      this.properties.observe("x", (x) => update(this.el.Container, { x }));
-      this.properties.observe("y", (y) => update(this.el.Container, { y }));
-      this.properties.observe("r", (ry) => update(this.el.Container, { ry }));
-      Object.values(this.el).forEach((el) => this.g.appendChild(el));
-    }
-    #onStop() {
-      this.properties.stop();
-      this.properties.status();
-      Object.values(this.el).map((el) => el.remove());
-    }
-  };
-
-  // plug-ins/windows/Tray.js
-  var Tray = class extends Container {
-    static {
-      __name(this, "Tray");
-    }
-    constructor(...a) {
-      console.log("CREATING TRAY");
-      super(...a);
-      let caption = new Control();
-      this.children.create(caption);
-      let toolbar = new Control();
-      this.children.create(toolbar);
-      console.log("TRAY CREATED");
-    }
-  };
-
-  // src/Universe.js
-  var Universe = class {
-    static {
-      __name(this, "Universe");
-    }
-    defaults = {
-      started: void 0,
-      name: "Bork",
-      svg: void 0,
-      scene: void 0,
-      archetypes: [],
-      worlds: [],
-      connections: []
-    };
-    constraints = {
-      started: { "properties .svg and .scene are required to start the universe": (v) => v == true ? !(this.svg === void 0 || this.scene === void 0) : Infinity }
-    };
-    trays = /* @__PURE__ */ new Map();
-    lines = /* @__PURE__ */ new Map();
-    ///
-    #supportedTypes = [Tray];
-    // What can the universe create?
+    oop = new ObjectOrientedProgramming();
+    extends = [TestMiddle];
     constructor() {
-      this.properties = new Properties(this);
-      this.on("name", (v) => {
-        if (v)
-          document.querySelector("title").innerText = v;
-      });
-      this.on("started", (started) => {
-        if (started === true) {
-          this.#onStart();
-        } else if (started === false) {
-          this.#onStop();
-        }
-      });
-    }
-    // constructor
-    #onStart() {
-      console.log(`Universe onStart, world count: ${this.worlds.length}`);
-      this.on("worlds.created", (node) => {
-        console.log("worlds.created", node);
-        const Component2 = this.#supportedTypes.find((o) => o.name == node.type);
-        if (!Component2)
-          throw new Error("Unrecongnized type");
-        const component = new Component2();
-        this.trays.set(node.id, component);
-        this.scene.appendChild(component.g);
-        component.container = this;
-        console.log("SETTING DATA ON", component, node);
-        component.data = node;
-        console.log("STARTING", component);
-        component.started = true;
-      }, { replay: true });
-      this.on("worlds.removed", ({ id }) => {
-        this.trays.get(id).started = false;
-        this.trays.delete(id);
-      });
-    }
-    #onStop() {
-      console.log(`There are ${this.trays.size} this.trays to remove`);
-      for (const { id } of this.trays) {
-        this.trays.get(id).started = false;
-        this.trays.delete(id);
-      }
-      this.properties.stop();
-      this.properties.status();
+      this.oop.initialize(this);
     }
   };
 
   // src/index.js
-  var themes = new Themes();
-  themes.theme = "nostromo";
-  var universe = new Universe();
-  window.universe = universe;
-  universe.name = "Universe Window";
-  universe.svg = document.querySelector("#editor-svg");
-  universe.scene = document.querySelector("#editor-scene");
-  console.info("index.js creating a world in the universe!");
-  async function main() {
-    const project = await (await fetch("templates/hello-project.json")).json();
-    for (const item of project.data) {
-      const node = new Node2(item.meta);
-      universe.worlds.create(node);
-      console.log(node.h);
-    }
-    universe.started = true;
-  }
-  __name(main, "main");
-  main();
+  var test = new Instance(Test);
+  test.name = "Alice";
+  test.helloWorld();
+  test.helloPlanet();
+  test.helloBork();
+  test.on("started", (started) => {
+    console.log("started value has changes to:", started);
+  });
+  test.on("names.created", (v) => {
+    console.log("names.created:", v);
+  });
+  test.on("names.changed", (v) => {
+    console.log("names...:", v);
+  });
+  setTimeout((x) => {
+    test.nermal = false;
+    test.started = true;
+    test.names.create("Alice");
+  }, 2e3);
+  console.log(test);
 })();
 /*! Bundled license information:
 

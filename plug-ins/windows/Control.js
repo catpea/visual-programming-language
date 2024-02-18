@@ -1,19 +1,22 @@
 import Properties from "#plug-ins/properties/Properties.js";
 import Component from "#plug-ins/windows/Component.js";
 
+import {log, error, warn, info, debug, seq} from "#plug-ins/log/index.js";
 import { svg, update } from "domek";
 
 
 export default class Control extends Component {
 
-  // h = 64;
+  #constraints = {
+    // started: { 'this.container is required before start': (v) => v==true?!(this.container===undefined||this.scene===undefined):Infinity }
+  }
 
   constructor(...a) {
     super(...a);
     this.h = 32;
 
     this.el.Container = svg.rect({
-      name: this.name,
+      name: this.data.id,
       class: 'node-box',
       ry: this.r,
       'stroke-width': 1,
@@ -28,35 +31,44 @@ export default class Control extends Component {
 
     this.properties.observe('name',  name=>update(this.el.Container,{name}), );
 
+    this.properties.constraints( this.#constraints );
+
+
+
     this.on("started", started=>{
+
       if(started === true){
-        this.#onStart();
+        this.#started();
       }else if(started === false){
-        this.#onStop()
+        this.#stopped()
       }
     });
 
   }
 
-  /// OnX - concept upgrade - boundary layer -
+  #started(){
+    log('child start')
 
-  #onStart(){
+    // if(!this.container) throw new Error('Property .container is required')
 
-    this.properties.observe('w',  width=>update(this.el.Container,{width}), );
-    this.properties.observe('h', height=>update(this.el.Container,{height}),);
-    this.properties.observe('x',      x=>update(this.el.Container,{x}),     );
-    this.properties.observe('y',      y=>update(this.el.Container,{y}),     );
-    this.properties.observe('r',     ry=>update(this.el.Container,{ry}),     );
+    this.on('w',  width=>update(this.el.Container,{width}), );
+    this.on('h', height=>update(this.el.Container,{height}),);
+    this.on('x',      x=>update(this.el.Container,{x}),     );
+    this.on('y',      y=>update(this.el.Container,{y}),     );
+    this.on('r',     ry=>update(this.el.Container,{ry}),     );
 
-    Object.values(this.el).forEach(el => this.g.appendChild(el));
+    Object.values(this.el).forEach(el => {
+      this.g.appendChild(el);
+      console.log(this.g);
+      // console.log('AAA appending', this.container.g, el);
+    })
 
   }
 
-  #onStop(){
-      this.properties.stop();
-      this.properties.status();
-      Object.values(this.el).map(el=>el.remove());
+  #stopped(){
+    this.properties.stop();
+    this.properties.status();
+    Object.values(this.el).map(el=>el.remove());
   }
-
 
 }

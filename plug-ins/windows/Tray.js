@@ -7,9 +7,12 @@ import { svg, update } from "domek";
 
 export default class Tray extends Container {
 
+  extends = [Container];
+
   constructor(...a) {
 
-    console.log('CREATING TRAY');
+    // oop(this);
+
     super(...a);
 
     let caption = new Control();
@@ -18,8 +21,7 @@ export default class Tray extends Container {
     let toolbar = new Control();
     this.children.create(toolbar);
 
-    // toolbar.h = 16; // forces redraw
-    console.log('TRAY CREATED');
+    toolbar.h = 16; // forces redraw
 
   }
 

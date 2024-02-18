@@ -18,18 +18,37 @@ export default class Node {
     b:0,
     p:0,
     s:0,
+
+    data: undefined, // JSON data
   }
 
-  constructor(object={}){
+  constructor({meta, data}={}){
+
     this.properties = new Properties(this);
-    for (const propertyName in object) {
+
+    for(const propertyName in this){
+      console.log('NODE', propertyName);
+    }
+
+    for (const propertyName in meta) {
       if(propertyName in this){
-        this[propertyName] = object[propertyName];
+        console.log('NO Install', `Assign ${meta[propertyName]} to ${propertyName}=${this[propertyName]}`);
+        this[propertyName] = meta[propertyName];
       }else{
-        console.log('Install', propertyName, object[propertyName]);
-        this.properties.install(propertyName, object[propertyName]);
+        console.log('Install Meta Property', propertyName, meta[propertyName], (propertyName in this));
+        this.properties.install(propertyName, meta[propertyName]);
       }
     }
+
+    this.#load(data);
+
+    this.on('data', data=>{
+      //console.log('loaded', data);
+    })
+  }
+
+  async #load(url){
+    this.data = await (await fetch(url)).json();
   }
 
   // Read Only

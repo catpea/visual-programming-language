@@ -96,13 +96,13 @@ export class VerticalLayout extends Layout {
 	}
 
 	calculateChildW(child) {
-		console.log(`Calculating child width in ${this.container.name} for child ${child.name||child.text}`);
-		console.log(`My width is ${this.container.w}.`);
+		// console.log(`Calculating child width in ${this.container.name} for child ${child.name||child.text}`);
+		// console.log(`My width is ${this.container.w}.`);
 		const response =
 			this.container.w -
 			((this.container.b + this.container.p) * BOTH_SIDES) // REMOVE SPACE USED BY PARENT PADDING
 
-		console.log(`Returning ${response}`);
+		// console.log(`Returning ${response}`);
 		return response;
 	}
 

@@ -27,18 +27,18 @@ export default class Component {
     p: 0, // padding
     s: 0, // spacer/gap
 
+    container: null, // the visual parent container holding the child
   };
+
 
   id = uuid();
 
-  container; // Component super-class (Container or Control) that this is a child of
 
+  // component creates its own g
   g = svg.g({class:'component'}); // svg group node to contain everything
 
   el = {}; // bag of elements
 
-
-  container = null; // the visual parent container holding the child
 
   constructor() {
 
@@ -58,9 +58,11 @@ export default class Component {
 
 
 
+
+
     this.on("data", (data) => {
 
-      console.log('############### DATA OBSERVING ##########################', data);
+      // console.log('############### DATA OBSERVING ##########################', data);
       if(data===NOT_SET) return;
 
       // observers of data opbject copy relevant data properties to the container properties

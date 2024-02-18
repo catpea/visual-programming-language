@@ -2,13 +2,14 @@ import Properties from "#plug-ins/properties/Properties.js";
 import Component from "#plug-ins/windows/Component.js";
 import { VerticalLayout } from "./Layout.js";
 
+import {log, error, warn, info, debug, seq} from "#plug-ins/log/index.js";
 import { svg, update } from "domek";
 
 
 
 export default class Container extends Component {
 
-
+  extends = [Component];
 
   // NOTE: only containers have a layout, becasue they have children
   // NOTE: a layout applies to children only, this will not set xywh of the root component
@@ -21,6 +22,7 @@ export default class Container extends Component {
 
     // NOTE: only containers have children, controls do not
     this.properties.install('children', []);
+
 
     this.el.Container = svg.rect({
       name: this.name,
@@ -41,43 +43,44 @@ export default class Container extends Component {
 
     this.on("started", started=>{
       if(started === true){
-        this.#onStart();
+        this.#start();
       }else if(started === false){
-        this.#onStop()
+        this.#stop()
       }
     });
   }
 
   /// OnX - concept upgrade - boundary layer -
 
-  #onStart(){
+  #start(){
 
-    this.properties.observe('w',  width=>update(this.el.Container,{width}), );
-    this.properties.observe('h', height=>update(this.el.Container,{height}),);
-    this.properties.observe('x',      x=>update(this.el.Container,{x}),     );
-    this.properties.observe('y',      y=>update(this.el.Container,{y}),     );
-    this.properties.observe('r',     ry=>update(this.el.Container,{ry}),     );
+    this.on('w',  width=>update(this.el.Container,{width}), );
+    this.on('h', height=>update(this.el.Container,{height}),);
+    this.on('x',      x=>update(this.el.Container,{x}),     );
+    this.on('y',      y=>update(this.el.Container,{y}),     );
+    this.on('r',     ry=>update(this.el.Container,{ry}),     );
 
-    Object.values(this.el).forEach(el => this.g.appendChild(el));
+    // Object.values(this.el).forEach(el => this.g.appendChild(el));
 
-    this.properties.observe("children.created", (item) => {
-      item.container = this;
-      item.g = this.g;
-      this.layout.manage(item);
-			item.started = true;
+    this.on("children.created", (child) => {
+
+      child.g = this.g;
+			child.started = true;
+      this.layout.manage(child);
     }, {replay: true});
 
     this.properties.observe("children.removed", (item) => {
-      item.stop();
+      log('children.removed');
+      item.started = false;
       this.layout.forget(item);
     });
 
   }
 
-  #onStop(){
-      this.properties.stop();
-      this.properties.status();
-      Object.values(this.el).map(el=>el.remove());
+  #stop(){
+    this.properties.stop();
+    this.properties.status();
+    Object.values(this.el).map(el=>el.remove());
   }
 
 

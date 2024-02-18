@@ -1,5 +1,6 @@
 import Properties from "#plug-ins/properties/Properties.js";
 import Tray from "#plug-ins/windows/Tray.js";
+import {log, error, warn, info, debug, seq} from "#plug-ins/log/index.js";
 
 export default class Universe {
 
@@ -45,27 +46,25 @@ export default class Universe {
 
 
   #onStart(){
+    seq('universe #onStart')
 
-      console.log(`Universe onStart, world count: ${this.worlds.length}`, );
-
+      seq('on worlds.created: instantiate world trays + start each tray')
       this.on("worlds.created", (node) => {
-        console.log('worlds.created', node);
+
         const Component = this.#supportedTypes.find(o=>o.name==node.type);
         if(!Component) throw new Error('Unrecongnized type');
     		const component = new Component();
-    		this.trays.set(node.id, component);
-        this.scene.appendChild(component.g);
+
+        this.trays.set(node.id, component);
+        this.scene.appendChild(component.g); // component has it's own g it is added to the scene
 
         component.container = this;
-        console.log('SETTING DATA ON', component, node);
         component.data = node; // .............................................. -> Component.js / this.on("data", (data) => {...
-
-        console.log('STARTING', component);
         component.started = true;
+
       }, {replay:true});
 
       this.on("worlds.removed", ({id}) => {
-        // stops and removes trays
         this.trays.get(id).started = false;
         this.trays.delete(id);
       });
@@ -74,9 +73,7 @@ export default class Universe {
 
 
   #onStop(){
-
-    // remove all trays
-    console.log(`There are ${this.trays.size} this.trays to remove`);
+    seq(`remove all trays: there are ${this.trays.size} this.trays to remove`);
 
     for (const {id} of this.trays) {
       this.trays.get(id).started = false;

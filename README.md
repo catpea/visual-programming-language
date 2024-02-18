@@ -4,15 +4,15 @@ User Friendly Visual Programming Language
 
 ## TODO
 
-- new inheritance model is being overriden by properties that used to provide default value
-universe.worlds must be removed, and the value set in install
+- [ ] Create worlds to visualize this program
 
 - make the tray into a draggable Window
 - give trays connections
 - create special IO nodes in the node world, when added it makes a port in the world box
-- and a Generator
 
-- give worlds their nodes, and make the code generator visit
+- [ ] add a Generator
+- [ ] give worlds their nodes, and make the code generator visit
+- [ ] Wherever properties are used they must be shut down
 
 ## Architecture
 

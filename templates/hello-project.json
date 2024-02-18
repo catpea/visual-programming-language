@@ -13,10 +13,10 @@
         "x": 117,
         "y": 612,
         "w": 126,
-        "h": 5,
+        "H": 5,
         "r": 6
       },
-      "data": "hello-world.json"
+      "data": "templates/hello-world.json"
     },
     {
       "meta": {
@@ -25,10 +25,10 @@
         "x": 523,
         "y": 474,
         "w": 728,
-        "h": 415,
+        "H": 415,
         "r": 6
       },
-      "data": "hello-world.json"
+      "data": "templates/hello-world.json"
     },
     {
       "meta": {
@@ -37,10 +37,10 @@
         "x": 339,
         "y": 57,
         "w": 451,
-        "h": 242,
+        "H": 242,
         "r": 6
       },
-      "data": "hello-world.json"
+      "data": "templates/hello-world.json"
     },
     {
       "meta": {
@@ -49,10 +49,10 @@
         "x": 18,
         "y": 93,
         "w": 175,
-        "h": 302,
+        "H": 302,
         "r": 6
       },
-      "data": "hello-world.json"
+      "data": "templates/hello-world.json"
     },
     {
       "meta": {
@@ -61,10 +61,10 @@
         "x": 529,
         "y": 511,
         "w": 122,
-        "h": 191,
+        "H": 191,
         "r": 6
       },
-      "data": "hello-world.json"
+      "data": "templates/hello-world.json"
     },
     {
       "meta": {
@@ -73,10 +73,10 @@
         "x": 765,
         "y": 421,
         "w": 590,
-        "h": 298,
+        "H": 298,
         "r": 6
       },
-      "data": "hello-world.json"
+      "data": "templates/hello-world.json"
     },
     {
       "meta": {
@@ -85,10 +85,10 @@
         "x": 756,
         "y": 688,
         "w": 211,
-        "h": 524,
+        "H": 524,
         "r": 6
       },
-      "data": "hello-world.json"
+      "data": "templates/hello-world.json"
     },
     {
       "meta": {
@@ -97,10 +97,10 @@
         "x": 444,
         "y": 683,
         "w": 269,
-        "h": 420,
+        "H": 420,
         "r": 6
       },
-      "data": "hello-world.json"
+      "data": "templates/hello-world.json"
     },
     {
       "meta": {
@@ -109,10 +109,10 @@
         "x": 321,
         "y": 424,
         "w": 107,
-        "h": 190,
+        "H": 190,
         "r": 6
       },
-      "data": "hello-world.json"
+      "data": "templates/hello-world.json"
     },
     {
       "meta": {
@@ -121,10 +121,10 @@
         "x": 398,
         "y": 221,
         "w": 284,
-        "h": 299,
+        "H": 299,
         "r": 6
       },
-      "data": "hello-world.json"
+      "data": "templates/hello-world.json"
     }
   ]
 }
