@@ -4,6 +4,25 @@ User Friendly Visual Programming Language
 
 ## TODO
 
+- [ ] legitimize on stop on start in Universe
+
+```JavaScript
+
+<script>
+  import fsm from 'svelte-fsm';
+
+  const simpleSwitch = fsm('off', {
+    off: { toggle: 'on' },
+    on: { toggle: 'off' }
+  });
+</script>
+
+<button value={$simpleSwitch} on:click={simpleSwitch.toggle}>
+  {$simpleSwitch}
+</button>
+
+```
+
 - [ ] Create worlds to visualize this program
 
 - make the tray into a draggable Window
@@ -19,6 +38,11 @@ User Friendly Visual Programming Language
   - index.html calls src/index.js
   - src/Root.js Root Window is created
   - Workspace is created
+
+## Scene
+
+  Parents set the .scene for child components to append themselves to.
+  Parents set the .parent property to "this" as well.
 
 ## Program Ideas
 

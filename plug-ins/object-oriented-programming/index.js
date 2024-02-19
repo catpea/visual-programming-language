@@ -1,26 +1,156 @@
-
-export class ObjectOrientedProgramming {
-  inheritance = [];
+export class Inheritance {
+  chain = [];
   #client;
-  initialize(client){
+
+  constructor(client){
     this.#client = client;
+    this.initialize(client);
+  }
+
+  initialize(client){
     this.#client.className = this.#client.constructor.name;
+    this.chain.push(client);
     this.extendObject();
   }
+
   extendObject(){
     if (this.#client.extends && Array.isArray(this.#client.extends)){
       for (const TypeClass of this.#client.extends) {
         const typeInstance = new TypeClass();
-        this.inheritance.push(typeInstance, ...typeInstance.oop.inheritance);
+        this.chain.push(typeInstance, ...typeInstance.oop.cchain);
       }
     }
   }
+
 }
 
+export class Instance {
+
+  constructor(TypeClass){
+
+    const typeInstance = new TypeClass();
 
 
 
-export class Property {
+    // Install Properties
+    for (const inherited of typeInstance.inheritance.chain) {
+      // begin at top, avoid properties that already exist.
+      if(inherited.properties){
+        for (const [propertyName, propertyValue] of Object.entries(inherited.properties)) {
+          if(propertyName in this === false){
+            Object.defineProperty(this, propertyName, {
+              value: propertyValue,
+              writable: true,
+              enumerable: true,
+              configurable: false,
+            });
+          }
+        } // for properties
+      } // if
+    }
+
+    // Install Traits
+    for (const inherited of typeInstance.inheritance.chain) {
+      // begin at top, avoid properties that already exist.
+      if(inherited.traits){
+        for (const [traitName, traitFunction] of Object.entries(inherited.traits)) {
+          if(traitName in this === false){
+            Object.defineProperty(this, traitName, {
+              value: traitFunction.bind(this),
+              writable: true,
+              enumerable: true,
+              configurable: false,
+            });
+          }
+        } // for properties
+      } // if
+    }
+
+    // Install Methods
+    for (const inherited of typeInstance.inheritance.chain) {
+      // begin at top, avoid properties that already exist.
+      if(inherited.methods){
+        for (const [methodName, methodFunction] of Object.entries(inherited.methods)) {
+          if(methodName in this === false){
+            Object.defineProperty(this, methodName, {
+              value: methodFunction===true?inherited[methodName].bind(inherited):methodFunction.bind(inherited),
+              writable: true,
+              enumerable: true,
+              configurable: false,
+            });
+          }
+        } // for properties
+      } // if
+    }
+
+    const observableData = {};
+    // Install Observables
+    for (const inherited of typeInstance.inheritance.chain) {
+      // begin at top, avoid properties that already exist.
+      if(inherited.observables){
+        for (const [observableName, observableValue] of Object.entries(inherited.observables)) {
+          const isArray = Array.isArray(observableValue)?true:false;
+          if(observableName in this === false){
+
+            if(isArray){
+              observableData[observableName] = new List(observableName, observableValue);
+              Object.defineProperty(this, observableName, {
+                get: () => observableData[observableName].value,
+                set: (value) => {throw new Error(`observable array ${name} cannot be replaced`)},
+                configurable: false,
+              });
+            }else{ // primitive
+              observableData[observableName] = new Primitive(observableName, observableValue);
+              Object.defineProperty(this, observableName, {
+                get: () => observableData[observableName].value,
+                set: (value) => observableData[observableName].value = value,
+                configurable: false,
+              });
+            }
+
+          }
+        } // for properties
+      } // if
+    }
+
+    // Install Constraints
+    for (const inherited of typeInstance.inheritance.chain) {
+      if(inherited.constraints){
+        for (const [constraintName, constraintValue] of Object.entries(inherited.constraints)) {
+          if(!observableData[constraintName]) throw new Error("Unable to constraint a property that is not defined");
+          for (const [message, test] of Object.entries(constraintValue)) {
+            observableData[constraintName].constraints.push({message, test:test.bind(this)});
+            observableData[constraintName].constrain(observableData[constraintName].value);
+          }
+        } // for constraints
+      } // if constraints
+    }
+
+    // Install Cleaning System, to enable tracking observers
+    const disposables = [];
+    const disposable = function (...arg){
+      disposables.push(...arg);
+    }
+    this.dispose = function(){
+      disposables.map(f=>f());
+    }
+
+    // Enable Observing
+    this.on = function(eventPath, observerCallback, options){
+      const [name, path] = eventPath.split('.', 2);
+      if(!observableData[name]) throw new Error(`property "${name}" not defined (${Object.keys(observableData).join(', ')})`);
+      disposable( observableData[name].observe(path||name, observerCallback, options) );
+    }
+
+    if(typeInstance.initialize){
+      typeInstance.initialize.bind(this)();
+    }
+
+  }
+
+}
+
+export class Primitive {
   name = null;
   #value = null;
 
@@ -91,8 +221,7 @@ export class Property {
   }
 }
 
-
-export class PropertyList {
+export class List {
   name = null;
   #value = [];
 
@@ -105,10 +234,11 @@ export class PropertyList {
   }
 
   constrain() {
-    for (const item of this.#value) {
+    for (const data of this.#value) {
       this.constraints.forEach(({ test, message }) => {
-        if (!test(item)) {
-          throw new Error(`🍔 constraint error: ${message} (attempted to set: ${value})`);
+        const verdict = test(data, this.#value);
+        if (verdict?.error) {
+          throw new Error(`🍔 constraint error: ${message} - ${verdict.error} (attempted to set ${this.name} to ${data})`);
         }
       });
     }
@@ -227,129 +357,5 @@ export class PropertyList {
   		return this.#value;
   	}
 
-
-}
-
-export class Instance {
-
-  constructor(TypeClass){
-
-    const typeInstance = new TypeClass();
-
-
-
-    // Install Properties
-    for (const inherited of typeInstance.oop.inheritance) {
-      // begin at top, avoid properties that already exist.
-      if(inherited.properties){
-        for (const [propertyName, propertyValue] of Object.entries(inherited.properties)) {
-          if(propertyName in this === false){
-            Object.defineProperty(this, propertyName, {
-              value: propertyValue,
-              writable: true,
-              enumerable: true,
-              configurable: false,
-            });
-          }
-        } // for properties
-      } // if
-    }
-
-    // Install Traits
-    for (const inherited of typeInstance.oop.inheritance) {
-      // begin at top, avoid properties that already exist.
-      if(inherited.traits){
-        for (const [traitName, traitFunction] of Object.entries(inherited.traits)) {
-          if(traitName in this === false){
-            Object.defineProperty(this, traitName, {
-              value: traitFunction.bind(this),
-              writable: true,
-              enumerable: true,
-              configurable: false,
-            });
-          }
-        } // for properties
-      } // if
-    }
-
-    // Install Methods
-    for (const inherited of typeInstance.oop.inheritance) {
-      // begin at top, avoid properties that already exist.
-      if(inherited.methods){
-        for (const [methodName, methodFunction] of Object.entries(inherited.methods)) {
-          if(methodName in this === false){
-            Object.defineProperty(this, methodName, {
-              value: methodFunction===true?inherited[methodName].bind(inherited):methodFunction.bind(inherited),
-              writable: true,
-              enumerable: true,
-              configurable: false,
-            });
-          }
-        } // for properties
-      } // if
-    }
-
-    const observableData = {};
-    // Install Observables
-    for (const inherited of typeInstance.oop.inheritance) {
-      // begin at top, avoid properties that already exist.
-      if(inherited.observables){
-        for (const [observableName, observableValue] of Object.entries(inherited.observables)) {
-          const isArray = Array.isArray(observableValue)?true:false;
-          if(observableName in this === false){
-
-            if(isArray){
-              observableData[observableName] = new PropertyList(observableName, observableValue);
-              Object.defineProperty(this, observableName, {
-                get: () => observableData[observableName].value,
-                set: (value) => {throw new Error(`observable array ${name} cannot be replaced`)},
-                configurable: false,
-              });
-            }else{ // primitive
-              observableData[observableName] = new Property(observableName, observableValue);
-              Object.defineProperty(this, observableName, {
-                get: () => observableData[observableName].value,
-                set: (value) => observableData[observableName].value = value,
-                configurable: false,
-              });
-            }
-
-          }
-        } // for properties
-      } // if
-    }
-
-    // Install Constraints
-    for (const inherited of typeInstance.oop.inheritance) {
-      if(inherited.constraints){
-        for (const [constraintName, constraintValue] of Object.entries(inherited.constraints)) {
-          if(!observableData[constraintName]) throw new Error("Unable to constraint a property that is not defined");
-          for (const [message, test] of Object.entries(constraintValue)) {
-            observableData[constraintName].constraints.push({message, test:test.bind(this)});
-            observableData[constraintName].constrain(observableData[constraintName].value);
-          }
-        } // for constraints
-      } // if constraints
-    }
-
-    // Install Cleaning System, to enable tracking observers
-    const disposables = [];
-    const disposable = function (...arg){
-      disposables.push(...arg);
-    }
-    this.dispose = function(){
-      disposables.map(f=>f());
-    }
-
-    // Enable Observing
-    this.on = function(eventPath, observerCallback, options){
-      const [name, path] = eventPath.split('.', 2);
-      if(!observableData[name]) throw new Error(`property "${name}" not defined (${Object.keys(observableData).join(', ')})`);
-      disposable( observableData[name].observe(path||name, observerCallback, options) );
-    }
-
-
-
-  }
 
 }

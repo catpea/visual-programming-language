@@ -11350,6 +11350,231 @@ fieldset:disabled .btn {
     display: none !important;
   }
 }
+
+/* plug-ins/nostromo-theme/index.css */
+:root,
+[data-ui-theme=nostromo] {
+  --dark: hsl(60, 100%, 4%);
+  --darker: hsl(120, 46%, 3%);
+  --darkest: hsl(60, 100%, 1%);
+  --primary-color: green;
+  --primary-background: rgba(0, 0, 0, 0.5);
+  --primary-border: var(--primary-color);
+  --selected-color: orange;
+  --selected-background: rgba(0, 0, 0, 0.5);
+  --selected-border: var(--selected-color);
+}
+body {
+  background-color: black;
+}
+rect {
+  vector-effect: non-scaling-stroke;
+}
+svg.editor-interface {
+  outline: none;
+}
+.editor-background {
+  fill: transparent;
+}
+.editor-scene {
+  fill: transparent;
+}
+.node-box {
+  fill: var(--primary-background);
+  stroke: var(--primary-border);
+}
+.node-container {
+  fill: var(--primary-background);
+  stroke: var(--primary-border);
+}
+.node-container.selected {
+  fill: rgba(0, 0, 0, 0.5);
+  stroke: var(--selected-border);
+}
+.node-caption {
+  fill: transparent;
+  stroke: transparent;
+}
+.node-caption.selected {
+  fill: transparent;
+}
+.node-caption.caption-text {
+  fill: var(--primary-color);
+}
+.node-caption.caption-text.selected {
+  fill: var(--selected-color);
+}
+.node-pod {
+  fill: transparent;
+  stroke: transparent;
+}
+.pod-row {
+  fill: transparent;
+  stroke: transparent;
+}
+.pod-row.selected {
+  fill: transparent;
+  stroke: transparent;
+}
+.node-port {
+  fill: var(--primary-color);
+}
+.node-port.selected {
+  fill: var(--selected-color);
+}
+.node-port.input-port {
+}
+.node-port.output-port {
+}
+.port-text {
+  fill: var(--primary-color);
+}
+.port-text.selected {
+  fill: var(--selected-color);
+}
+.editor-control {
+  background-color: hsl(186, 85%, 8%);
+}
+.editor-control.textarea {
+  border-top-style: none;
+  border-right-style: none;
+  border-left-style: none;
+  border-bottom-style: dotted;
+  outline: none;
+}
+.cable-line {
+  stroke: var(--primary-color);
+  stroke-width: 2;
+}
+.cable-line-zone {
+  stroke: var(--dark);
+  stroke-width: 8;
+}
+.cable-line-zone.selected {
+}
+.cable-line.selected {
+  stroke: var(--selected-color);
+}
+.cable-line.selected.disabled {
+  stroke: color-mix(in lch, var(--primary-color), red, 40%);
+}
+.cable-line.disabled {
+  stroke: color-mix(in lch, var(--primary-color), rgba(0, 0, 0, 0.5), 30%);
+}
+.cable-line-indicator {
+  stroke: var(--selected-color);
+  stroke-width: 2;
+}
+.junction-caption {
+  fill: transparent;
+  stroke: var(--primary-color);
+}
+.junction-caption.selected {
+  fill: transparent;
+  stroke: var(--selected-color);
+}
+.junction-port {
+  fill: var(--primary-color);
+  stroke: var(--darkest);
+}
+.junction-port.selected {
+  fill: var(--selected-color);
+}
+
+/* plug-ins/obsidian-theme/index.scss */
+[data-ui-theme=obsidian] svg.editor-interface {
+  outline: none;
+  background-color: black;
+}
+[data-ui-theme=obsidian] .interface-background {
+  fill: hsl(220, 30%, 5%);
+}
+[data-ui-theme=obsidian] .node-container {
+  fill: #0e121b;
+  stroke: #001c5c;
+  filter: drop-shadow(3px 6px 10px hsl(220, 30%, 1%));
+}
+[data-ui-theme=obsidian] .node-container.selected {
+  fill: #170d1c;
+  stroke: #a300f5;
+}
+[data-ui-theme=obsidian] .node-caption {
+  fill: transparent;
+  stroke: transparent;
+}
+[data-ui-theme=obsidian] .node-caption.selected {
+  fill: transparent;
+}
+[data-ui-theme=obsidian] .node-caption.caption-text {
+  fill: hsl(220, 30%, 40%);
+}
+[data-ui-theme=obsidian] .node-caption.caption-text.selected {
+  fill: hsl(280, 35%, 40%);
+}
+[data-ui-theme=obsidian] .node-pod {
+  fill: transparent;
+  stroke: transparent;
+}
+[data-ui-theme=obsidian] .pod-row {
+  fill: transparent;
+  stroke: transparent;
+}
+[data-ui-theme=obsidian] .pod-row.selected {
+  fill: transparent;
+  stroke: transparent;
+}
+[data-ui-theme=obsidian] .node-port {
+  fill: hsl(220, 30%, 40%);
+}
+[data-ui-theme=obsidian] .node-port.selected {
+  fill: hsl(280, 35%, 40%);
+}
+[data-ui-theme=obsidian] .port-text {
+  fill: hsl(220, 30%, 40%);
+}
+[data-ui-theme=obsidian] .port-text.selected {
+  fill: hsl(280, 35%, 40%);
+}
+[data-ui-theme=obsidian] .editor-control {
+  background-color: hsl(186, 85%, 8%);
+}
+[data-ui-theme=obsidian] .editor-control.textarea {
+  border-top-style: none;
+  border-right-style: none;
+  border-left-style: none;
+  border-bottom-style: dotted;
+  outline: none;
+}
+[data-ui-theme=obsidian] .cable-line {
+  stroke: #445b88;
+  stroke-width: 2;
+}
+[data-ui-theme=obsidian] .cable-line-zone {
+  stroke: rgba(255, 251, 0, 0.001);
+  stroke-width: 16;
+}
+[data-ui-theme=obsidian] .cable-line.selected {
+  stroke: #801ab3;
+}
+[data-ui-theme=obsidian] .cable-line-indicator {
+  stroke: #8800cc;
+  stroke-width: 2;
+}
+[data-ui-theme=obsidian] .junction-caption {
+  fill: hsl(220, 30%, 40%);
+  stroke: #001c5c;
+}
+[data-ui-theme=obsidian] .junction-caption.selected {
+  fill: hsl(280, 35%, 40%);
+  stroke: #a300f5;
+}
+[data-ui-theme=obsidian] .junction-port {
+  fill: hsl(220, 30%, 40%);
+  stroke: hsl(220, 30%, 1%);
+}
+[data-ui-theme=obsidian] .junction-port.selected {
+  fill: hsl(280, 35%, 40%);
+}
 /*! Bundled license information:
 
 bootstrap/dist/css/bootstrap.min.css:

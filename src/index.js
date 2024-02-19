@@ -9,37 +9,40 @@ import {log, error, warn, info, debug, seq} from "#plug-ins/log/index.js";
 
 import Node from "#plug-ins/node/Node.js";
 
-import Test from './Test.js';
+// import Test from './Test.js';
+//
+// const test = new Instance(Test); // Test is the entry point.
+// test.name = 'Alice';
+// test.helloWorld();
+// test.helloPlanet();
+// test.helloBork();
+// test.on("started", started=>{
+//   console.log('started value has changes to:', started);
+// })
+//
+// test.on("names.created", v=>{
+//   console.log('names.created:', v);
+// })
+//
+// test.on("names.changed", v=>{
+//   console.log('names...:', v);
+// })
+//
+// setTimeout(x=>{
+//   test.nermal = false;
+//   test.started = true;
+//   test.names.create('Alice');
+// }, 2_000);
+//
+// console.log(test);
 
-const test = new Instance(Test); // Test is the entry point.
-test.name = 'Alice';
-test.helloWorld();
-test.helloPlanet();
-test.helloBork();
-test.on("started", started=>{
-  console.log('started value has changes to:', started);
-})
+import Themes from './Themes.js';
 
-test.on("names.created", v=>{
-  console.log('names.created:', v);
-})
 
-test.on("names.changed", v=>{
-  console.log('names...:', v);
-})
+const themes = new Instance(Themes); // Test is the entry point.
+themes.theme = 'nostromo';
+console.log(themes);
 
-setTimeout(x=>{
-  test.nermal = false;
-  test.started = true;
-  test.names.create('Alice');
-}, 2_000);
-
-console.log(test);
-
-// seq('configure themes');
-// import Themes from './Themes.js';
-// const themes = new Themes();
-// themes.theme = 'nostromo';
 //
 // seq('create universe');
 // import Universe from './Universe.js';

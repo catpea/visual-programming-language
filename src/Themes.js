@@ -1,5 +1,6 @@
 // import ReactiveObject from '#plug-ins/reactive-object/ReactiveObject.js';
-import Properties from "#plug-ins/properties/Properties.js";
+// import Properties from "#plug-ins/properties/Properties.js";
+import {Inheritance} from "#plug-ins/object-oriented-programming/index.js";
 
 import Theme from "#abstract/Theme.js";
 import Nostromo from "#plug-ins/nostromo-theme/index.js";
@@ -7,21 +8,38 @@ import Obsidian from "#plug-ins/obsidian-theme/index.js";
 
 export default class Themes {
 
-  defaults = {
+  extends = [];
+
+  observables = {
     theme: "obsidian",
     themes: [new Nostromo({ subtle: true }), new Obsidian({ subtle: true })],
-  }
+  };
 
   constraints = {
     theme: {
-      'all themes are lower-case':      (theme) => !theme.match(/[A-Z]/),
-      'specified theme does not exist': (theme) => this.themes.map((o) => o.id).includes(theme),
+      'all themes are lower-case': function(theme){
+        if( theme.match(/[A-Z]/) ){
+          return {error:'theme name contains uppercase letters'};
+        }
+      },
+      'specified theme does not exist': function(theme){
+        if(!this.themes.map((o) => o.id).includes(theme)) return {error:'theme does not exist'};
+      },
     },
-    themes: { 'theme is not a prototype of #abstract/Theme': (v) => Theme.prototype.isPrototypeOf(v) }
+    themes: {
+      'theme is not a prototype of #abstract/Theme': function(v){
+        if(! Theme.prototype.isPrototypeOf(v) ) return {error:'must extend Theme'};
+      }
+    }
+  };
+
+  constructor(){
+    this.inheritance = new Inheritance(this);
   }
 
-  constructor() {
-    this.properties = new Properties(this);
+  initialize(){
+
+    console.log('initialize theme', this);
 
     this.on('theme.before', id => {
       console.info('About To Change Theme To', id);
@@ -34,27 +52,18 @@ export default class Themes {
     });
 
     this.on("themes.created", (list) => {p
-      console.log("created", { list });
+      console.log("themes created", { list });
     });
 
     this.on("themes.removed", (list) => {
-      console.log("removed", { list });
+      console.log("themes removed", { list });
     });
 
     // way to listen to an array
-    this.on("themes", (list) => {
-
+    this.on("themes.changed", (list) => {
+      console.log("themes removed", { list });
     });
 
   }
 
-  start() {
-
-  }
-
-  stop() {
-    this.properties.stop();
-    this.properties.status();
-
-  }
 }
