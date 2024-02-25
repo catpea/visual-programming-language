@@ -3,14 +3,13 @@
 import {Inheritance} from "/plug-ins/object-oriented-programming/index.js";
 
 import Theme from "/abstract/Theme.js";
-import Nostromo from "/plug-ins/nostromo-theme/index.js";
-import Obsidian from "/plug-ins/obsidian-theme/index.js";
+
 
 export default class Themes {
 
   observables = {
     theme: "obsidian",
-    themes: [new Nostromo({ subtle: true }), new Obsidian({ subtle: true })],
+    themes: [new themes.Nostromo({ subtle: true }), new themes.Obsidian({ subtle: true })],
   };
 
   constraints = {

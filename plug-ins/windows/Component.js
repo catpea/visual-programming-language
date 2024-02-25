@@ -2,9 +2,11 @@ import { svg } from "domek";
 
 export default class Component {
 
-  id = uuid();
-  g = svg.g({class:'component'}); // svg group node to contain everything
-  el = {}; // bag of elements
+  properties = {
+    id: uuid(),
+    el: {}, // bag of elements
+    g: svg.g({class:'component'}), // svg group node to contain everything
+  };
 
   observables = {
 
@@ -40,10 +42,23 @@ export default class Component {
   }
 
   traits = {
+    appendElements(){
+      Object.values(this.el).forEach(el => this.scene.appendChild(el));
+    },
+    removeElements(){
+      Object.values(this.el).forEach(el => el.remove());
+    },
+
+    getRandomIntInclusive(min, max) {
+      const minCeiled = Math.ceil(min);
+      const maxFloored = Math.floor(max);
+      return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // The maximum is inclusive and the minimum is inclusive
+    }
 
   }
 
   started(){
+
   }
 
   stopped(){

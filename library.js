@@ -2292,6 +2292,38 @@
   // src/library.js
   var import_bootstrap_bundle_min = __toESM(require_bootstrap_bundle_min(), 1);
 
+  // abstract/Theme.js
+  var Theme = class {
+    static {
+      __name(this, "Theme");
+    }
+    id = "theme-name";
+  };
+
+  // plug-ins/nostromo-theme/index.js
+  var Nostromo = class extends Theme {
+    static {
+      __name(this, "Nostromo");
+    }
+    id = "nostromo";
+    panelBackground = "blue";
+    constructor() {
+      super();
+    }
+  };
+
+  // plug-ins/obsidian-theme/index.js
+  var Obsidian = class extends Theme {
+    static {
+      __name(this, "Obsidian");
+    }
+    id = "obsidian";
+    panelBackground = "blue";
+    constructor() {
+      super();
+    }
+  };
+
   // node_modules/uuid/dist/esm-browser/rng.js
   var getRandomValues;
   var rnds8 = new Uint8Array(16);
@@ -2345,6 +2377,7 @@
 
   // src/library.js
   globalThis.uuid = v4_default;
+  globalThis.themes = { Nostromo, Obsidian };
 })();
 /*! Bundled license information:
 

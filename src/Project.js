@@ -78,7 +78,7 @@ methods = {
 
       //
       // // component.container = this; // this may not be needed
-      // ui.start()
+      ui.start()
 
     }, {replay:true});
 
