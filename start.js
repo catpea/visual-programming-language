@@ -17,7 +17,7 @@ let examplePlugin = ()=>({
 let ctx = await esbuild.context({
   bundle: true,
    // jsxFactory: 'h',
-  entryPoints: ['src/index.js'],
+  entryPoints: ['src/library.js'],
   keepNames: true, // this is important for when comparing classes
   outdir: './',
   loader: {

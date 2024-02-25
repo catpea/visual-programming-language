@@ -1,6 +1,6 @@
-import Theme from '#abstract/Theme.js';
+import Theme from '/abstract/Theme.js';
 
-import css from './index.css';
+// import css from './index.css';
 
 export default class Nostromo extends Theme {
 

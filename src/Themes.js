@@ -1,10 +1,10 @@
 // import ReactiveObject from '#plug-ins/reactive-object/ReactiveObject.js';
 // import Properties from "#plug-ins/properties/Properties.js";
-import {Inheritance} from "#plug-ins/object-oriented-programming/index.js";
+import {Inheritance} from "/plug-ins/object-oriented-programming/index.js";
 
-import Theme from "#abstract/Theme.js";
-import Nostromo from "#plug-ins/nostromo-theme/index.js";
-import Obsidian from "#plug-ins/obsidian-theme/index.js";
+import Theme from "/abstract/Theme.js";
+import Nostromo from "/plug-ins/nostromo-theme/index.js";
+import Obsidian from "/plug-ins/obsidian-theme/index.js";
 
 export default class Themes {
 
@@ -32,34 +32,36 @@ export default class Themes {
   };
 
 
+  methods = {
 
-  initialize(){
+    initialize(){
 
-    console.log('>>>>>>>>>>>>>>> THEME INITIALIZE <<<<<<<<<<<<<<<');
+      console.log('>>>>>>>>>>>>>>> THEME INITIALIZE <<<<<<<<<<<<<<<');
 
-    this.on('theme.before', id => {
-      // console.info('About To Change Theme To', id);
-    });
+      this.on('theme.before', id => {
+        // console.info('About To Change Theme To', id);
+      });
 
-    this.on('theme', (id, old) => {
-      // console.info(`Theme Change from ${old} to ${id}`);
-      document.querySelector("html").dataset.uiTheme = id;
-      // console.info("dataset.uiTheme", document.querySelector("html").dataset);
-    });
+      this.on('theme', (id, old) => {
+        // console.info(`Theme Change from ${old} to ${id}`);
+        document.querySelector("html").dataset.uiTheme = id;
+        // console.info("dataset.uiTheme", document.querySelector("html").dataset);
+      });
 
-    this.on("themes.created", (list) => {p
-      // console.log("themes created", { list });
-    });
+      this.on("themes.created", (list) => {p
+        // console.log("themes created", { list });
+      });
 
-    this.on("themes.removed", (list) => {
-      // console.log("themes removed", { list });
-    });
+      this.on("themes.removed", (list) => {
+        // console.log("themes removed", { list });
+      });
 
-    // way to listen to an array
-    this.on("themes.changed", (list) => {
-      // console.log("themes changed", { list });
-    });
+      // way to listen to an array
+      this.on("themes.changed", (list) => {
+        // console.log("themes changed", { list });
+      });
 
+    }
   }
 
 }

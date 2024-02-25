@@ -1,4 +1,4 @@
-import Container from "#plug-ins/windows/Container.js";
+import Container from "/plug-ins/windows/Container.js";
 
 export default class Concept {
 

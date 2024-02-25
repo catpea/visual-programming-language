@@ -24,9 +24,7 @@
     "#abstract/*": "./abstract/*"
   },
   "license": "ISC",
-  "workspaces": [
-    "modules/domek"
-  ],
+ 
   "dependencies": {
     "bootstrap": "^5.3.2",
     "calculate-percent": "^2.1.0",

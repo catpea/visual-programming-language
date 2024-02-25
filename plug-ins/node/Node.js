@@ -1,4 +1,3 @@
-import union from 'lodash/union.js';
 
 export default class Node {
 
@@ -27,13 +26,15 @@ export default class Node {
     data: undefined, // JSON data
   }
 
-  initialize(){
-    this.on('data', data => {
-      console.log('node got data', data);
-    })
-    this.on('url', url => {
-      console.log('node got url', url);
-    })
+  methods = {
+    initialize(){
+      this.on('data', data => {
+        console.log('node got data', data);
+      })
+      this.on('url', url => {
+        console.log('node got url', url);
+      })
+    }
   }
 
 }

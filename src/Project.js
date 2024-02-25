@@ -1,10 +1,10 @@
-import Properties from "#plug-ins/properties/Properties.js";
-import VisualProgram from "#plug-ins/applications/VisualProgram.js";
-import Node from "#plug-ins/node/Node.js";
+import Properties from "/plug-ins/properties/Properties.js";
+import VisualProgram from "/plug-ins/applications/VisualProgram.js";
+import Node from "/plug-ins/node/Node.js";
 
-import {Instance} from "#plug-ins/object-oriented-programming/index.js";
+import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 
-import {log, error, warn, info, debug, seq} from "#plug-ins/log/index.js";
+import {log, error, warn, info, debug, seq} from "/plug-ins/log/index.js";
 
 export default class Project {
 
@@ -55,7 +55,7 @@ export default class Project {
   }
 
 
-
+methods = {
   initialize() {
 
     this.on('name', v=> {
@@ -87,7 +87,7 @@ export default class Project {
       this.ui.delete(id);
     });
 
-  } // initialize
+  }, // initialize
 
 
   async started (){
@@ -105,7 +105,7 @@ export default class Project {
       node.data = raw.data;
       project.concepts.create( node ); // -> see project #onStart for creation.
     }
-  }
+  },
 
   stopped(){
     for (const {id} of this.concepts) {
@@ -114,6 +114,7 @@ export default class Project {
     } // for every tray
     // shut down all properties...
     this.dispose();
+  }
   }
 
 }

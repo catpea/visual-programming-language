@@ -4,8 +4,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Visual Programming Language</title>
-      <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍔</text></svg>">
-    <link href="./index.css" rel="stylesheet" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍔</text></svg>">
+    <link href="./library.css" rel="stylesheet" />
+    <script type="importmap">
+    {
+      "imports": {
+        "lodash/union.js": "/node_modules/lodash/union.js",
+        "uuid": "/node_modules/uuid/dist/index.js",
+        "domek": "/plug-ins/domek/index.js",
+        "#plug-ins/*": "./plug-ins/*",
+        "lodash": "/node_modules/lodash-es/lodash.js"
+      }
+    }
+    </script>
+    <!-- // "plug-ins/object-oriented-programming": "plug-ins/object-oriented-programming/index.js", -->
   </head>
   <body>
 
@@ -16,7 +28,9 @@
         <!-- nodes added here -->
       </g>
     </svg>
-    <script type="module" src="./index.js"></script>
+    <script type="module" src="./library.js"></script>
+
+    <script type="module" src="./src/index.js"></script>
 
     <script>
       if (location.hostname === "localhost" || location.hostname === "127.0.0.1"){

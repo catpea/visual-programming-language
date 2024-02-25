@@ -1,8 +1,10 @@
 // Boot Script - this is a boot sctipt that gets all the non-symmetrical oddities out of the way
-import { v4 as uuid } from "uuid";
-import bootstrapCss from 'bootstrap/dist/css/bootstrap.min.css';
-import bootstrapJs from 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import {Instance} from "#plug-ins/object-oriented-programming/index.js";
+// import { v4 as uuid } from "uuid";
+
+import {Instance} from "/plug-ins/object-oriented-programming/index.js";
+
+console.log(`session ${uuid()}`);
+console.log(Instance);
 
 import Themes from './Themes.js';
 const themes = new Instance(Themes);

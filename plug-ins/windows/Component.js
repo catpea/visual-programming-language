@@ -1,4 +1,3 @@
-import { v4 as uuid } from "uuid";
 import { svg } from "domek";
 
 export default class Component {
@@ -41,7 +40,21 @@ export default class Component {
   }
 
   traits = {
-    initialize: function(){
+
+  }
+
+  started(){
+  }
+
+  stopped(){
+    this.dispose()
+  }
+
+  methods = {
+
+    initialize(){
+      console.log(`%cComponent.initialize!`, 'background: hsl(180, 90%, 60%); color: black;');
+
       this.on("data", (data) => {
         console.info('UI COMPONENT IS BINDING TO DATA NODE');
         data.on("x", x => this.x = x);
@@ -54,14 +67,8 @@ export default class Component {
         data.on("p", p => this.p = p);
         data.on("s", s => this.s = s);
       });
-    }
-  }
+    },
 
-  started(){
-  }
-
-  stopped(){
-    this.dispose()
   }
 
 }

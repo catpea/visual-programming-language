@@ -1,4 +1,4 @@
-import Component from "#plug-ins/windows/Component.js";
+import Component from "/plug-ins/windows/Component.js";
 
 export default class Control {
 
