@@ -1,39 +1,108 @@
+
+//NOTE: Inheritance is instantiated at the top of instance
 export class Inheritance {
-  chain = [];
-  #client;
 
-  constructor(client){
-    this.#client = client;
-    this.initialize(client);
+  instance;
+
+  constructor(Class, instance, specification){
+    this.instance = instance;
+    this.instance.oo.extends.push(Class)
+    this.collectClasses(Class.extends);
+    this.instance.oo.chain.push(specification);
+    // this.instantiateSuperclasses()
+
   }
 
-  initialize(client){
-    this.#client.className = this.#client.constructor.name;
-    this.chain.push(client);
-    this.extendObject();
-  }
-
-  extendObject(){
-    if (this.#client.extends && Array.isArray(this.#client.extends)){
-      for (const TypeClass of this.#client.extends) {
-        const typeInstance = new TypeClass();
-        this.chain.push(typeInstance, ...typeInstance.oop.cchain);
-      }
+  collectClasses(list){
+    if (!Array.isArray(list)) return;
+    for (const Class of list) {
+      this.instance.oo.extends.push(Class);
+      this.collectClasses(Class.extends);
     }
   }
+
+  instantiateSuperclasses(){
+    for (const Class of this.extends) {
+      const instance = new Instance( Class, data, {superclassMode:true} );
+      this.instance.oo.chain.push( instance );
+    }
+  }
+
 
 }
 
 export class Instance {
 
-  constructor(TypeClass){
+  /*
+    do not put anything in the properties section,
+    Instance is the class that is returned to the user.
+  */
 
-    const typeInstance = new TypeClass();
+  constructor(TypeClass, data, {}={superclassMode:false}){
+
+    const specification = new TypeClass(); // specification is the class we are instantiating.
+
+    this.oo = {}
+    this.oo.name = specification.constructor.name;
+    this.oo.class = TypeClass;
+    this.oo.specification = specification;
+    this.oo.extends = [];
+    this.oo.chain = [];
+    new Inheritance(TypeClass, this, specification);
+    // this.Abstract.Subclass = specification;
+
+    console.log(this.oo);
+
+
+    // // Install Super
+    // if(!dependency){
+    //   const reverseStack = Array.from( this.oo.chain ).reverse();
+    //   // reverseStack.pop()
+    //   console.log('reverseStack',reverseStack);
+    //   let previous = undefined;
+    //   for (const inherited of reverseStack ) {
+    //     inherited.Superclass = previous;
+    //     console.log('EE', inherited.Parent, inherited);
+    //     previous = inherited;
+    //   }
+    //   this.Superclass = previous
+    // }
+
+    const defaultState = {
+        current: 'initial',
+
+        initial: {
+           run: 'initialize',
+           can: 'start'
+         },
+
+         start: {
+           run: 'mount',
+           can: 'stop'
+         },
+
+         stop: {
+           run: 'destroy',
+           can: 'start'
+         },
+
+      };
+
+
+
+
+    const ensureArray = function(input){ // convert string to array, and if it is array leave it alone
+      if( Array.isArray(input) ) return input;
+      return [input];
+    }
+    const isStateTransitionAllowed = function({from, to, state}){
+      return ensureArray(state[from].can).includes(to);
+    }
 
 
 
     // Install Properties
-    for (const inherited of typeInstance.inheritance.chain) {
+    for (const inherited of this.oo.chain) {
       // begin at top, avoid properties that already exist.
       if(inherited.properties){
         for (const [propertyName, propertyValue] of Object.entries(inherited.properties)) {
@@ -49,14 +118,14 @@ export class Instance {
       } // if
     }
 
-    // Install Traits
-    for (const inherited of typeInstance.inheritance.chain) {
+    // Install Traits (a trait is bound to the nice object)
+    for (const inherited of this.oo.chain) {
       // begin at top, avoid properties that already exist.
       if(inherited.traits){
         for (const [traitName, traitFunction] of Object.entries(inherited.traits)) {
           if(traitName in this === false){
             Object.defineProperty(this, traitName, {
-              value: traitFunction.bind(this),
+              value: traitFunction.bind( this ),
               writable: true,
               enumerable: true,
               configurable: false,
@@ -66,8 +135,10 @@ export class Instance {
       } // if
     }
 
-    // Install Methods
-    for (const inherited of typeInstance.inheritance.chain) {
+    // Install Methods (bound to the original class where they are from)
+
+    for (const inherited of this.oo.chain) {
+
       // begin at top, avoid properties that already exist.
       if(inherited.methods){
         for (const [methodName, methodFunction] of Object.entries(inherited.methods)) {
@@ -81,11 +152,12 @@ export class Instance {
           }
         } // for properties
       } // if
+
     }
 
     const observableData = {};
     // Install Observables
-    for (const inherited of typeInstance.inheritance.chain) {
+    for (const inherited of this.oo.chain) {
       // begin at top, avoid properties that already exist.
       if(inherited.observables){
         for (const [observableName, observableValue] of Object.entries(inherited.observables)) {
@@ -96,7 +168,7 @@ export class Instance {
               observableData[observableName] = new List(observableName, observableValue);
               Object.defineProperty(this, observableName, {
                 get: () => observableData[observableName].value,
-                set: (value) => {throw new Error(`observable array ${name} cannot be replaced`)},
+                set: (value) => {throw new Error(`observable array oo{name} cannot be replaced`)},
                 configurable: false,
               });
             }else{ // primitive
@@ -113,18 +185,6 @@ export class Instance {
       } // if
     }
 
-    // Install Constraints
-    for (const inherited of typeInstance.inheritance.chain) {
-      if(inherited.constraints){
-        for (const [constraintName, constraintValue] of Object.entries(inherited.constraints)) {
-          if(!observableData[constraintName]) throw new Error("Unable to constraint a property that is not defined");
-          for (const [message, test] of Object.entries(constraintValue)) {
-            observableData[constraintName].constraints.push({message, test:test.bind(this)});
-            observableData[constraintName].constrain(observableData[constraintName].value);
-          }
-        } // for constraints
-      } // if constraints
-    }
 
     // Install Cleaning System, to enable tracking observers
     const disposables = [];
@@ -138,17 +198,157 @@ export class Instance {
     // Enable Observing
     this.on = function(eventPath, observerCallback, options){
       const [name, path] = eventPath.split('.', 2);
-      if(!observableData[name]) throw new Error(`property "${name}" not defined (${Object.keys(observableData).join(', ')})`);
+      if(!observableData[name]) throw new Error(`property "oo{name}" not defined (oo{Object.keys(observableData).join(', ')})`);
       disposable( observableData[name].observe(path||name, observerCallback, options) );
     }
 
-    if(typeInstance.initialize){
-      typeInstance.initialize.bind(this)();
+
+    // // Install State
+    // for (const inherited of this.oo.chain) {
+    //   if(inherited.state){
+    //     for (const [stateName, stateValue] of Object.entries(inherited.state).filter(([stateName, stateValue])=>stateName!=='current')) {
+    //       if(stateName in this === false){
+    //         const stateFunction = function(){
+    //           // check if in this state this function can run
+    //           const from = inherited.state.current;
+    //           const to = stateName;
+    //           console.log({from, to,});
+    //
+    //           const transitionAllowed = isStateTransitionAllowed({
+    //             from, to,
+    //             state: inherited.state
+    //           })
+    //           if(!transitionAllowed){
+    //               throw new Error(`Cannot transition state from oo{from} (current) to oo{to}, only oo{ensureArray(inherited.state[inherited.state.current].can).join(", ")} allowed.`)
+    //           }
+    //           if(transitionAllowed){
+    //               console.log(`Transitioniong state from oo{from} ->  oo{to} `);
+    //           }
+    //           // execute methods specified in run
+    //           for (const functionName in ensureArray(stateValue.run)) {
+    //             this[functionName]();
+    //           }
+    //           // switch state
+    //           inherited.state.current = stateName;
+    //         }.bind(this);
+    //
+    //         console.log(`Creating state function oo{stateName}`);
+    //         Object.defineProperty(this, stateName, {
+    //           value: stateFunction,
+    //           writable: true,
+    //           enumerable: true,
+    //           configurable: false,
+    //         });
+    //       }
+    //     } // for properties
+    //   } // if state
+    // }
+
+    // Install State (must come after methods as it may call come of them)
+    const stateConstraints = {};
+    const stateConstraint = function(constraints, constraintName){
+      console.log('TESTING', constraintName, constraints[constraintName]);
+      if(constraints[constraintName]){
+      constraints[constraintName].forEach(({ test, message }) => {
+        const verdict = test();
+        if (verdict?.error) {
+          throw new Error(`🍔 state constraint error: oo{message} - oo{verdict.error} (attempted to execute oo{constraintName})`);
+        }
+      });
+      }
     }
 
-  }
+    const state = specification.state || defaultState;
+    for (const [stateName, stateValue] of Object.entries(state).filter(([stateName, stateValue])=>stateName!=='current')) {
+      if(stateName in this === false){
+        const stateFunction = function(){
+          // check if in this state this function can run
+          const currentState = state.current;
+          const from = currentState;
+          const to = stateName;
+          // console.log({from, to,});
 
+          const transitionAllowed = isStateTransitionAllowed({
+            from, to, state
+          })
+          if(!transitionAllowed){
+              throw new Error(`Cannot transition state from oo{from} (current) to oo{to}, only oo{ensureArray(state[currentState].can).join(", ")} allowed.`)
+          }
+          if(transitionAllowed){
+              console.log(`Transitioniong oo{specification.constructor.name} state from oo{from} -> oo{to} `);
+          }
+          // execute methods specified in run
+          const stateFunctions = ensureArray(state[stateName].run);
+          for (const functionName of stateFunctions) {
+            const lookup = specification;
+            if(!lookup || !lookup[functionName]) throw new Error(`State Change: Class oo{specification.constructor.name} has no function named oo{functionName}`)
+            stateConstraint(stateConstraints, functionName);
+            lookup[functionName].bind(this)();
+          }
+          // switch state
+          state.current = stateName;
+        }.bind(this);
+        // console.log(`Creating state function oo{stateName}`);
+        Object.defineProperty(this, stateName, {
+          value: stateFunction,
+          writable: true,
+          enumerable: true,
+          configurable: false,
+        });
+      }
+    } // for properties
+
+
+
+
+    // Install State Constraints
+    for (const [stateName, stateValue] of Object.entries(state).filter(([stateName, stateValue])=>stateName!=='current')) {
+      for (const keyName of ensureArray(stateValue.run)) {
+        if(specification.constraints && specification.constraints[keyName]){
+          for (const [constraintName, constraintValue] of Object.entries(specification.constraints[keyName])) {
+            console.log(keyName, [constraintName, constraintValue] );
+            if(!stateConstraints[keyName]) stateConstraints[keyName] = [];
+              stateConstraints[keyName].push({message:constraintName, test:constraintValue.bind(this)});
+          }
+        }
+      }
+    }
+
+
+
+
+
+    // Install Observable Constraints
+    for (const inherited of this.oo.chain) {
+      if(inherited.constraints){
+        for (const [constraintName, constraintValue] of Object.entries(inherited.constraints).filter(([constraintName, constraintValue])=>inherited.observables[constraintName])) {
+          if(constraintName in observableData === false) throw new Error(`Unable to observable constrain "oo{constraintName}" becasue it is not defined in oo{specification.constructor.name}`);
+          for (const [message, test] of Object.entries(constraintValue)) {
+            observableData[constraintName].constraints.push({message, test:test.bind(this)});
+            observableData[constraintName].constrain(observableData[constraintName].value, true);
+          }
+        } // for constraints
+      } // if constraints
+    }
+
+
+
+
+
+    // execute functions defined in initial state
+    const stateName = state.current;
+    const stateFunctions = ensureArray(state[stateName].run);
+    for (const functionName of stateFunctions) {
+      const lookup = [this, ...this.oo.chain].find(o=>functionName in o === true);
+      if(!lookup || !lookup[functionName]) throw new Error(`Initialize: Class oo{specification.constructor.name} has no function named oo{functionName}`)
+      stateConstraint(stateConstraints, functionName);
+      lookup[functionName].bind(this)();
+
+    }
+  }
 }
+
+
 
 export class Primitive {
   name = null;
@@ -161,11 +361,12 @@ export class Primitive {
     this.#value = value;
   }
 
-  constrain(data) {
+  constrain(data, initialization) {
+    if(initialization) return;
     this.constraints.forEach(({ test, message }) => {
       const verdict = test(data, this.#value);
       if (verdict?.error) {
-        throw new Error(`🍔 constraint error: ${message} - ${verdict.error} (attempted to set ${this.name} to ${data})`);
+        throw new Error(`🍔 constraint error: oo{message} - oo{verdict.error} (attempted to set oo{this.name} to oo{data})`);
       }
     });
   }
@@ -177,13 +378,13 @@ export class Primitive {
   }
 
   set value(data) {
-    console.log(`Setting ${this.name} to "${data}" was: `, this.#value);
     if (this.#value == data) return;
     this.constrain(data);
     const previousValue = this.#value;
-    this.notify(`${this.name}.before`, this.#value, previousValue);
+    if(data !== undefined) console.log(`Setting oo{this.name} to "oo{data}" was: `, this.#value);
+    if(data !== undefined) this.notify(`oo{this.name}.before`, this.#value, previousValue);
     this.#value = data;
-    this.notify(this.name, this.#value, previousValue);
+    if(data !== undefined) this.notify(this.name, this.#value, previousValue);
 
   }
 
@@ -195,8 +396,8 @@ export class Primitive {
     if (typeof observerCallback !== "function") throw new TypeError("observer must be a function.");
     if (!Array.isArray(this.#observers[eventName])) this.#observers[eventName] = []; // If there isn't an observers array for this key yet, create it
     this.#observers[eventName].push(observerCallback);
-    // console.log(`this.#observers.${eventName}`, this.#observers[eventName]);
-    if (options.autorun) observerCallback(this.#value); // NOTE: only returns data if it is a property, otherwise it will be undefined
+    // console.log(`this.#observers.oo{eventName}`, this.#observers[eventName]);
+    if (options.autorun && this.#value !== undefined) observerCallback(this.#value);
     return () => {
       this.unobserve(eventName, observerCallback);
     };
@@ -207,10 +408,10 @@ export class Primitive {
 
   notify(eventName, eventData, ...extra) {
     if (Array.isArray(this.#observers[eventName])){
-      // console.log(`Event ${eventName} has ${this.#observers[eventName].length} observer(s)`);
+      // console.log(`Event oo{eventName} has oo{this.#observers[eventName].length} observer(s)`);
       this.#observers[eventName].forEach((observerCallback) => observerCallback(eventData, ...extra));
     }else{
-      // console.log(`${eventName} has no observers`);
+      // console.log(`oo{eventName} has no observers`);
     }
   }
   status(){
@@ -233,12 +434,13 @@ export class List {
     this.constrain();
   }
 
-  constrain() {
+  constrain(data, initialization) {
+    if(initialization) return;
     for (const data of this.#value) {
       this.constraints.forEach(({ test, message }) => {
         const verdict = test(data, this.#value);
         if (verdict?.error) {
-          throw new Error(`🍔 constraint error: ${message} - ${verdict.error} (attempted to set ${this.name} to ${data})`);
+          throw new Error(`🍔 constraint error: oo{message} - oo{verdict.error} (attempted to set oo{this.name} to oo{data})`);
         }
       });
     }

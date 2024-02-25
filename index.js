@@ -2819,12 +2819,12 @@
       var objectProto = Object.prototype;
       var hasOwnProperty = objectProto.hasOwnProperty;
       function hashGet(key) {
-        var data = this.__data__;
+        var data2 = this.__data__;
         if (nativeCreate) {
-          var result = data[key];
+          var result = data2[key];
           return result === HASH_UNDEFINED ? void 0 : result;
         }
-        return hasOwnProperty.call(data, key) ? data[key] : void 0;
+        return hasOwnProperty.call(data2, key) ? data2[key] : void 0;
       }
       __name(hashGet, "hashGet");
       module.exports = hashGet;
@@ -2838,8 +2838,8 @@
       var objectProto = Object.prototype;
       var hasOwnProperty = objectProto.hasOwnProperty;
       function hashHas(key) {
-        var data = this.__data__;
-        return nativeCreate ? data[key] !== void 0 : hasOwnProperty.call(data, key);
+        var data2 = this.__data__;
+        return nativeCreate ? data2[key] !== void 0 : hasOwnProperty.call(data2, key);
       }
       __name(hashHas, "hashHas");
       module.exports = hashHas;
@@ -2852,9 +2852,9 @@
       var nativeCreate = require_nativeCreate();
       var HASH_UNDEFINED = "__lodash_hash_undefined__";
       function hashSet(key, value2) {
-        var data = this.__data__;
+        var data2 = this.__data__;
         this.size += this.has(key) ? 0 : 1;
-        data[key] = nativeCreate && value2 === void 0 ? HASH_UNDEFINED : value2;
+        data2[key] = nativeCreate && value2 === void 0 ? HASH_UNDEFINED : value2;
         return this;
       }
       __name(hashSet, "hashSet");
@@ -2936,15 +2936,15 @@
       var arrayProto = Array.prototype;
       var splice = arrayProto.splice;
       function listCacheDelete(key) {
-        var data = this.__data__, index = assocIndexOf(data, key);
+        var data2 = this.__data__, index = assocIndexOf(data2, key);
         if (index < 0) {
           return false;
         }
-        var lastIndex = data.length - 1;
+        var lastIndex = data2.length - 1;
         if (index == lastIndex) {
-          data.pop();
+          data2.pop();
         } else {
-          splice.call(data, index, 1);
+          splice.call(data2, index, 1);
         }
         --this.size;
         return true;
@@ -2959,8 +2959,8 @@
     "node_modules/lodash/_listCacheGet.js"(exports, module) {
       var assocIndexOf = require_assocIndexOf();
       function listCacheGet(key) {
-        var data = this.__data__, index = assocIndexOf(data, key);
-        return index < 0 ? void 0 : data[index][1];
+        var data2 = this.__data__, index = assocIndexOf(data2, key);
+        return index < 0 ? void 0 : data2[index][1];
       }
       __name(listCacheGet, "listCacheGet");
       module.exports = listCacheGet;
@@ -2984,12 +2984,12 @@
     "node_modules/lodash/_listCacheSet.js"(exports, module) {
       var assocIndexOf = require_assocIndexOf();
       function listCacheSet(key, value2) {
-        var data = this.__data__, index = assocIndexOf(data, key);
+        var data2 = this.__data__, index = assocIndexOf(data2, key);
         if (index < 0) {
           ++this.size;
-          data.push([key, value2]);
+          data2.push([key, value2]);
         } else {
-          data[index][1] = value2;
+          data2[index][1] = value2;
         }
         return this;
       }
@@ -3070,8 +3070,8 @@
     "node_modules/lodash/_getMapData.js"(exports, module) {
       var isKeyable = require_isKeyable();
       function getMapData(map, key) {
-        var data = map.__data__;
-        return isKeyable(key) ? data[typeof key == "string" ? "string" : "hash"] : data.map;
+        var data2 = map.__data__;
+        return isKeyable(key) ? data2[typeof key == "string" ? "string" : "hash"] : data2.map;
       }
       __name(getMapData, "getMapData");
       module.exports = getMapData;
@@ -3121,9 +3121,9 @@
     "node_modules/lodash/_mapCacheSet.js"(exports, module) {
       var getMapData = require_getMapData();
       function mapCacheSet(key, value2) {
-        var data = getMapData(this, key), size = data.size;
-        data.set(key, value2);
-        this.size += data.size == size ? 0 : 1;
+        var data2 = getMapData(this, key), size = data2.size;
+        data2.set(key, value2);
+        this.size += data2.size == size ? 0 : 1;
         return this;
       }
       __name(mapCacheSet, "mapCacheSet");
@@ -3457,6 +3457,57 @@
     }
   });
 
+  // node_modules/uuid/dist/esm-browser/rng.js
+  var getRandomValues;
+  var rnds8 = new Uint8Array(16);
+  function rng() {
+    if (!getRandomValues) {
+      getRandomValues = typeof crypto !== "undefined" && crypto.getRandomValues && crypto.getRandomValues.bind(crypto);
+      if (!getRandomValues) {
+        throw new Error("crypto.getRandomValues() not supported. See https://github.com/uuidjs/uuid#getrandomvalues-not-supported");
+      }
+    }
+    return getRandomValues(rnds8);
+  }
+  __name(rng, "rng");
+
+  // node_modules/uuid/dist/esm-browser/stringify.js
+  var byteToHex = [];
+  for (let i = 0; i < 256; ++i) {
+    byteToHex.push((i + 256).toString(16).slice(1));
+  }
+  function unsafeStringify(arr, offset = 0) {
+    return byteToHex[arr[offset + 0]] + byteToHex[arr[offset + 1]] + byteToHex[arr[offset + 2]] + byteToHex[arr[offset + 3]] + "-" + byteToHex[arr[offset + 4]] + byteToHex[arr[offset + 5]] + "-" + byteToHex[arr[offset + 6]] + byteToHex[arr[offset + 7]] + "-" + byteToHex[arr[offset + 8]] + byteToHex[arr[offset + 9]] + "-" + byteToHex[arr[offset + 10]] + byteToHex[arr[offset + 11]] + byteToHex[arr[offset + 12]] + byteToHex[arr[offset + 13]] + byteToHex[arr[offset + 14]] + byteToHex[arr[offset + 15]];
+  }
+  __name(unsafeStringify, "unsafeStringify");
+
+  // node_modules/uuid/dist/esm-browser/native.js
+  var randomUUID = typeof crypto !== "undefined" && crypto.randomUUID && crypto.randomUUID.bind(crypto);
+  var native_default = {
+    randomUUID
+  };
+
+  // node_modules/uuid/dist/esm-browser/v4.js
+  function v4(options, buf, offset) {
+    if (native_default.randomUUID && !buf && !options) {
+      return native_default.randomUUID();
+    }
+    options = options || {};
+    const rnds = options.random || (options.rng || rng)();
+    rnds[6] = rnds[6] & 15 | 64;
+    rnds[8] = rnds[8] & 63 | 128;
+    if (buf) {
+      offset = offset || 0;
+      for (let i = 0; i < 16; ++i) {
+        buf[offset + i] = rnds[i];
+      }
+      return buf;
+    }
+    return unsafeStringify(rnds);
+  }
+  __name(v4, "v4");
+  var v4_default = v4;
+
   // src/index.js
   var import_bootstrap_bundle_min = __toESM(require_bootstrap_bundle_min(), 1);
 
@@ -3465,23 +3516,25 @@
     static {
       __name(this, "Inheritance");
     }
-    chain = [];
-    #client;
-    constructor(client) {
-      this.#client = client;
-      this.initialize(client);
+    instance;
+    constructor(Class, instance, specification) {
+      this.instance = instance;
+      this.instance.oo.extends.push(Class);
+      this.collectClasses(Class.extends);
+      this.instance.oo.chain.push(specification);
     }
-    initialize(client) {
-      this.#client.className = this.#client.constructor.name;
-      this.chain.push(client);
-      this.extendObject();
+    collectClasses(list) {
+      if (!Array.isArray(list))
+        return;
+      for (const Class of list) {
+        this.instance.oo.extends.push(Class);
+        this.collectClasses(Class.extends);
+      }
     }
-    extendObject() {
-      if (this.#client.extends && Array.isArray(this.#client.extends)) {
-        for (const TypeClass of this.#client.extends) {
-          const typeInstance = new TypeClass();
-          this.chain.push(typeInstance, ...typeInstance.oop.cchain);
-        }
+    instantiateSuperclasses() {
+      for (const Class of this.extends) {
+        const instance = new Instance(Class, data, { superclassMode: true });
+        this.instance.oo.chain.push(instance);
       }
     }
   };
@@ -3489,9 +3542,44 @@
     static {
       __name(this, "Instance");
     }
-    constructor(TypeClass) {
-      const typeInstance = new TypeClass();
-      for (const inherited of typeInstance.inheritance.chain) {
+    /*
+      do not put anything in the properties section,
+      Instance is the class that is returned to the user.
+    */
+    constructor(TypeClass, data2, {} = { superclassMode: false }) {
+      const specification = new TypeClass();
+      this.oo = {};
+      this.oo.name = specification.constructor.name;
+      this.oo.class = TypeClass;
+      this.oo.specification = specification;
+      this.oo.extends = [];
+      this.oo.chain = [];
+      new Inheritance(TypeClass, this, specification);
+      console.log(this.oo);
+      const defaultState = {
+        current: "initial",
+        initial: {
+          run: "initialize",
+          can: "start"
+        },
+        start: {
+          run: "mount",
+          can: "stop"
+        },
+        stop: {
+          run: "destroy",
+          can: "start"
+        }
+      };
+      const ensureArray = /* @__PURE__ */ __name(function(input) {
+        if (Array.isArray(input))
+          return input;
+        return [input];
+      }, "ensureArray");
+      const isStateTransitionAllowed = /* @__PURE__ */ __name(function({ from, to, state: state2 }) {
+        return ensureArray(state2[from].can).includes(to);
+      }, "isStateTransitionAllowed");
+      for (const inherited of this.oo.chain) {
         if (inherited.properties) {
           for (const [propertyName, propertyValue] of Object.entries(inherited.properties)) {
             if (propertyName in this === false) {
@@ -3505,7 +3593,7 @@
           }
         }
       }
-      for (const inherited of typeInstance.inheritance.chain) {
+      for (const inherited of this.oo.chain) {
         if (inherited.traits) {
           for (const [traitName, traitFunction] of Object.entries(inherited.traits)) {
             if (traitName in this === false) {
@@ -3519,7 +3607,7 @@
           }
         }
       }
-      for (const inherited of typeInstance.inheritance.chain) {
+      for (const inherited of this.oo.chain) {
         if (inherited.methods) {
           for (const [methodName, methodFunction] of Object.entries(inherited.methods)) {
             if (methodName in this === false) {
@@ -3534,7 +3622,7 @@
         }
       }
       const observableData = {};
-      for (const inherited of typeInstance.inheritance.chain) {
+      for (const inherited of this.oo.chain) {
         if (inherited.observables) {
           for (const [observableName, observableValue] of Object.entries(inherited.observables)) {
             const isArray = Array.isArray(observableValue) ? true : false;
@@ -3544,7 +3632,7 @@
                 Object.defineProperty(this, observableName, {
                   get: () => observableData[observableName].value,
                   set: (value2) => {
-                    throw new Error(`observable array ${name} cannot be replaced`);
+                    throw new Error(`observable array oo{name} cannot be replaced`);
                   },
                   configurable: false
                 });
@@ -3560,18 +3648,6 @@
           }
         }
       }
-      for (const inherited of typeInstance.inheritance.chain) {
-        if (inherited.constraints) {
-          for (const [constraintName, constraintValue] of Object.entries(inherited.constraints)) {
-            if (!observableData[constraintName])
-              throw new Error("Unable to constraint a property that is not defined");
-            for (const [message, test] of Object.entries(constraintValue)) {
-              observableData[constraintName].constraints.push({ message, test: test.bind(this) });
-              observableData[constraintName].constrain(observableData[constraintName].value);
-            }
-          }
-        }
-      }
       const disposables = [];
       const disposable = /* @__PURE__ */ __name(function(...arg) {
         disposables.push(...arg);
@@ -3580,13 +3656,91 @@
         disposables.map((f) => f());
       };
       this.on = function(eventPath, observerCallback, options) {
-        const [name2, path] = eventPath.split(".", 2);
-        if (!observableData[name2])
-          throw new Error(`property "${name2}" not defined (${Object.keys(observableData).join(", ")})`);
-        disposable(observableData[name2].observe(path || name2, observerCallback, options));
+        const [name, path] = eventPath.split(".", 2);
+        if (!observableData[name])
+          throw new Error(`property "oo{name}" not defined (oo{Object.keys(observableData).join(', ')})`);
+        disposable(observableData[name].observe(path || name, observerCallback, options));
       };
-      if (typeInstance.initialize) {
-        typeInstance.initialize.bind(this)();
+      const stateConstraints = {};
+      const stateConstraint = /* @__PURE__ */ __name(function(constraints, constraintName) {
+        console.log("TESTING", constraintName, constraints[constraintName]);
+        if (constraints[constraintName]) {
+          constraints[constraintName].forEach(({ test, message }) => {
+            const verdict = test();
+            if (verdict?.error) {
+              throw new Error(`\u{1F354} state constraint error: oo{message} - oo{verdict.error} (attempted to execute oo{constraintName})`);
+            }
+          });
+        }
+      }, "stateConstraint");
+      const state = specification.state || defaultState;
+      for (const [stateName2, stateValue] of Object.entries(state).filter(([stateName3, stateValue2]) => stateName3 !== "current")) {
+        if (stateName2 in this === false) {
+          const stateFunction = function() {
+            const currentState = state.current;
+            const from = currentState;
+            const to = stateName2;
+            const transitionAllowed = isStateTransitionAllowed({
+              from,
+              to,
+              state
+            });
+            if (!transitionAllowed) {
+              throw new Error(`Cannot transition state from oo{from} (current) to oo{to}, only oo{ensureArray(state[currentState].can).join(", ")} allowed.`);
+            }
+            if (transitionAllowed) {
+              console.log(`Transitioniong oo{specification.constructor.name} state from oo{from} -> oo{to} `);
+            }
+            const stateFunctions2 = ensureArray(state[stateName2].run);
+            for (const functionName of stateFunctions2) {
+              const lookup = specification;
+              if (!lookup || !lookup[functionName])
+                throw new Error(`State Change: Class oo{specification.constructor.name} has no function named oo{functionName}`);
+              stateConstraint(stateConstraints, functionName);
+              lookup[functionName].bind(this)();
+            }
+            state.current = stateName2;
+          }.bind(this);
+          Object.defineProperty(this, stateName2, {
+            value: stateFunction,
+            writable: true,
+            enumerable: true,
+            configurable: false
+          });
+        }
+      }
+      for (const [stateName2, stateValue] of Object.entries(state).filter(([stateName3, stateValue2]) => stateName3 !== "current")) {
+        for (const keyName of ensureArray(stateValue.run)) {
+          if (specification.constraints && specification.constraints[keyName]) {
+            for (const [constraintName, constraintValue] of Object.entries(specification.constraints[keyName])) {
+              console.log(keyName, [constraintName, constraintValue]);
+              if (!stateConstraints[keyName])
+                stateConstraints[keyName] = [];
+              stateConstraints[keyName].push({ message: constraintName, test: constraintValue.bind(this) });
+            }
+          }
+        }
+      }
+      for (const inherited of this.oo.chain) {
+        if (inherited.constraints) {
+          for (const [constraintName, constraintValue] of Object.entries(inherited.constraints).filter(([constraintName2, constraintValue2]) => inherited.observables[constraintName2])) {
+            if (constraintName in observableData === false)
+              throw new Error(`Unable to observable constrain "oo{constraintName}" becasue it is not defined in oo{specification.constructor.name}`);
+            for (const [message, test] of Object.entries(constraintValue)) {
+              observableData[constraintName].constraints.push({ message, test: test.bind(this) });
+              observableData[constraintName].constrain(observableData[constraintName].value, true);
+            }
+          }
+        }
+      }
+      const stateName = state.current;
+      const stateFunctions = ensureArray(state[stateName].run);
+      for (const functionName of stateFunctions) {
+        const lookup = [this, ...this.oo.chain].find((o) => functionName in o === true);
+        if (!lookup || !lookup[functionName])
+          throw new Error(`Initialize: Class oo{specification.constructor.name} has no function named oo{functionName}`);
+        stateConstraint(stateConstraints, functionName);
+        lookup[functionName].bind(this)();
       }
     }
   };
@@ -3597,15 +3751,17 @@
     name = null;
     #value = null;
     constraints = [];
-    constructor(name2, value2) {
-      this.name = name2;
+    constructor(name, value2) {
+      this.name = name;
       this.#value = value2;
     }
-    constrain(data) {
+    constrain(data2, initialization) {
+      if (initialization)
+        return;
       this.constraints.forEach(({ test, message }) => {
-        const verdict = test(data, this.#value);
+        const verdict = test(data2, this.#value);
         if (verdict?.error) {
-          throw new Error(`\u{1F354} constraint error: ${message} - ${verdict.error} (attempted to set ${this.name} to ${data})`);
+          throw new Error(`\u{1F354} constraint error: oo{message} - oo{verdict.error} (attempted to set oo{this.name} to oo{data})`);
         }
       });
     }
@@ -3613,15 +3769,18 @@
     get value() {
       return this.#value;
     }
-    set value(data) {
-      console.log(`Setting ${this.name} to "${data}" was: `, this.#value);
-      if (this.#value == data)
+    set value(data2) {
+      if (this.#value == data2)
         return;
-      this.constrain(data);
+      this.constrain(data2);
       const previousValue = this.#value;
-      this.notify(`${this.name}.before`, this.#value, previousValue);
-      this.#value = data;
-      this.notify(this.name, this.#value, previousValue);
+      if (data2 !== void 0)
+        console.log(`Setting oo{this.name} to "oo{data}" was: `, this.#value);
+      if (data2 !== void 0)
+        this.notify(`oo{this.name}.before`, this.#value, previousValue);
+      this.#value = data2;
+      if (data2 !== void 0)
+        this.notify(this.name, this.#value, previousValue);
     }
     // Install Observer Functionality
     #observers = {};
@@ -3631,7 +3790,7 @@
       if (!Array.isArray(this.#observers[eventName]))
         this.#observers[eventName] = [];
       this.#observers[eventName].push(observerCallback);
-      if (options.autorun)
+      if (options.autorun && this.#value !== void 0)
         observerCallback(this.#value);
       return () => {
         this.unobserve(eventName, observerCallback);
@@ -3659,141 +3818,25 @@
     name = null;
     #value = [];
     constraints = [];
-    constructor(name2, value2) {
-      this.name = name2;
+    constructor(name, value2) {
+      this.name = name;
       this.#value.push(...value2);
       this.constrain();
     }
-    constrain() {
-      for (const data of this.#value) {
+    constrain(data2, initialization) {
+      if (initialization)
+        return;
+      for (const data3 of this.#value) {
         this.constraints.forEach(({ test, message }) => {
-          const verdict = test(data, this.#value);
+          const verdict = test(data3, this.#value);
           if (verdict?.error) {
-            throw new Error(`\u{1F354} constraint error: ${message} - ${verdict.error} (attempted to set ${this.name} to ${data})`);
+            throw new Error(`\u{1F354} constraint error: oo{message} - oo{verdict.error} (attempted to set oo{this.name} to oo{data})`);
           }
         });
       }
     }
     get value() {
       return this;
-    }
-    // Install Observer Functionality
-    #observers = {};
-    observe(eventName, observerCallback, options = { autorun: true, replay: false }) {
-      if (typeof observerCallback !== "function")
-        throw new TypeError("observer must be a function.");
-      if (!Array.isArray(this.#observers[eventName]))
-        this.#observers[eventName] = [];
-      if (options.autorun) {
-        if (eventName == this.name) {
-          for (const item of this.#value) {
-            observerCallback(item);
-          }
-        }
-      }
-      if (options.replay) {
-        for (const item of this.#value) {
-          observerCallback(item);
-        }
-      }
-      this.#observers[eventName].push(observerCallback);
-      return () => {
-        this.unobserve(eventName, observerCallback);
-      };
-    }
-    unobserve(eventName, observerCallback) {
-      this.#observers[eventName] = this.#observers[eventName].filter((obs) => obs !== observerCallback);
-    }
-    notify(eventName, eventData, ...extra) {
-      if (Array.isArray(this.#observers[eventName]))
-        this.#observers[eventName].forEach((observerCallback) => observerCallback(eventData, ...extra));
-    }
-    status() {
-      return {
-        observerCount: Object.values(this.#observers).flat().length
-      };
-    }
-    // Data Editing Functions
-    create(...items) {
-      for (const item of items) {
-        this.constrain(item);
-        this.#value.push(item);
-        this.notify("created", item);
-        this.notify("changed", this);
-      }
-    }
-    remove(item) {
-      this.#value = this.#value.filter((o) => o.id !== item.id);
-      this.notify("removed", item);
-      this.notify("changed", this);
-    }
-    // Data Reading Functions
-    [Symbol.iterator]() {
-      return this.#value[Symbol.iterator]();
-    }
-    find(callback) {
-      if (typeof callback !== "function")
-        throw new TypeError("Needs a function.");
-      return this.#value.find(callback);
-    }
-    map(callback) {
-      if (typeof callback !== "function")
-        throw new TypeError("Needs a function.");
-      return this.#value.map(callback);
-    }
-    reduce(callback, initialValue) {
-      if (typeof callback !== "function")
-        throw new TypeError("Needs a function.");
-      return this.#value.reduce(callback, initialValue);
-    }
-    filter(callback) {
-      if (typeof callback !== "function")
-        throw new TypeError("Needs a function.");
-      return this.#value.filter(callback);
-    }
-    forEach(callback) {
-      if (typeof callback !== "function")
-        throw new TypeError("Needs a function.");
-      return this.#value.forEach(callback);
-    }
-    indexOf(item) {
-      return this.#value.indexOf(item);
-    }
-    slice(...argv) {
-      return this.#value.slice(...argv);
-    }
-    get length() {
-      return this.#value.length;
-    }
-    get raw() {
-      return this.#value;
-    }
-  };
-
-  // plug-ins/node/Node.js
-  var import_union = __toESM(require_union(), 1);
-
-  // plug-ins/properties/PropertyList.js
-  var PropertyList = class {
-    static {
-      __name(this, "PropertyList");
-    }
-    name = null;
-    #value = [];
-    constraints = [];
-    constructor(name2, value2) {
-      this.name = name2;
-      this.#value.push(...value2);
-      this.constrain();
-    }
-    constrain() {
-      for (const item of this.#value) {
-        this.constraints.forEach(({ test, message }) => {
-          if (!test(item)) {
-            throw new Error(`\u{1F354} constraint error: ${message} (attempted to set: ${value})`);
-          }
-        });
-      }
     }
     // Install Observer Functionality
     #observers = {};
@@ -3925,7 +3968,6 @@
     static {
       __name(this, "Themes");
     }
-    extends = [];
     observables = {
       theme: "obsidian",
       themes: [new Nostromo({ subtle: true }), new Obsidian({ subtle: true })]
@@ -3949,36 +3991,450 @@
         }
       }
     };
-    constructor() {
-      this.inheritance = new Inheritance(this);
-    }
     initialize() {
-      console.log("initialize theme", this);
+      console.log(">>>>>>>>>>>>>>> THEME INITIALIZE <<<<<<<<<<<<<<<");
       this.on("theme.before", (id) => {
-        console.info("About To Change Theme To", id);
       });
       this.on("theme", (id, old) => {
-        console.info(`Theme Change from ${old} to ${id}`);
         document.querySelector("html").dataset.uiTheme = id;
-        console.info("dataset.uiTheme", document.querySelector("html").dataset);
       });
       this.on("themes.created", (list) => {
         p;
-        console.log("themes created", { list });
       });
       this.on("themes.removed", (list) => {
-        console.log("themes removed", { list });
       });
       this.on("themes.changed", (list) => {
-        console.log("themes removed", { list });
       });
+    }
+  };
+
+  // plug-ins/properties/PropertyList.js
+  var PropertyList = class {
+    static {
+      __name(this, "PropertyList");
+    }
+    name = null;
+    #value = [];
+    constraints = [];
+    constructor(name, value2) {
+      this.name = name;
+      this.#value.push(...value2);
+      this.constrain();
+    }
+    constrain() {
+      for (const item of this.#value) {
+        this.constraints.forEach(({ test, message }) => {
+          if (!test(item)) {
+            throw new Error(`\u{1F354} constraint error: ${message} (attempted to set: ${value})`);
+          }
+        });
+      }
+    }
+    // Install Observer Functionality
+    #observers = {};
+    observe(eventName, observerCallback, options = { autorun: true, replay: false }) {
+      if (typeof observerCallback !== "function")
+        throw new TypeError("observer must be a function.");
+      if (!Array.isArray(this.#observers[eventName]))
+        this.#observers[eventName] = [];
+      if (options.autorun) {
+        if (eventName == this.name) {
+          for (const item of this.#value) {
+            observerCallback(item);
+          }
+        }
+      }
+      if (options.replay) {
+        for (const item of this.#value) {
+          observerCallback(item);
+        }
+      }
+      this.#observers[eventName].push(observerCallback);
+      return () => {
+        this.unobserve(eventName, observerCallback);
+      };
+    }
+    unobserve(eventName, observerCallback) {
+      this.#observers[eventName] = this.#observers[eventName].filter((obs) => obs !== observerCallback);
+    }
+    notify(eventName, eventData, ...extra) {
+      if (Array.isArray(this.#observers[eventName]))
+        this.#observers[eventName].forEach((observerCallback) => observerCallback(eventData, ...extra));
+    }
+    status() {
+      return {
+        observerCount: Object.values(this.#observers).flat().length
+      };
+    }
+    // Data Editing Functions
+    create(...items) {
+      for (const item of items) {
+        this.constrain(item);
+        this.#value.push(item);
+        this.notify("created", item);
+        this.notify("changed", this);
+      }
+    }
+    remove(item) {
+      this.#value = this.#value.filter((o) => o.id !== item.id);
+      this.notify("removed", item);
+      this.notify("changed", this);
+    }
+    // Data Reading Functions
+    [Symbol.iterator]() {
+      return this.#value[Symbol.iterator]();
+    }
+    find(callback) {
+      if (typeof callback !== "function")
+        throw new TypeError("Needs a function.");
+      return this.#value.find(callback);
+    }
+    map(callback) {
+      if (typeof callback !== "function")
+        throw new TypeError("Needs a function.");
+      return this.#value.map(callback);
+    }
+    reduce(callback, initialValue) {
+      if (typeof callback !== "function")
+        throw new TypeError("Needs a function.");
+      return this.#value.reduce(callback, initialValue);
+    }
+    filter(callback) {
+      if (typeof callback !== "function")
+        throw new TypeError("Needs a function.");
+      return this.#value.filter(callback);
+    }
+    forEach(callback) {
+      if (typeof callback !== "function")
+        throw new TypeError("Needs a function.");
+      return this.#value.forEach(callback);
+    }
+    indexOf(item) {
+      return this.#value.indexOf(item);
+    }
+    slice(...argv) {
+      return this.#value.slice(...argv);
+    }
+    get length() {
+      return this.#value.length;
+    }
+    get raw() {
+      return this.#value;
+    }
+  };
+
+  // modules/domek/index.js
+  var kebabize = /* @__PURE__ */ __name((str) => str.replace(/[A-Z]+(?![a-z])|[A-Z]/g, ($, ofs) => (ofs ? "-" : "") + $.toLowerCase()), "kebabize");
+  function svgProperties(key) {
+    if (["clipPathUnits"].includes(key)) {
+      return key;
+    } else {
+      return kebabize(key);
+    }
+  }
+  __name(svgProperties, "svgProperties");
+  var svg = new Proxy({}, {
+    get: function(target, property) {
+      return function(properties, text) {
+        const el = document.createElementNS("http://www.w3.org/2000/svg", property);
+        for (const key in properties) {
+          if (properties.hasOwnProperty(key)) {
+            el.setAttributeNS(null, svgProperties(key), properties[key]);
+          }
+        }
+        if (text)
+          el.appendChild(document.createTextNode(text));
+        return el;
+      };
+    }
+  });
+  var xhtml = new Proxy({}, {
+    get: function(target, property) {
+      return function(properties, text) {
+        const el = document.createElementNS("http://www.w3.org/1999/xhtml", property);
+        for (const key in properties) {
+          if (properties.hasOwnProperty(key)) {
+            el.setAttributeNS(null, kebabize(key), properties[key]);
+          }
+        }
+        if (text)
+          el.appendChild(document.createTextNode(text));
+        return el;
+      };
+    }
+  });
+  var html = new Proxy({}, {
+    get: function(target, property) {
+      return function(properties, text) {
+        const el = document.createElement(property);
+        for (const key in properties) {
+          if (properties.hasOwnProperty(key)) {
+            el.setAttribute(kebabize(key), properties[key]);
+          }
+        }
+        if (text)
+          el.appendChild(document.createTextNode(text));
+        return el;
+      };
+    }
+  });
+
+  // plug-ins/windows/Component.js
+  var Component = class {
+    static {
+      __name(this, "Component");
+    }
+    id = v4_default();
+    g = svg.g({ class: "component" });
+    // svg group node to contain everything
+    el = {};
+    // bag of elements
+    observables = {
+      scene: void 0,
+      // remember parent sets the scene, child must adds its own .g to it.
+      data: void 0,
+      name: "un-named",
+      x: 0,
+      y: 0,
+      w: 10,
+      h: 10,
+      H: 0,
+      // min h
+      r: 0,
+      // border radius
+      b: 0,
+      // border
+      p: 0,
+      // padding
+      s: 0
+      // spacer/gap
+    };
+    constraints = {
+      scene: {
+        ".scene must be an instance of HTMLElement": function() {
+          if (!(obj instanceof HTMLElement))
+            return { error: "Not an HTMLElement" };
+        }
+      },
+      started: {
+        ".scene is required to start": function() {
+          if (!this.data) {
+            return { error: "data missing" };
+          }
+        },
+        ".data is required to start": function() {
+          if (!this.data) {
+            return { error: "data missing" };
+          }
+        },
+        ".data must be an observable object": function() {
+          if (!this.data.on) {
+            return { error: ".on missing on .data" };
+          }
+        }
+      }
+    };
+    traits = {
+      initialize: function() {
+        this.on("data", (data2) => {
+          console.info("UI COMPONENT IS BINDING TO DATA NODE");
+          data2.on("x", (x) => this.x = x);
+          data2.on("y", (y) => this.y = y);
+          data2.on("w", (w) => this.w = w);
+          data2.on("h", (h) => this.h = h);
+          data2.on("H", (H) => this.H = H);
+          data2.on("r", (r) => this.r = r);
+          data2.on("b", (b) => this.b = b);
+          data2.on("p", (p2) => this.p = p2);
+          data2.on("s", (s) => this.s = s);
+        });
+      }
+    };
+    started() {
+    }
+    stopped() {
+      this.dispose();
+    }
+  };
+
+  // plug-ins/windows/Container.js
+  var Container = class {
+    static {
+      __name(this, "Container");
+    }
+    static extends = [Component];
+  };
+
+  // plug-ins/windows/Concept.js
+  var Concept = class {
+    static {
+      __name(this, "Concept");
+    }
+    static extends = [Container];
+    initialize() {
+      console.log("INITIALIZE Concept", this.super);
+    }
+  };
+
+  // plug-ins/applications/VisualProgram.js
+  var VisualProgram = class {
+    static {
+      __name(this, "VisualProgram");
+    }
+    static extends = [Concept];
+    initialize() {
+      console.log("FF initialize VisualProgram", this.data?.id, this);
+    }
+  };
+
+  // plug-ins/node/Node.js
+  var import_union = __toESM(require_union(), 1);
+  var Node2 = class {
+    static {
+      __name(this, "Node");
+    }
+    state = {
+      current: "initial",
+      initial: {
+        run: "initialize"
+      }
+    };
+    properties = {};
+    observables = {
+      x: 0,
+      y: 0,
+      w: 32,
+      h: 32,
+      H: 0,
+      r: 0,
+      b: 0,
+      p: 0,
+      s: 0,
+      url: void 0,
+      // JSON url
+      data: void 0
+      // JSON data
+    };
+    initialize() {
+      this.on("data", (data2) => {
+        console.log("node got data", data2);
+      });
+      this.on("url", (url) => {
+        console.log("node got url", url);
+      });
+    }
+  };
+
+  // src/Project.js
+  var Project = class {
+    static {
+      __name(this, "Project");
+    }
+    // extends = [];
+    state = {
+      current: "initial",
+      initial: {
+        run: "initialize",
+        can: "start"
+      },
+      start: {
+        run: "started",
+        can: "stop"
+      },
+      stop: {
+        run: ["stopped", "destroy"],
+        can: "start"
+      }
+    };
+    properties = {
+      types: [VisualProgram],
+      // What can the project instantiate?
+      ui: /* @__PURE__ */ new Map()
+      // track all the ui
+    };
+    observables = {
+      svg: void 0,
+      scene: void 0,
+      file: void 0,
+      name: "Bork",
+      archetypes: [],
+      concepts: [],
+      transports: []
+    };
+    constraints = {
+      started: {
+        ".svg is required to start the universe": function() {
+          if (!this.svg) {
+            return { error: ".svg not found" };
+          }
+        },
+        ".scene is required to start the universe": function() {
+          if (!this.scene) {
+            return { error: ".svg not found" };
+          }
+        },
+        ".file is required to start the universe": function() {
+          if (!this.file) {
+            return { error: "file url required" };
+          }
+        }
+      }
+    };
+    initialize() {
+      this.on("name", (v) => {
+        if (v)
+          document.querySelector("title").innerText = v;
+      });
+      this.on("file", async (v) => {
+      });
+      this.on("concepts.created", (node) => {
+        const Ui = this.types.find((o) => o.name == node.type);
+        if (!Ui)
+          throw new Error(`Unrecongnized type "${node.type}"`);
+        console.log(`%cCreate UI component (${node.type}) based on data node ${node.id}`, "background: hsl(0, 50%, 60%); color: white;");
+        const ui = new Instance(Ui);
+        this.ui.set(node.id, ui);
+        ui.scene = this.scene;
+        ui.data = node;
+      }, { replay: true });
+      this.on("concepts.removed", ({ id }) => {
+        this.ui.get(id).stop();
+        this.ui.delete(id);
+      });
+    }
+    // initialize
+    async started() {
+      const rehydrated = await (await fetch(this.file)).json();
+      for (const raw of rehydrated.data) {
+        raw.data = await (await fetch(raw.meta.url)).json();
+      }
+      for (const raw of rehydrated.data) {
+        console.log(`%cCreate data node based on JSON data ${raw.meta.id}`, "background: hsl(0, 50%, 50%); color: white;");
+        const node = new Instance(Node2);
+        Object.assign(node, raw.meta);
+        node.data = raw.data;
+        project.concepts.create(node);
+      }
+    }
+    stopped() {
+      for (const { id } of this.concepts) {
+        this.ui.get(id).stop();
+        this.ui.delete(id);
+      }
+      this.dispose();
     }
   };
 
   // src/index.js
   var themes = new Instance(Themes);
   themes.theme = "nostromo";
-  console.log(themes);
+  var project2 = new Instance(Project);
+  window.project = project2;
+  project2.name = "Hello World Project";
+  project2.svg = document.querySelector("#editor-svg");
+  project2.scene = document.querySelector("#editor-scene");
+  project2.file = "templates/hello-project.json";
+  project2.start();
 })();
 /*! Bundled license information:
 

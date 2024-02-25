@@ -1,6 +1,8 @@
 # Visual Programming Language
 User Friendly Visual Programming Language
 
+## Remember
+- parent sets the scene, the child must ass it's .g to the scene (add its svg group to scene set by parent)
 
 ## TODO
 

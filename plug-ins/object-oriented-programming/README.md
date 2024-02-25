@@ -1,3 +1,51 @@
+oop
+
+## Step 1
+
+```JavaScript
+
+import {Inheritance} from "#plug-ins/object-oriented-programming/index.js";
+
+export default class Themes {
+
+  extends = [];
+
+  properties = {}; // non observable
+  methods = {}; bound to original class object
+
+  traits = {}; bound to instantiated this
+  observables = {}; // have .on, .on('x.before')
+  constraints = {}; // return object with error property holding error message
+
+  initialize(){ // initialize the instance
+
+    this.on('xxx.before', id => {
+    });
+
+    this.on('xxx', (id, old) => {
+    });
+
+  }
+
+
+  constructor(){
+    this.inheritance = new Inheritance(this); // bootstrap
+  }
+
+}
+
+```
+
+
+
+
+
+
+
+## Snippets
+
+```JavaScript
+
 // import ReactiveObject from '#plug-ins/reactive-object/ReactiveObject.js';
 // import Properties from "#plug-ins/properties/Properties.js";
 import {Inheritance} from "#plug-ins/object-oriented-programming/index.js";
@@ -7,6 +55,8 @@ import Nostromo from "#plug-ins/nostromo-theme/index.js";
 import Obsidian from "#plug-ins/obsidian-theme/index.js";
 
 export default class Themes {
+
+  extends = [];
 
   observables = {
     theme: "obsidian",
@@ -31,11 +81,11 @@ export default class Themes {
     }
   };
 
-
+  constructor(){
+    this.inheritance = new Inheritance(this);
+  }
 
   initialize(){
-
-    console.log('>>>>>>>>>>>>>>> THEME INITIALIZE <<<<<<<<<<<<<<<');
 
     this.on('theme.before', id => {
       // console.info('About To Change Theme To', id);
@@ -63,3 +113,5 @@ export default class Themes {
   }
 
 }
+
+```
