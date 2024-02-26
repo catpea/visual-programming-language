@@ -13,7 +13,7 @@
         "x": 117,
         "y": 612,
         "w": 126,
-        "H": 5,
+        "h": 5,
         "r": 6,
         "url": "templates/hello-world.json"
       },
@@ -26,7 +26,7 @@
         "x": 523,
         "y": 474,
         "w": 728,
-        "H": 415,
+        "h": 415,
         "r": 6,
         "url": "templates/hello-world.json"
       },
@@ -39,7 +39,7 @@
         "x": 339,
         "y": 57,
         "w": 451,
-        "H": 242,
+        "h": 242,
         "r": 6,
         "url": "templates/hello-world.json"
       },
@@ -52,7 +52,7 @@
         "x": 18,
         "y": 93,
         "w": 175,
-        "H": 302,
+        "h": 302,
         "r": 6,
         "url": "templates/hello-world.json"
       },
@@ -65,7 +65,7 @@
         "x": 529,
         "y": 511,
         "w": 122,
-        "H": 191,
+        "h": 191,
         "r": 6,
         "url": "templates/hello-world.json"
       },
@@ -78,7 +78,7 @@
         "x": 765,
         "y": 421,
         "w": 590,
-        "H": 298,
+        "h": 298,
         "r": 6,
         "url": "templates/hello-world.json"
       },
@@ -91,7 +91,7 @@
         "x": 756,
         "y": 688,
         "w": 211,
-        "H": 524,
+        "h": 524,
         "r": 6,
         "url": "templates/hello-world.json"
       },
@@ -104,7 +104,7 @@
         "x": 444,
         "y": 683,
         "w": 269,
-        "H": 420,
+        "h": 420,
         "r": 6,
         "url": "templates/hello-world.json"
       },
@@ -117,7 +117,7 @@
         "x": 321,
         "y": 424,
         "w": 107,
-        "H": 190,
+        "h": 190,
         "r": 6,
         "url": "templates/hello-world.json"
       },
@@ -130,7 +130,7 @@
         "x": 398,
         "y": 221,
         "w": 284,
-        "H": 299,
+        "h": 299,
         "r": 6,
         "url": "templates/hello-world.json"
       },
