@@ -10,11 +10,26 @@ export default class Container {
     layout: null,
   };
 
+  observables = {
+    children: [],
+  };
+
   methods = {
 
     initialize(){
       console.log(`%cContainer.initialize!`, 'background: hsl(180, 80%, 60%); color: black;');
       this.layout = new VerticalLayout(this);
+
+      this.on("children.created", (child) => {
+        child.start();
+        this.layout.manage(child);
+      }, {replay: true});
+
+      this.on("children.removed", (item) => {
+        log('children.removed');
+        item.stop();
+        this.layout.forget(item);
+      });
     },
 
     mount(){
@@ -39,7 +54,7 @@ export default class Container {
       this.on('x',      x=>update(this.el.Container,{x}),     );
       this.on('y',      y=>update(this.el.Container,{y}),     );
       this.on('r',     ry=>update(this.el.Container,{ry}),     );
-      
+
       this.appendElements();
       console.log(this.el.Container);
     },

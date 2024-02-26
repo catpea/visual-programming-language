@@ -323,7 +323,7 @@ export class Instance {
 
     // Install Observable Constraints
     for (const inherited of this.oo.specifications) {
-      if(inherited.constraints){
+      if(inherited.constraints && inherited.observables){
         for (const [constraintName, constraintValue] of Object.entries(inherited.constraints).filter(([constraintName, constraintValue])=>inherited.observables[constraintName])) {
           if(constraintName in observableData === false) throw new Error(`Unable to observable constrain "${constraintName}" becasue it is not defined in oo{specification.constructor.name}`);
           for (const [message, test] of Object.entries(constraintValue)) {

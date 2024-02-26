@@ -34,7 +34,7 @@ export default class Component {
     scene: {
       '.scene must be an instance of HTMLElement': function(){ if(!(obj instanceof HTMLElement)) return {error: 'Not an HTMLElement'}}
     },
-    started: {
+    mount: {
       '.scene is required to start': function(){ if(!this.data){return {error:'data missing'}} },
       '.data is required to start': function(){ if(!this.data){return {error:'data missing'}} },
       '.data must be an observable object': function(){ if(!this.data.on){return {error:'.on missing on .data'}} },

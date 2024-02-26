@@ -74,6 +74,7 @@ methods = {
   		const ui = new Instance(Ui);
       this.ui.set(node.id, ui);
       ui.scene = this.scene; // remember parent sets the scene
+      console.log('ui.scene = this.scene',  this.scene);
       ui.data = node; // .............................................. -> Component.js / this.on("data", (data) => {...
 
       //

@@ -78,18 +78,18 @@ export class VerticalLayout extends Layout {
 
 		// at the same time, be aware that parent will set your X/Y
 		// so monotor it!
-		this.container.properties.observe('x', () => child.x = this.calculateChildX(child) );
-		this.container.properties.observe('y', () => child.y = this.calculateChildY(child) );
-		this.container.properties.observe('w', () => child.w = this.calculateChildW(child) );
+		this.container.on('x', () => child.x = this.calculateChildX(child) );
+		this.container.on('y', () => child.y = this.calculateChildY(child) );
+		this.container.on('w', () => child.w = this.calculateChildW(child) );
 
 		// child.properties.observe('H', () => this.container.h = this.calculateH() );
-		// this.container.properties.observe('H', () => child.y = this.calculateChildY(child) );
+		// this.container.on('H', () => child.y = this.calculateChildY(child) );
 
 		// when a child changes size update the container height
-		child.properties.observe('h', () => this.container.h = this.calculateH() );
+		child.on('h', () => this.container.h = this.calculateH() );
 
 		// when container changes size, this child needs to update its Y.
-		this.container.properties.observe('h', () => child.y = this.calculateChildY(child) );
+		this.container.on('h', () => child.y = this.calculateChildY(child) );
 
 
 
