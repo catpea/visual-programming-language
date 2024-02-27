@@ -21,6 +21,7 @@ export default class Container {
       this.layout = new VerticalLayout(this);
 
       this.on("children.created", (child) => {
+        console.log(`About to start ${child.oo.name}`, child, );
         child.start();
         this.layout.manage(child);
       }, {replay: true});

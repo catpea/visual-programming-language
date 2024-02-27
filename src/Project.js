@@ -68,7 +68,11 @@ methods = {
     this.on("concepts.created", (node) => {
 
       const Ui = this.types.find(o=>o.name==node.type); // concept as in conceptmap is a component as it is a GUI thing.
-      if(!Ui) throw new Error(`Unrecongnized type "${node.type}"`);
+      // if(!Ui) throw new Error(`Unrecongnized type "${node.type}"`);
+      if(!Ui) {
+        console.log(`Unrecongnized type "${node.type}"`);
+        return;
+      }
       console.log(`%cCreate UI component (${node.type}) based on data node ${node.id}`, 'background: hsl(0, 50%, 60%); color: white;');
 
   		const ui = new Instance(Ui);
@@ -97,7 +101,9 @@ methods = {
 
     const rehydrated = await (await fetch(this.file)).json();
     for (const raw of rehydrated.data) {
-      raw.data = await (await fetch(raw.meta.url)).json();
+
+      if(raw.meta.url) raw.data = await (await fetch(raw.meta.url)).json();
+
     }
     for (const raw of rehydrated.data) {
       console.log(`%cCreate data node based on JSON data ${raw.meta.id}`, 'background: hsl(0, 50%, 50%); color: white;');
