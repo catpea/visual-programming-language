@@ -6,6 +6,8 @@ User Friendly Visual Programming Language
 
 ## TODO
 
+- [ ] make plug-ins/visual-editor/VisualEditor.js load nodes, junctions, and edges
+- [ ] add a special I/O node set, each time I is added or removed number of input ports change.
 - [ ] legitimize on stop on start in Universe
 
 ```JavaScript

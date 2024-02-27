@@ -1,3 +1,4 @@
+import { svg, update } from "domek";
 import Container from "/plug-ins/windows/Container.js";
 
 export default class VisualEditor {
@@ -15,6 +16,9 @@ export default class VisualEditor {
     mount(){
       // throw new Error()
       console.log(`%cVisualEdior.MOUNT!`, 'background: hsl(222, 30%, 80%); color: black;');
+
+      update( this.el.Container,{ class: 'xxx', fill: 'red' });
+
     }
   }
 
