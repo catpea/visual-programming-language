@@ -6,6 +6,7 @@
     --darkest: hsl(60, 100%, 1%);
 
     --primary-color: green;
+    --secondary-color: orange;
     --primary-background: rgba(0, 0, 0, 0.5);
     --primary-border: var(--primary-color);
 
@@ -40,10 +41,6 @@ svg.editor-interface {
 
 /* Node is the main thing that contains caption ports, etc.. */
 
-.node-box {
-    fill: var(--primary-background);
-    stroke: var(--primary-border);
-}
 
 .node-container {
     fill: var(--primary-background);
@@ -188,9 +185,14 @@ svg.editor-interface {
 
 
 
+.junction-container {
+    fill: transparent;
+    stroke: var(--secondary-color);
+}
+
 .junction-caption {
     fill: transparent;
-    stroke: var(--primary-color);
+    stroke: var(--secondary-color);
 }
 
 .junction-caption.selected {

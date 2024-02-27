@@ -15,18 +15,7 @@
       },
       "data": null
     },
-    {
-      "meta": {
-        "id": "aaaaa5a3-59c4-4b59-a340-83ed1154a740",
-        "type": "Junction",
-        "x": 117,
-        "y": 612,
-        "w": 126,
-        "h": 5,
-        "r": 6
-      },
-      "data": null
-    },
+
     {
       "meta": {
         "id": "1a18d5a3-59c4-4b59-a340-83ed1154a740",
@@ -154,6 +143,16 @@
         "h": 299,
         "r": 6,
         "url": "templates/hello-world.json"
+      },
+      "data": null
+    },
+    {
+      "meta": {
+        "id": "aaaaa5a3-59c4-4b59-a340-83ed1154a740",
+        "type": "Junction",
+        "x": 555,
+        "y": 555,
+        "r": 32
       },
       "data": null
     }

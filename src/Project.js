@@ -1,5 +1,6 @@
 import Properties from "/plug-ins/properties/Properties.js";
 import VisualProgram from "/plug-ins/applications/VisualProgram.js";
+import Junction from "/plug-ins/windows/Junction.js";
 import Node from "/plug-ins/node/Node.js";
 
 import {Instance} from "/plug-ins/object-oriented-programming/index.js";
@@ -30,7 +31,7 @@ export default class Project {
 
   };
   properties = {
-    types: [ VisualProgram ], // What can the project instantiate?
+    types: [ VisualProgram, Junction ], // What can the project instantiate?
     ui: new Map(), // track all the ui
   };
 
@@ -101,9 +102,7 @@ methods = {
 
     const rehydrated = await (await fetch(this.file)).json();
     for (const raw of rehydrated.data) {
-
       if(raw.meta.url) raw.data = await (await fetch(raw.meta.url)).json();
-
     }
     for (const raw of rehydrated.data) {
       console.log(`%cCreate data node based on JSON data ${raw.meta.id}`, 'background: hsl(0, 50%, 50%); color: white;');

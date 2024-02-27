@@ -11358,6 +11358,7 @@ fieldset:disabled .btn {
   --darker: hsl(120, 46%, 3%);
   --darkest: hsl(60, 100%, 1%);
   --primary-color: green;
+  --secondary-color: orange;
   --primary-background: rgba(0, 0, 0, 0.5);
   --primary-border: var(--primary-color);
   --selected-color: orange;
@@ -11378,10 +11379,6 @@ svg.editor-interface {
 }
 .editor-scene {
   fill: transparent;
-}
-.node-box {
-  fill: var(--primary-background);
-  stroke: var(--primary-border);
 }
 .node-container {
   fill: var(--primary-background);
@@ -11465,9 +11462,13 @@ svg.editor-interface {
   stroke: var(--selected-color);
   stroke-width: 2;
 }
+.junction-container {
+  fill: transparent;
+  stroke: var(--secondary-color);
+}
 .junction-caption {
   fill: transparent;
-  stroke: var(--primary-color);
+  stroke: var(--secondary-color);
 }
 .junction-caption.selected {
   fill: transparent;
