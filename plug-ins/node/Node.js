@@ -22,7 +22,10 @@ export default class Node {
     b:0,
     p:0,
     s:0,
+
     url: undefined, // JSON url
+    src: undefined, // JSON url
+    
     data: undefined, // JSON data
   }
 

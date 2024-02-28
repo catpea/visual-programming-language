@@ -93,8 +93,9 @@ const update = function(elements, properties) {
 
 			if(key=='style' && typeof value == 'object'){
 				for (const name in value) {
-					console.log('XXX', name, value[name]);
+					console.log('XXX', el, el.namespaceURI, name, value[name]);
 					el.style[name] = value[name];
+					console.log('XXX', el.style);
 				}
 				// styles merged!
 				continue;

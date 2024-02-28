@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "id": "17b1cb2a-1a08-4eec-a3fc-f3835cbbdfab",
+    "name": "Hello Project",
+    "description": "A Selection Of World VisualPrograms"
+  },
+
+  "data": [
+
+
+    {
+      "meta": {
+        "id": "1a18d5a3-59c4-4b59-a340-83ed1154a740",
+        "type": "RemoteApplication",
+        "x": 100,
+        "y": 100,
+        "w": 320,
+        "H": 256,
+        "h": 256,
+        "r": 6,
+        "src": "http://127.0.0.1:8000/iframe.html"
+      },
+      "data": {}
+    }
+
+
+  ]
+}

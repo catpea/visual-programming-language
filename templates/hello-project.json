@@ -19,16 +19,18 @@
     {
       "meta": {
         "id": "1a18d5a3-59c4-4b59-a340-83ed1154a740",
-        "type": "VisualProgram",
-        "x": 117,
-        "y": 612,
-        "w": 126,
-        "h": 5,
+        "type": "RemoteApplication",
+        "x": 100,
+        "y": 100,
+        "w": 320,
+        "H": 256,
+        "h": 256,
         "r": 6,
-        "url": "templates/hello-world.json"
+        "src": "http://127.0.0.1:8000/iframe.html"
       },
       "data": null
     },
+    
     {
       "meta": {
         "id": "0524d52e-68c8-442a-b40c-17badc2a10f8",

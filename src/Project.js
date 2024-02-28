@@ -1,11 +1,13 @@
 import Properties from "/plug-ins/properties/Properties.js";
-import VisualProgram from "/plug-ins/applications/VisualProgram.js";
-import Junction from "/plug-ins/windows/Junction.js";
 import Node from "/plug-ins/node/Node.js";
 
 import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 
 import {log, error, warn, info, debug, seq} from "/plug-ins/log/index.js";
+
+import VisualProgram from "/plug-ins/applications/VisualProgram.js";
+import Junction from "/plug-ins/windows/Junction.js";
+import RemoteApplication from "/plug-ins/applications/RemoteApplication.js";
 
 export default class Project {
 
@@ -31,7 +33,7 @@ export default class Project {
 
   };
   properties = {
-    types: [ VisualProgram, Junction ], // What can the project instantiate?
+    types: [ VisualProgram, Junction, RemoteApplication ], // What can the project instantiate?
     ui: new Map(), // track all the ui
   };
 
@@ -71,7 +73,7 @@ methods = {
       const Ui = this.types.find(o=>o.name==node.type); // concept as in conceptmap is a component as it is a GUI thing.
       // if(!Ui) throw new Error(`Unrecongnized type "${node.type}"`);
       if(!Ui) {
-        console.log(`Unrecongnized type "${node.type}"`);
+        console.warn(`Unrecongnized type "${node.type}"`);
         return;
       }
       console.log(`%cCreate UI component (${node.type}) based on data node ${node.id}`, 'background: hsl(0, 50%, 60%); color: white;');
@@ -107,7 +109,10 @@ methods = {
     for (const raw of rehydrated.data) {
       console.log(`%cCreate data node based on JSON data ${raw.meta.id}`, 'background: hsl(0, 50%, 50%); color: white;');
       const node =  new Instance(Node);
+
       Object.assign(node, raw.meta);
+      console.log(node);
+
       node.data = raw.data;
       project.concepts.create( node ); // -> see project #onStart for creation.
     }

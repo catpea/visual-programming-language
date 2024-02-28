@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>iframe</title>
+    <meta charset="utf-8" />
+    <script>
+      const trustedOrigins = ["http://localhost:5000"];
+
+      function onMsg(msg) {
+        if (!trustedOrigins.includes(msg.origin)) return;
+        console.log(`Message from main window`, msg);
+        parent.postMessage(
+          JSON.stringify({
+            message: "this should be delivered to main window"
+          })
+        );
+      }
+
+      setInterval(x=>{
+        parent.postMessage(
+          JSON.stringify({
+            message: "this should be delivered to main window"
+          })
+        );
+      },1_000)
+
+      window.addEventListener("message", onMsg, false);
+    </script>
+  </head>
+  <body>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+    <h1>Iframe body</h1>
+  </body>
+</html>
