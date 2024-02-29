@@ -13,12 +13,12 @@ export default class VisualProgram {
     initialize(){
       if(!this.oo) throw new Error("VisualProgram oo Not Found")
       console.log(`%cVisualProgram.initialize!`, 'background: hsl(180, 70%, 60%); color: black;');
-      setInterval(x=>{
-        this.data.x = this.data.x + this.getRandomIntInclusive(-1,1);
-        this.data.y = this.data.y + this.getRandomIntInclusive(-1,1);
-
-        // console.log(  this.data.x);
-      }, 1_000/22);
+      // setInterval(x=>{
+      //   this.data.x = this.data.x + this.getRandomIntInclusive(-1,1);
+      //   this.data.y = this.data.y + this.getRandomIntInclusive(-1,1);
+      //
+      //   // console.log(  this.data.x);
+      // }, 1_000/22);
     },
 
     mount(){
@@ -26,10 +26,10 @@ export default class VisualProgram {
       const editor = new Instance(VisualEditor);
       this.add(editor); // Add Visual Editor To The Window
 
-      setInterval(x=>{
-        editor.h = editor.h + this.getRandomIntInclusive(-3,3);
-        if(editor.h<0)editor.h=100
-      }, 1_000/60);
+      // setInterval(x=>{
+      //   editor.h = editor.h + this.getRandomIntInclusive(-3,3);
+      //   if(editor.h<0)editor.h=100
+      // }, 1_000/60);
 
 
     },

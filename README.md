@@ -1,8 +1,10 @@
 # Visual Programming Language
 User Friendly Visual Programming Language
 
-## Remember
-- parent sets the scene, the child must ass it's .g to the scene (add its svg group to scene set by parent)
+## Laws
+- Parent Components Sets The Scene: the child must ass it's .g to the scene (add its svg group to scene set by parent)
+- All Controls Have Ports: a control no matter how large or small can paint ports.
+
 
 ## TODO
 

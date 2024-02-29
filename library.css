@@ -11388,6 +11388,10 @@ svg.editor-interface {
   fill: rgba(0, 0, 0, 0.5);
   stroke: var(--selected-border);
 }
+.anchor-container {
+  fill: var(--primary-background);
+  stroke: var(--secondary-color);
+}
 .node-caption {
   fill: transparent;
   stroke: transparent;

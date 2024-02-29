@@ -17,7 +17,7 @@ export default class VisualEditor {
       // throw new Error()
       console.log(`%cVisualEdior.MOUNT!`, 'background: hsl(222, 30%, 80%); color: black;');
 
-      update( this.el.Container,{ class: 'xxx', fill: 'red' });
+      // update( this.el.Container,{ class: 'xxx', fill: 'red' });
 
     }
   }

@@ -53,7 +53,10 @@ svg.editor-interface {
 }
 
 
-
+.anchor-container {
+    fill: var(--primary-background);
+    stroke: var(--secondary-color);
+}
 
 
 

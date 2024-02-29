@@ -1,9 +1,12 @@
-import Component from "/plug-ins/windows/Component.js";
+import {Instance} from "/plug-ins/object-oriented-programming/index.js";
+import Anchor from "/plug-ins/windows/Anchor.js";
+
+import Control from "/plug-ins/windows/Control.js";
 import { svg, html, update } from "domek";
 
-export default class Control {
+export default class Frame {
 
-  static extends = [Component];
+  static extends = [Control];
 
   observables = {
     src: "",
@@ -22,6 +25,13 @@ export default class Control {
     },
 
     mount(){
+
+      this.anchors.create(new Instance(Anchor, { scene: this.scene, side: 0 }))
+      this.anchors.create(new Instance(Anchor, { scene: this.scene, side: 0 }))
+      this.anchors.create(new Instance(Anchor, { scene: this.scene, side: 1 }))
+      this.anchors.create(new Instance(Anchor, { scene: this.scene, side: 1 }))
+      this.anchors.create(new Instance(Anchor, { scene: this.scene, side: 1 }))
+      this.anchors.create(new Instance(Anchor, { scene: this.scene, side: 1 }))
 
       this.el.ForeignObject = svg.foreignObject({
         name: this.name,

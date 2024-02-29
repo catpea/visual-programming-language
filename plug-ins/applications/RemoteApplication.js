@@ -13,12 +13,12 @@ export default class RemoteApplication {
     initialize(){
       if(!this.oo) throw new Error("VisualProgram oo Not Found")
       console.log(`%cVisualProgram.initialize!`, 'background: hsl(180, 70%, 60%); color: black;');
-      setInterval(x=>{
-        this.data.x = this.data.x + this.getRandomIntInclusive(-1,1);
-        this.data.y = this.data.y + this.getRandomIntInclusive(-1,1);
-        this.data.h = this.data.h + this.getRandomIntInclusive(-1,1);
-        // console.log(  this.data.x);
-      }, 1_000/22);
+      // setInterval(x=>{
+      //   this.data.x = this.data.x + this.getRandomIntInclusive(-1,1);
+      //   this.data.y = this.data.y + this.getRandomIntInclusive(-1,1);
+      //   this.data.h = this.data.h + this.getRandomIntInclusive(-1,1);
+      //   // console.log(  this.data.x);
+      // }, 1_000/22);
     },
 
     mount(){

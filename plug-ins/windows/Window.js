@@ -2,6 +2,7 @@ import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 
 import Container from "/plug-ins/windows/Container.js";
 import Control from "/plug-ins/windows/Control.js";
+import Caption from "/plug-ins/windows/Caption.js";
 
 export default class Window {
 
@@ -21,7 +22,7 @@ export default class Window {
     mount(){
 
       // ADD DRAGGABLE CAPTION
-      let caption = new Instance(Control);
+      let caption = new Instance(Caption);
       caption.scene = this.scene;
       caption.h = 24;
       this.children.create(caption);

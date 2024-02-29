@@ -1,11 +1,16 @@
+import {Instance} from "/plug-ins/object-oriented-programming/index.js";
+
 import Component from "/plug-ins/windows/Component.js";
+import Anchor from "/plug-ins/windows/Anchor.js";
 import { svg, update } from "domek";
+import { AnchorLayout } from "/plug-ins/layout-manager/index.js";
 
 export default class Control {
 
   static extends = [Component];
 
-  properties = {
+  observables = {
+    anchors:[],
   };
 
   constraints = {
@@ -21,6 +26,7 @@ export default class Control {
     },
 
     mount(){
+      this.anchorage = new AnchorLayout(this, {source: 'anchors'});
 
       this.el.Container = svg.rect({
         name: this.name,
@@ -34,6 +40,16 @@ export default class Control {
         height: this.h,
         x: this.x,
         y: this.y,
+      });
+
+      this.on("anchors.created", (anchor) => {
+        anchor.start();
+        this.anchorage.manage(anchor);
+      }, {replay: true});
+
+      this.on("anchors.removed", (anchor) => {
+        anchor.stop();
+        this.anchorage.forget(anchor);
       });
 
       this.on('name',  name=>update(this.el.Container,{name}), );

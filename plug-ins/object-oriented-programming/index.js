@@ -250,7 +250,7 @@ export class Instance {
       constraints[constraintName].forEach(({ test, message }) => {
         const verdict = test();
         if (verdict?.error) {
-          throw new Error(`🍔 state constraint error: oo{message} - oo{verdict.error} (attempted to execute oo{constraintName})`);
+          throw new Error(`🍔 state constraint error: ${message} - ${verdict.error} (attempted to execute oo{constraintName})`);
         }
       });
       }
@@ -335,8 +335,13 @@ export class Instance {
     }
 
 
-
-
+    // appply constructor data
+    if(data){
+      for (const [name, value] of Object.entries(data)) {
+        console.log(`CONSTRUCTOR DATA setting ${name} to`, value);
+          this[name] = value;
+      }
+    }
 
     // execute functions defined in initial state
     const stateName = state.current;
