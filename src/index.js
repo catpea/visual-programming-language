@@ -16,5 +16,6 @@ window.project = project;
 project.name = 'Hello World Project';
 project.svg = document.querySelector('#editor-svg');
 project.scene = document.querySelector('#editor-scene');
+project.background = document.querySelector('#editor-background');
 project.file = 'templates/hello-project.json';
 project.start();

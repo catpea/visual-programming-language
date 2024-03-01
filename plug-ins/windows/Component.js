@@ -43,9 +43,11 @@ export default class Component {
   }
 
   traits = {
+
     appendElements(){
       Object.values(this.el).forEach(el => this.scene.appendChild(el));
     },
+
     removeElements(){
       Object.values(this.el).forEach(el => el.remove());
     },
@@ -54,6 +56,16 @@ export default class Component {
       const minCeiled = Math.ceil(min);
       const maxFloored = Math.floor(max);
       return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // The maximum is inclusive and the minimum is inclusive
+    },
+
+    root() {
+      let response = null;
+      if(!this.parent){
+        response = this;
+      }else{
+        response = this.parent.root();
+      }
+      return response;
     }
 
   }

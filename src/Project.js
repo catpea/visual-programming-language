@@ -3,6 +3,9 @@ import Node from "/plug-ins/node/Node.js";
 
 import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 
+import pan from "/plug-ins/pan/index.js";
+import zoom from "/plug-ins/zoom/index.js";
+
 import {log, error, warn, info, debug, seq} from "/plug-ins/log/index.js";
 
 import VisualProgram from "/plug-ins/applications/VisualProgram.js";
@@ -22,24 +25,27 @@ export default class Project {
      },
 
      start: {
-       run: 'started',
+       run: 'mount',
        can: 'stop'
      },
 
      stop: {
-       run: ['stopped', 'destroy'],
+       run: ['destroy'],
        can: 'start'
      },
 
   };
+
   properties = {
     types: [ VisualProgram, Junction, RemoteApplication ], // What can the project instantiate?
     ui: new Map(), // track all the ui
   };
 
   observables = {
+
     svg: undefined,
     scene: undefined,
+    background: undefined,
     file: undefined,
     name: "Bork",
 
@@ -47,19 +53,27 @@ export default class Project {
     concepts: [],
     transports: [],
 
+    panX: 0,
+    panY: 0,
+    zoom: 1,
+
   };
 
   constraints = {
     started: {
       '.svg is required to start the universe': function(){ if(!this.svg){return {error:'.svg not found'}} },
-      '.scene is required to start the universe': function(){ if(!this.scene){return {error:'.svg not found'}} },
+      '.scene is required to start the universe': function(){ if(!this.scene){return {error:'.scene not found'}} },
+      '.background is required to start the universe': function(){ if(!this.background){return {error:'.background not found'}} },
       '.file is required to start the universe': function(){ if(!this.file){return {error:'file url required'}} },
     }
   }
 
 
 methods = {
+
   initialize() {
+
+
 
     this.on('name', v=> {
       if(v) document.querySelector('title').innerText = v;
@@ -98,8 +112,14 @@ methods = {
   }, // initialize
 
 
-  async started (){
 
+  async mount (){
+
+    // features that need to be installed after DOM nodes are created
+    pan(this);
+    zoom(this);
+
+    // TODO: simplify code below with a rehydrator
     // const rehydrated = await rehydrator();
 
     const rehydrated = await (await fetch(this.file)).json();
@@ -118,7 +138,7 @@ methods = {
     }
   },
 
-  stopped(){
+  destroy(){
     for (const {id} of this.concepts) {
       this.ui.get(id).stop();
       this.ui.delete(id);
