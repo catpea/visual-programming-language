@@ -10,6 +10,7 @@ export default class Anchor {
 
   observables = {
     side: 0,
+    color: 'transparent',
   };
 
   constraints = {
@@ -42,21 +43,23 @@ export default class Anchor {
         cy: this.y,
       });
       this.on('name',  name=>update(this.el.Circle,{name}), );
+      this.on('color',  fill=>update(this.el.Circle,{style:{fill}}), );
+      this.on('color',  fill=>console.log(this.el.Circle,{style:{fill}}), );
       this.on('x',      cx=>update(this.el.Circle,{cx}),     );
       this.on('y',      cy=>update(this.el.Circle,{cy}),     );
       this.on('r',      r=>update(this.el.Circle,{r}),     );
       this.appendElements();
 
-      let leCounter = 0;
-      setInterval(()=>{
-        if(leCounter % 2 == 0){
-          update(this.el.Circle, {style:{fill:'yellow'}} )
-        }else{
-          update(this.el.Circle, {style:{fill:'red'}} )
-        }
-
-        leCounter++;
-      }, 10_000/this.getRandomIntInclusive(1, 10))
+      // let leCounter = 0;
+      // setInterval(()=>{
+      //   if(leCounter % 2 == 0){
+      //     update(this.el.Circle, {style:{fill:'yellow'}} )
+      //   }else{
+      //     update(this.el.Circle, {style:{fill:'red'}} )
+      //   }
+      //
+      //   leCounter++;
+      // }, 10_000/this.getRandomIntInclusive(1, 10))
 
 
     },

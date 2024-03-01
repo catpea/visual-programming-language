@@ -11359,10 +11359,10 @@ fieldset:disabled .btn {
   --darkest: hsl(60, 100%, 1%);
   --primary-color: green;
   --secondary-color: orange;
-  --primary-background: rgba(0, 0, 0, 0.5);
+  --primary-background: rgba(0, 0, 0);
   --primary-border: var(--primary-color);
   --selected-color: orange;
-  --selected-background: rgba(0, 0, 0, 0.5);
+  --selected-background: rgba(0, 0, 0);
   --selected-border: var(--selected-color);
 }
 body {

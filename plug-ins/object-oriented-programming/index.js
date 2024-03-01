@@ -54,6 +54,7 @@ export class Instance {
     this.oo.specification = specification;
 
     this.oo.extends = [];
+    this.oo.disposables = [];
     this.oo.specifications = [];
 
     new Inheritance({Class, instance:this, specification, root:this});
@@ -224,15 +225,29 @@ export class Instance {
       } // if
     }
 
-
+    // DISPOSABLES
     // Install Cleaning System, to enable tracking observers
+    // INTERNAL VERSION
     const disposables = [];
     const disposable = function (...arg){
       disposables.push(...arg);
     }
-    this.dispose = function(){
-      disposables.map(f=>f());
+    // EXTERNAL (USER) VERSION
+    Object.defineProperty(this, 'disposable', {
+      set: (value) => this.oo.disposables.push(value),
+      configurable: false,
+    });
+
+    // FLUSH ALL
+    this.dispose = ()=>{
+      disposables.map(f=>f()); // for here
+      this.oo.disposables.map(f=>f()); // for user
     }
+
+
+
+
+
 
     // Enable Observing
     this.on = function(eventPath, observerCallback, options){
@@ -250,7 +265,7 @@ export class Instance {
       constraints[constraintName].forEach(({ test, message }) => {
         const verdict = test();
         if (verdict?.error) {
-          throw new Error(`🍔 state constraint error: ${message} - ${verdict.error} (attempted to execute oo{constraintName})`);
+          throw new Error(`🍔 state constraint error: ${message} - ${verdict.error} (attempted to execute ${constraintName})`);
         }
       });
       }
@@ -321,6 +336,8 @@ export class Instance {
 
 
 
+
+
     // Install Observable Constraints
     for (const inherited of this.oo.specifications) {
       if(inherited.constraints && inherited.observables){
@@ -353,7 +370,6 @@ export class Instance {
       this[functionName]();
     }
   }
-
 
 
 

@@ -4,8 +4,8 @@ User Friendly Visual Programming Language
 ## Laws
 - Parent Components Sets The Scene: the child must ass it's .g to the scene (add its svg group to scene set by parent)
 - All Controls Have Ports: a control no matter how large or small can paint ports.
-
-
+- method naming scheme: add + Window + Component = action Parent Class + Class Of Object
+- all Controls have this.anchors where named anchors must be stored
 ## TODO
 
 - [ ] make plug-ins/visual-editor/VisualEditor.js load nodes, junctions, and edges

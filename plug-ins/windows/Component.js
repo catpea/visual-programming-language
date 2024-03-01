@@ -10,6 +10,7 @@ export default class Component {
 
   observables = {
 
+    parent: undefined, // it may be needed to access parent from a control
     scene:  undefined, // remember parent sets the scene, child must adds its own .g to it.
     data:  undefined,
 

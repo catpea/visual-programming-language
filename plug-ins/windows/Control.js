@@ -9,6 +9,10 @@ export default class Control {
 
   static extends = [Component];
 
+  properties = {
+    anchorage:null,
+  };
+
   observables = {
     anchors:[],
   };

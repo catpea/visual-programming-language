@@ -5,6 +5,10 @@
     "description": "A Selection Of World VisualPrograms"
   },
 
+  "link":[
+
+  ],
+
   "data": [
     {
       "meta": {
@@ -31,19 +35,7 @@
       },
       "data": null
     },
-    {
-      "meta": {
-        "id": "39777530-9e93-498e-ab86-58bfb98360fc",
-        "type": "VisualProgram",
-        "x": 339,
-        "y": 57,
-        "w": 451,
-        "h": 242,
-        "r": 6,
-        "url": "templates/hello-world.json"
-      },
-      "data": null
-    },
+
     {
       "meta": {
         "id": "75fcac23-7941-471f-b586-5a6b01797511",
@@ -160,6 +152,21 @@
         "r": 32
       },
       "data": null
+    },
+
+    {
+      "meta": {
+        "id": "39777530-9e93-498e-ab86-58bfb98360fc",
+        "type": "RemoteApplication",
+        "x": 339,
+        "y": 57,
+        "w": 480,
+        "h": 480,
+        "r": 6,
+        "src": "http://127.0.0.1:8000/color.html"
+      },
+      "data": null
     }
+
   ]
 }

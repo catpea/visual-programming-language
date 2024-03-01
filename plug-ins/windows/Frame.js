@@ -26,12 +26,12 @@ export default class Frame {
 
     mount(){
 
-      this.anchors.create(new Instance(Anchor, { scene: this.scene, side: 0 }))
-      this.anchors.create(new Instance(Anchor, { scene: this.scene, side: 0 }))
-      this.anchors.create(new Instance(Anchor, { scene: this.scene, side: 1 }))
-      this.anchors.create(new Instance(Anchor, { scene: this.scene, side: 1 }))
-      this.anchors.create(new Instance(Anchor, { scene: this.scene, side: 1 }))
-      this.anchors.create(new Instance(Anchor, { scene: this.scene, side: 1 }))
+      this.anchors.create(new Instance(Anchor, { name: 'src', parent:this, scene: this.scene, side: 0 }))
+      // this.anchors.create(new Instance(Anchor, { name: 'b', parent:this, scene: this.scene, side: 0 }))
+      // this.anchors.create(new Instance(Anchor, { name: 'c', parent:this, scene: this.scene, side: 1 }))
+      // this.anchors.create(new Instance(Anchor, { name: 'd', parent:this, scene: this.scene, side: 1 }))
+      // this.anchors.create(new Instance(Anchor, { name: 'e', parent:this, scene: this.scene, side: 1 }))
+      // this.anchors.create(new Instance(Anchor, { name: 'f', parent:this, scene: this.scene, side: 1 }))
 
       this.el.ForeignObject = svg.foreignObject({
         name: this.name,
@@ -54,25 +54,52 @@ export default class Frame {
           // malformed url
         }
       });
-      window.addEventListener("message", function(msg){
-        if (!origin === msg.origin) return;
-        console.log(`Message from an iframe`, msg);
+
+      window.addEventListener("message", (msg)=>{
+
+        const isSameOrigin = origin === msg.origin;
+        const isSameSource = this.src === msg.source.location.href;
+        if (!isSameOrigin) return;
+        if (!isSameSource) return;
+
+        const {name, data} = msg.data;
+        console.log(`Message from an iframe`, msg.data);
+
+        let anchor = this.anchors.find(anchor=>anchor.name===name);
+
+        let color;
+        if(data.color) color = `rgba(${data.color.join(', ')})`;
+        console.log(color, data.position);
+        if(!anchor){
+          this.anchors.create(new Instance(Anchor, { name, parent:this, scene: this.scene, side: 1, color }))
+        }else{
+          anchor.color = color;
+        }
+
+        // console.log(`Message SOURCE`, (!this.src === msg.source.location.href), this.src, msg.source.location.href);
+        // console.log(`Message from an iframe`, msg);
+        // console.log(this.src, {
+        //   isSameOrigin: [isSameOrigin,origin, msg.origin],
+        //   isSameSource: [isSameSource, this.src, msg.source.location.href],
+        //   source: msg.source.location.href,
+        //   origin: msg.origin,
+        //   data: msg.data,
+        // });
+
+
       }, false);
 
       this.el.ForeignObject.appendChild(iframe)
 
-      this.on('name', name=>update(this.el.ForeignObject,{name}), );
-      this.on('src',   src=>update(iframe,{src}) );
+      this.on('name', name=>update(this.el.ForeignObject,{name}));
+      this.on('src',   src=>update(iframe,{src}));
 
-
-
-      this.on('w',   width=>update(this.el.ForeignObject,{width}),);
-      this.on('h',   height=>update(this.el.ForeignObject,{height}),);
-      this.on('x',       x=>update(this.el.ForeignObject,{x}),     );
-      this.on('y',       y=>update(this.el.ForeignObject,{y}),     );
-
-        this.on('w',   width=>update(iframe, {style:{width: width+'px'}} ));
-        this.on('h',   height=>update(iframe, {style:{height: height+'px'}} ));
+      this.on('w', width=>update(this.el.ForeignObject,{width}));
+      this.on('h', height=>update(this.el.ForeignObject,{height}));
+      this.on('x', x=>update(this.el.ForeignObject,{x}));
+      this.on('y', y=>update(this.el.ForeignObject,{y}));
+      this.on('w', width=>update(iframe, {style:{width: width+'px'}}));
+      this.on('h', height=>update(iframe, {style:{height: height+'px'}}));
 
       this.appendElements();
 

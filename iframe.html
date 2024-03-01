@@ -16,13 +16,13 @@
         );
       }
 
-      setInterval(x=>{
-        parent.postMessage(
-          JSON.stringify({
-            message: "this should be delivered to main window"
-          })
-        );
-      },601_000)
+      // setInterval(x=>{
+      //   parent.postMessage(
+      //     JSON.stringify({
+      //       message: "this should be delivered to main window"
+      //     })
+      //   );
+      // },1_000)
 
       window.addEventListener("message", onMsg, false);
     </script>
