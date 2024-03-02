@@ -3,8 +3,8 @@
 
 import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 
-console.log(`session ${uuid()}`);
-console.log(Instance);
+// console.log(`session ${uuid()}`);
+// console.log(Instance);
 
 import Themes from './Themes.js';
 const themes = new Instance(Themes);
@@ -12,7 +12,7 @@ themes.theme = 'nostromo';
 
 import Project from './Project.js';
 const project = new Instance(Project);
-window.project = project;
+globalThis.project = project;
 project.name = 'Hello World Project';
 project.svg = document.querySelector('#editor-svg');
 project.scene = document.querySelector('#editor-scene');

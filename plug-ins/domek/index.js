@@ -93,16 +93,16 @@ const update = function(elements, properties) {
 
 			if(key=='style' && typeof value == 'object'){
 				for (const name in value) {
-					console.log('XXX', el, el.namespaceURI, name, value[name]);
+					// console.log('XXX', el, el.namespaceURI, name, value[name]);
 					el.style[name] = value[name];
-					console.log('XXX', el.style);
+					// console.log('XXX', el.style);
 				}
 				// styles merged!
 				continue;
 
 			}else if(typeof value == 'object'){
 				value = Object.entries(value).map(([k,v])=>`${k}: ${v};`).join(' ')
-				console.log('TRANSLATE', properties[key], value);
+				// console.log('TRANSLATE', properties[key], value);
 			}
 
 			if(el.namespaceURI == 'http://www.w3.org/2000/svg') {
@@ -183,9 +183,9 @@ function JSONReader() {
 			const fileList = this.files;
 			const fileReader = new FileReader();
 			fileReader.onload = function(event) {
-				console.log(event);
+				// console.log(event);
 				const result = JSON.parse(event.target.result);
-				console.log(result);
+				// console.log(result);
 				resolve(result);
 			}
 			fileReader.readAsText(fileList.item(0));

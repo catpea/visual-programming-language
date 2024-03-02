@@ -25,17 +25,17 @@ export default class Node {
 
     url: undefined, // JSON url
     src: undefined, // JSON url
-    
+
     data: undefined, // JSON data
   }
 
   methods = {
     initialize(){
       this.on('data', data => {
-        console.log('node got data', data);
+        // console.log('node got data', data);
       })
       this.on('url', url => {
-        console.log('node got url', url);
+        // console.log('node got url', url);
       })
     }
   }

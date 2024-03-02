@@ -26,7 +26,7 @@ export default class Control {
   methods = {
 
     initialize(){
-      console.log(`%cControl.initialize!`, 'background: hsl(180, 80%, 60%); color: black;', this);
+      // console.log(`%cControl.initialize!`, 'background: hsl(180, 80%, 60%); color: black;', this);
     },
 
     mount(){

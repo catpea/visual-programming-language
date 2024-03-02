@@ -17,17 +17,17 @@ export default class Container {
   methods = {
 
     initialize(){
-      console.log(`%cContainer.initialize!`, 'background: hsl(180, 80%, 60%); color: black;');
+      // console.log(`%cContainer.initialize!`, 'background: hsl(180, 80%, 60%); color: black;');
       this.layout = new VerticalLayout(this);
 
       this.on("children.created", (child) => {
-        console.log(`About to start ${child.oo.name}`, child, );
+        // console.log(`About to start ${child.oo.name}`, child, );
         child.start();
         this.layout.manage(child);
       }, {replay: true});
 
       this.on("children.removed", (item) => {
-        log('children.removed');
+        // log('children.removed');
         item.stop();
         this.layout.forget(item);
       });
@@ -57,7 +57,7 @@ export default class Container {
       this.on('r',     ry=>update(this.el.Container,{ry}),     );
 
       this.appendElements();
-      console.log(this.el.Container);
+      // console.log(this.el.Container);
     },
 
     destroy(){

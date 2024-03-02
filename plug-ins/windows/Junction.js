@@ -20,7 +20,7 @@ export default class Junction {
   methods = {
 
     initialize(){
-      console.log(`%cJunction.initialize!`, 'background: hsl(180, 80%, 60%); color: black;', this);
+      // console.log(`%cJunction.initialize!`, 'background: hsl(180, 80%, 60%); color: black;', this);
 
       // setInterval(x=>{
       //   this.x = this.x + this.getRandomIntInclusive(-1,1);

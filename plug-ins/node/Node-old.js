@@ -27,7 +27,7 @@ export default class Node {
     this.properties = new Properties(this);
 
     for(const propertyName in this){
-      console.log('NODE', propertyName);
+      // console.log('NODE', propertyName);
     }
 
     for (const propertyName in meta) {

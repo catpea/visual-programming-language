@@ -78,7 +78,7 @@ export default class Properties {
     // console.log(name, value);
 
     if(this.client[name]) {
-      console.log(name, this.client[name], Object.getPrototypeOf(this.client));
+      // console.log(name, this.client[name], Object.getPrototypeOf(this.client));
 
       throw new Error(`property "${name}" already defined and set to ${value}`);
       // this.properties[name].value = value
@@ -102,10 +102,10 @@ export default class Properties {
     // console.log(name, value);
 
     if(this.client[name]) {
-      console.log(name, this.client[name], Object.getPrototypeOf(this.client));
+      // console.log(name, this.client[name], Object.getPrototypeOf(this.client));
       throw new Error(`array property "${name}" already defined`);
     }else{
-console.log(name, 'CREATING', this.client[name], Object.getPrototypeOf(this.client));
+// console.log(name, 'CREATING', this.client[name], Object.getPrototypeOf(this.client));
 
     }
     this.properties[name] = new PropertyList(name, value);

@@ -46,7 +46,7 @@ export class Instance {
   constructor(Class, data){
 
     const specification = new Class(); // specification is the class we are instantiating.
-    console.log(`%cCreate Class (${specification.constructor.name})`, 'background: hsl(124, 50%, 60%); color: black;');
+    // console.log(`%cCreate Class (${specification.constructor.name})`, 'background: hsl(124, 50%, 60%); color: black;');
 
     this.oo = {}
     this.oo.name = specification.constructor.name;
@@ -355,7 +355,7 @@ export class Instance {
     // appply constructor data
     if(data){
       for (const [name, value] of Object.entries(data)) {
-        console.log(`CONSTRUCTOR DATA setting ${name} to`, value);
+        // console.log(`CONSTRUCTOR DATA setting ${name} to`, value);
           this[name] = value;
       }
     }

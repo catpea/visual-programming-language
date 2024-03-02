@@ -3,7 +3,7 @@ import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 import Container from "/plug-ins/windows/Container.js";
 import Control from "/plug-ins/windows/Control.js";
 import Caption from "/plug-ins/windows/Caption.js";
-import movable from "/plug-ins/movable/index.js";
+import Move from "/plug-ins/move/index.js";
 
 export default class Window {
 
@@ -13,7 +13,7 @@ export default class Window {
 
     initialize(){
       if(!this.oo) throw new Error("Window oo Not Found")
-      console.log(`%cWindow.initialize!`, 'background: hsl(180, 70%, 60%); color: black;');
+      // console.log(`%cWindow.initialize!`, 'background: hsl(180, 70%, 60%); color: black;');
     },
 
     mount(){
@@ -26,14 +26,20 @@ export default class Window {
       caption.h = 24;
       this.children.create(caption);
 
-      movable(this, {handle: caption});
+      const move = new Move({
+        component: this,
+        handle: caption.handle,
+        window: this,
+        zone: window,
+      }); this.destructable = ()=>move.destroy()
 
-      // ADD DRA-AND-DROP TOOLBAR
-      let toolbar = new Instance(Control);
-      toolbar.scene = this.scene;
-      toolbar.parent = this;
-      toolbar.h = 32;
-      this.children.create(toolbar);
+
+      // // ADD DRA-AND-DROP TOOLBAR
+      // let toolbar = new Instance(Control);
+      // toolbar.scene = this.scene;
+      // toolbar.parent = this;
+      // toolbar.h = 32;
+      // this.children.create(toolbar);
 
     },
 

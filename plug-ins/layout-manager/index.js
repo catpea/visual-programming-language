@@ -183,7 +183,7 @@ export class AnchorLayout extends Layout {
 	}
 
 	calculateChildX(child){
-		console.log('child.s', child.s);
+		// console.log('child.s', child.s);
 		if(!child.side){ // LEFT or 0 side
 			return this.parent.x - child.r - child.s;
 		}else{ // RIGHT or "1" side

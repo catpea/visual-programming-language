@@ -8,14 +8,14 @@ export default class VisualEditor {
   methods = {
     initialize(){
       // throw new Error()
-      console.log(`%cVisualEdior.initialize!`, 'background: hsl(222, 30%, 80%); color: black;');
+      // console.log(`%cVisualEdior.initialize!`, 'background: hsl(222, 30%, 80%); color: black;');
       this.h = 200;
 
     },
 
     mount(){
       // throw new Error()
-      console.log(`%cVisualEdior.MOUNT!`, 'background: hsl(222, 30%, 80%); color: black;');
+      // console.log(`%cVisualEdior.MOUNT!`, 'background: hsl(222, 30%, 80%); color: black;');
 
       // update( this.el.Container,{ class: 'xxx', fill: 'red' });
 

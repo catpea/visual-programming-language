@@ -35,7 +35,7 @@ export default class Themes {
 
     initialize(){
 
-      console.log('>>>>>>>>>>>>>>> THEME INITIALIZE <<<<<<<<<<<<<<<');
+      // console.log('>>>>>>>>>>>>>>> THEME INITIALIZE <<<<<<<<<<<<<<<');
 
       this.on('theme.before', id => {
         // console.info('About To Change Theme To', id);

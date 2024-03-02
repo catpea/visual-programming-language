@@ -22,7 +22,7 @@ export default class Anchor {
   methods = {
 
     initialize(){
-      console.log(`%cAnchor.initialize!`, 'background: hsl(180, 80%, 60%); color: black;', this);
+      // console.log(`%cAnchor.initialize!`, 'background: hsl(180, 80%, 60%); color: black;', this);
       this.r = 8;
       this.s = 4;
 
@@ -44,7 +44,7 @@ export default class Anchor {
       });
       this.on('name',  name=>update(this.el.Circle,{name}), );
       this.on('color',  fill=>update(this.el.Circle,{style:{fill}}), );
-      this.on('color',  fill=>console.log(this.el.Circle,{style:{fill}}), );
+      // this.on('color',  fill=>console.log(this.el.Circle,{style:{fill}}), );
       this.on('x',      cx=>update(this.el.Circle,{cx}),     );
       this.on('y',      cy=>update(this.el.Circle,{cy}),     );
       this.on('r',      r=>update(this.el.Circle,{r}),     );

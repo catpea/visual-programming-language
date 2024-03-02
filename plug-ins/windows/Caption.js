@@ -11,6 +11,7 @@ export default class Caption {
 
   properties = {
     anchorage:null,
+    handle:null,
   };
 
   observables = {
@@ -26,7 +27,7 @@ export default class Caption {
   methods = {
 
     initialize(){
-      console.log(`%cComponent.initialize!`, 'background: hsl(180, 80%, 60%); color: black;', this);
+      // console.log(`%cComponent.initialize!`, 'background: hsl(180, 80%, 60%); color: black;', this);
     },
 
     mount(){
@@ -34,9 +35,9 @@ export default class Caption {
 
       this.el.Container = svg.rect({
         name: this.name,
-        // class: 'node-container',
+        class: 'node-container',
         ry: this.r,
-        fill: 'red',
+        // fill: 'red',
         'stroke-width': 2,
         // set initial values
         // these are special, handeled by the layout manager
@@ -47,8 +48,10 @@ export default class Caption {
         y: this.y,
       });
 
+      this.handle = this.el.Container;
+
       this.disposable = click( this.el.Container, e=>{
-        console.log(this.parent.data.id, this, this.parent);
+        // console.log('CLICKED', this.parent.data.id, this, this.parent);
       });
 
       this.on("anchors.created", (anchor) => {

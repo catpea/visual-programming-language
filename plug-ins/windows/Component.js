@@ -81,10 +81,10 @@ export default class Component {
   methods = {
 
     initialize(){
-      console.log(`%cComponent.initialize!`, 'background: hsl(180, 90%, 60%); color: black;');
+      // console.log(`%cComponent.initialize!`, 'background: hsl(180, 90%, 60%); color: black;');
 
       this.on("data", (data) => {
-        console.info('UI COMPONENT IS BINDING TO DATA NODE');
+        // console.info('UI COMPONENT IS BINDING TO DATA NODE');
         data.on("x", x => this.x = x);
         data.on("y", y => this.y = y);
         data.on("w", w => this.w = w);

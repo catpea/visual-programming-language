@@ -74,12 +74,6 @@ methods = {
 
   initialize() {
 
-
-
-    this.on('zoom', v=>console.log(`zoom changed to: ${v}`));
-    this.on('panX', v=>console.log(`panX changed to: ${v}`));
-    this.on('panY', v=>console.log(`panY changed to: ${v}`));
-
     this.on('zoom', v=> requestAnimationFrame(() => { this.scene.style.scale = this.zoom }));
     this.on('panX', v=> requestAnimationFrame(() => { this.scene.style.transform = `translate(${this.panX/this.zoom}px, ${this.panY/this.zoom}px)` }));
     this.on('panY', v=> requestAnimationFrame(() => { this.scene.style.transform = `translate(${this.panX/this.zoom}px, ${this.panY/this.zoom}px)` }));
@@ -96,16 +90,16 @@ methods = {
       const Ui = this.types.find(o=>o.name==node.type); // concept as in conceptmap is a component as it is a GUI thing.
       // if(!Ui) throw new Error(`Unrecongnized type "${node.type}"`);
       if(!Ui) {
-        console.warn(`Unrecongnized type "${node.type}"`);
+        console.warn(`Skipped Unrecongnized Component Type "${node.type}"`);
         return;
       }
-      console.log(`%cCreate UI component (${node.type}) based on data node ${node.id}`, 'background: hsl(0, 50%, 60%); color: white;');
+      // console.log(`%cCreate UI component (${node.type}) based on data node ${node.id}`, 'background: hsl(0, 50%, 60%); color: white;');
 
   		const ui = new Instance(Ui);
       this.ui.set(node.id, ui);
       ui.scene = this.scene; // remember parent sets the scene
       ui.project = this.project; // remember parent sets the scene
-      console.log('ui.scene = this.scene',  this.scene);
+      // console.log('ui.scene = this.scene',  this.scene);
       ui.data = node; // .............................................. -> Component.js / this.on("data", (data) => {...
 
       //
@@ -138,7 +132,7 @@ methods = {
       component: this,
       handle: this.background,
       zone: window,
-    }); this.destructable = ()=>zoom.destroy()
+    }); this.destructable = ()=>pan.destroy()
 
 
 
@@ -150,11 +144,11 @@ methods = {
       if(raw.meta.url) raw.data = await (await fetch(raw.meta.url)).json();
     }
     for (const raw of rehydrated.data) {
-      console.log(`%cCreate data node based on JSON data ${raw.meta.id}`, 'background: hsl(0, 50%, 50%); color: white;');
+      // console.log(`%cCreate data node based on JSON data ${raw.meta.id}`, 'background: hsl(0, 50%, 50%); color: white;');
       const node =  new Instance(Node);
 
       Object.assign(node, raw.meta);
-      console.log(node);
+      // console.log(node);
 
       node.data = raw.data;
       project.concepts.create( node ); // -> see project #onStart for creation.

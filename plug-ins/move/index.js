@@ -1,7 +1,9 @@
-export default class Pan {
+export default class Move {
 
   component;
+  window;
   handle;
+  zone;
 
   mouseDownHandler;
   mouseMoveHandler;
@@ -11,9 +13,15 @@ export default class Pan {
   startY = 0;
   dragging = false;
 
-  constructor({component, handle, zone}){
+  constructor({component, window, handle, zone}){
+    if(!component) throw new Error('component is required')
+    if(!handle) throw new Error('handle is required')
+    if(!window) throw new Error('window is required')
+    if(!zone) throw new Error('zone is required')
+
     this.component = component;
     this.handle = handle;
+    this.window = window;
     this.zone = zone;
     this.mount();
   }
@@ -26,7 +34,7 @@ export default class Pan {
       this.startY = e.clientY;
       // Enable dragging
       this.dragging = true;
-      this.component.iframe = false;
+      globalThis.project.iframe = false;
       this.zone.addEventListener('mousemove', this.mouseMoveHandler);
     };
 
@@ -39,21 +47,21 @@ export default class Pan {
       // Substract initial position from current cursor position to get relative motion, motion relative to initial touchdown
       dx = e.clientX - this.startX;
       dy = e.clientY - this.startY;
+
       // Add a scaled version of the node
-      // dx = dx + (this.component.panX * this.component.zoom);
-      // dy = dy + (this.component.panY * this.component.zoom);
-      dx = dx + this.component.panX;
-      dy = dy + this.component.panY;
+      dx = dx + (this.component.data.x * globalThis.project.zoom);
+      dy = dy + (this.component.data.y * globalThis.project.zoom);
+      // dx = dx + this.component.panX;
+      // dy = dy + this.component.panY;
 
       // // Apply Scale Transformation To Everything
-      // dx = dx / this.component.zoom;
-      // dy = dy / this.component.zoom;
-
-        // console.log(this.component.panX, this.component.zoom);
+      dx = dx / globalThis.project.zoom;
+      dy = dy / globalThis.project.zoom;
 
       // Final Asignment
-      this.component.panX = dx;
-      this.component.panY = dy;
+      this.component.data.x = dx;
+      this.component.data.y = dy;
+
       // End
       dx = 0;
       dy = 0;
@@ -64,7 +72,7 @@ export default class Pan {
 
     this.mouseUpHandler = (e) => {
       this.dragging = false;
-      this.component.iframe = true;
+      globalThis.project.iframe = true;
       this.zone.removeEventListener('mousemove', this.mouseMoveHandler);
     };
 
