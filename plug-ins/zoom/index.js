@@ -1,27 +1,15 @@
-// Installer - must be run in mount() once all alements are in the DOM
-export default function zoom(that) {
+export default class Zoom {
 
-  that.destructable = new Zoom({
-    container: that,
-    element: that.scene,
-    zone: that.background,
-  });
-
-}
-
-// Feature
-export class Zoom {
-
-  container;
+  component;
   element;
   zone;
 
-  delta = 0.001;
+  magnitude = 0.001;
   min = 0.1;
   max = 1_0;
 
-  constructor({container, element, zone}){
-    this.container = container;
+  constructor({component, element, zone}){
+    this.component = component;
     this.element = element;
     this.zone = zone;
     this.mount();
@@ -30,35 +18,41 @@ export class Zoom {
   mount(){
 
     this.wheelHandler = (e) => {
+      const zoom0 = this.component.zoom;
+      const panX0 = this.component.panX;
+      const panY0 = this.component.panY;
+      const cursorX = e.x;
+      const cursorY = e.y;
 
-      let scale = this.element.style.scale;
-      if (scale === ''){
-        scale = 1.0;
-      }else{
-        scale = parseFloat(scale);
-      }
+      let zoom1;
+      zoom1 = zoom0 + (-e.deltaY) * ( this.magnitude * zoom0 ) ;
+      zoom1 = Math.min(Math.max(this.min, zoom1), this.max); // clamp
 
-      scale = scale + (e.deltaY * -( this.delta * this.container.zoom ));
-      // NOTE: this.container.zoom is to adjust mouse for existing scale change
+      let panX1;
+      let panY1;
+      panX1 = cursorX - zoom1/zoom0 * (cursorX - panX0);
+      panY1 = cursorY - zoom1/zoom0 * (cursorY - panY0);
 
-      // Clamp
-      scale = Math.min(Math.max(this.min, scale), this.max);
-
-      // adjust
-      requestAnimationFrame(() => {
-        this.element.style.scale = scale;
-      });
+      // // adjust
+      // requestAnimationFrame(() => {
+      //   this.element.style.scale = zoom1;
+      //   this.element.style.transform = `translate(${panX1/zoom1}px,${panY1/zoom1}px)`;
+      // });
 
       // inform others who maybe listening to s
-      this.container.zoom = scale;
+      this.component.zoom = zoom1;
+      this.component.panX = panX1;
+      this.component.panY = panY1;
     };
 
     this.zone.addEventListener('wheel', this.wheelHandler, {passive: true});
+    this.element.addEventListener('wheel', this.wheelHandler, {passive: true});
   }
 
   destroy(){
     this.removeStartedObserver();
     this.zone.removeEventListener('wheel', this.wheelHandler);
+    this.element.removeEventListener('wheel', this.wheelHandler);
   }
 
 }

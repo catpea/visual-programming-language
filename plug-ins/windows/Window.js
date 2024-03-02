@@ -3,6 +3,7 @@ import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 import Container from "/plug-ins/windows/Container.js";
 import Control from "/plug-ins/windows/Control.js";
 import Caption from "/plug-ins/windows/Caption.js";
+import movable from "/plug-ins/movable/index.js";
 
 export default class Window {
 
@@ -17,12 +18,15 @@ export default class Window {
 
     mount(){
 
+
       // ADD DRAGGABLE CAPTION
       let caption = new Instance(Caption);
       caption.scene = this.scene;
       caption.parent = this;
       caption.h = 24;
       this.children.create(caption);
+
+      movable(this, {handle: caption});
 
       // ADD DRA-AND-DROP TOOLBAR
       let toolbar = new Instance(Control);

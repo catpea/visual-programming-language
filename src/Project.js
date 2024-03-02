@@ -3,8 +3,8 @@ import Node from "/plug-ins/node/Node.js";
 
 import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 
-import pan from "/plug-ins/pan/index.js";
-import zoom from "/plug-ins/zoom/index.js";
+import Pan from "/plug-ins/pan/index.js";
+import Zoom from "/plug-ins/zoom/index.js";
 
 import {log, error, warn, info, debug, seq} from "/plug-ins/log/index.js";
 
@@ -56,6 +56,7 @@ export default class Project {
     panX: 0,
     panY: 0,
     zoom: 1,
+    iframe: true, // controls if iframe content is visible, iframes interefere with dragging
 
   };
 
@@ -74,6 +75,14 @@ methods = {
   initialize() {
 
 
+
+    this.on('zoom', v=>console.log(`zoom changed to: ${v}`));
+    this.on('panX', v=>console.log(`panX changed to: ${v}`));
+    this.on('panY', v=>console.log(`panY changed to: ${v}`));
+
+    this.on('zoom', v=> requestAnimationFrame(() => { this.scene.style.scale = this.zoom }));
+    this.on('panX', v=> requestAnimationFrame(() => { this.scene.style.transform = `translate(${this.panX/this.zoom}px, ${this.panY/this.zoom}px)` }));
+    this.on('panY', v=> requestAnimationFrame(() => { this.scene.style.transform = `translate(${this.panX/this.zoom}px, ${this.panY/this.zoom}px)` }));
 
     this.on('name', v=> {
       if(v) document.querySelector('title').innerText = v;
@@ -95,6 +104,7 @@ methods = {
   		const ui = new Instance(Ui);
       this.ui.set(node.id, ui);
       ui.scene = this.scene; // remember parent sets the scene
+      ui.project = this.project; // remember parent sets the scene
       console.log('ui.scene = this.scene',  this.scene);
       ui.data = node; // .............................................. -> Component.js / this.on("data", (data) => {...
 
@@ -116,8 +126,21 @@ methods = {
   async mount (){
 
     // features that need to be installed after DOM nodes are created
-    pan(this);
-    zoom(this);
+    // pan(this);
+
+    const zoom = new Zoom({
+      component: this,
+      element: this.scene,
+      zone: this.background,
+    }); this.destructable = ()=>zoom.destroy()
+
+    const pan = new Pan({
+      component: this,
+      handle: this.background,
+      zone: window,
+    }); this.destructable = ()=>zoom.destroy()
+
+
 
     // TODO: simplify code below with a rehydrator
     // const rehydrated = await rehydrator();

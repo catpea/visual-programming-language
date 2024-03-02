@@ -91,6 +91,13 @@ export default class Frame {
 
       this.el.ForeignObject.appendChild(iframe)
 
+   
+        window.project.on('iframe', visibility=>{
+          console.log('visibility', visibility);
+          this.el.ForeignObject.style.display = visibility?'block':'none';
+        });
+
+
       this.on('name', name=>update(this.el.ForeignObject,{name}));
       this.on('src',   src=>update(iframe,{src}));
 
