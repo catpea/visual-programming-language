@@ -9,6 +9,7 @@ export default class Node {
   };
 
   properties = {
+    id: null,
   };
 
   observables = {
@@ -23,10 +24,13 @@ export default class Node {
     p:0,
     s:0,
 
+    source: undefined,
+    target: undefined,
+
     url: undefined, // JSON url
     src: undefined, // JSON url
-
     data: undefined, // JSON data
+
   }
 
   methods = {

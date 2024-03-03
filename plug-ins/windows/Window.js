@@ -37,7 +37,7 @@ export default class Window {
 
       const focus = new Focus({
         component: this,
-        handle: caption.handle,
+        handle: this.scene, // set to caption above to react to window captions only
       }); this.destructable = ()=>focus.destroy()
 
     },

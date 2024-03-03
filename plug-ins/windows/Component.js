@@ -47,6 +47,25 @@ export default class Component {
     //   Object.values(this.el).forEach(el => this.scene.appendChild(el));
     // },
 
+    allAnchors(parent, list=[]){
+
+      if(parent?.children){
+        for (const child of parent.children) {
+
+          if(child.anchors?.length){
+            for (const anchor of child.anchors) {
+              list.push(anchor);
+            }
+          }
+
+          this.allAnchors(child, list)
+
+        }
+      }
+
+      return list;
+    },
+
     appendElements(){
 
       // if(!this.g){
@@ -98,6 +117,9 @@ export default class Component {
         data.on("b", b => this.b = b);
         data.on("p", p => this.p = p);
         data.on("s", s => this.s = s);
+
+        data.on("source", source => this.source = source);
+        data.on("target", target => this.target = target);
       });
     },
 

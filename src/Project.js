@@ -10,6 +10,7 @@ import {svg} from "/plug-ins/domek/index.js";
 
 import VisualProgram from "/plug-ins/applications/VisualProgram.js";
 import Junction from "/plug-ins/windows/Junction.js";
+import Line from "/plug-ins/windows/Line.js";
 import RemoteApplication from "/plug-ins/applications/RemoteApplication.js";
 
 export default class Project {
@@ -37,7 +38,7 @@ export default class Project {
   };
 
   properties = {
-    types: [ VisualProgram, Junction, RemoteApplication ], // What can the project instantiate?
+    types: [ VisualProgram, Junction, Line, RemoteApplication ], // What can the project instantiate?
     ui: new Map(), // track all the ui
   };
 
@@ -101,12 +102,8 @@ methods = {
       const g = svg.g({id:node.id, class:'component'});
       this.scene.appendChild(g)
       ui.scene = g; // remember parent sets the scene
-
-      // console.log('ui.scene = this.scene',  this.scene);
       ui.data = node; // .............................................. -> Component.js / this.on("data", (data) => {...
-
-      //
-      // // component.container = this; // this may not be needed
+      //NOTE: do not set parent here, a project is not a parent of a window.
       ui.start()
 
     }, {replay:true});
@@ -165,7 +162,8 @@ methods = {
     } // for every tray
     // shut down all properties...
     this.dispose();
-  }
+  },
+
   }
 
 }

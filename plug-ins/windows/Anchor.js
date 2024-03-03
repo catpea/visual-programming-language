@@ -1,11 +1,15 @@
-import Component from "/plug-ins/windows/Component.js";
 import { svg, update } from "domek";
+
+import Component from "/plug-ins/windows/Component.js";
+
+import Connect from "/plug-ins/connect/index.js";
 
 export default class Anchor {
 
   static extends = [Component];
 
   properties = {
+    pad: null
   };
 
   observables = {
@@ -22,7 +26,7 @@ export default class Anchor {
   methods = {
 
     initialize(){
-      // console.log(`%cAnchor.initialize!`, 'background: hsl(180, 80%, 60%); color: black;', this);
+
       this.r = 8;
       this.s = 4;
 
@@ -34,6 +38,7 @@ export default class Anchor {
     },
 
     mount(){
+
       this.el.Circle = svg.circle({
         name: this.name,
         class: 'anchor-container',
@@ -42,24 +47,24 @@ export default class Anchor {
         cx: this.x,
         cy: this.y,
       });
+
+      this.el.Circle.dataset.target = [this.name, this.root().data.id].join(':')
+
+      this.pad = this.el.Circle;
+
       this.on('name',  name=>update(this.el.Circle,{name}), );
       this.on('color',  fill=>update(this.el.Circle,{style:{fill}}), );
-      // this.on('color',  fill=>console.log(this.el.Circle,{style:{fill}}), );
       this.on('x',      cx=>update(this.el.Circle,{cx}),     );
       this.on('y',      cy=>update(this.el.Circle,{cy}),     );
       this.on('r',      r=>update(this.el.Circle,{r}),     );
       this.appendElements();
 
-      // let leCounter = 0;
-      // setInterval(()=>{
-      //   if(leCounter % 2 == 0){
-      //     update(this.el.Circle, {style:{fill:'yellow'}} )
-      //   }else{
-      //     update(this.el.Circle, {style:{fill:'red'}} )
-      //   }
-      //
-      //   leCounter++;
-      // }, 10_000/this.getRandomIntInclusive(1, 10))
+      const connect = new Connect({
+        anchor: this,
+        // handle: caption.handle,
+        // window: this,
+        zone: window,
+      }); this.destructable = ()=>connect.destroy()
 
 
     },
