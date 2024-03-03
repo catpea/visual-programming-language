@@ -47,6 +47,7 @@ export default class Control {
       });
 
       this.on("anchors.created", (anchor) => {
+        anchor.scene = this.scene;
         anchor.start();
         this.anchorage.manage(anchor);
       }, {replay: true});

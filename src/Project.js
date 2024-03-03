@@ -6,7 +6,7 @@ import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 import Pan from "/plug-ins/pan/index.js";
 import Zoom from "/plug-ins/zoom/index.js";
 
-import {log, error, warn, info, debug, seq} from "/plug-ins/log/index.js";
+import {svg} from "/plug-ins/domek/index.js";
 
 import VisualProgram from "/plug-ins/applications/VisualProgram.js";
 import Junction from "/plug-ins/windows/Junction.js";
@@ -97,8 +97,11 @@ methods = {
 
   		const ui = new Instance(Ui);
       this.ui.set(node.id, ui);
-      ui.scene = this.scene; // remember parent sets the scene
-      ui.project = this.project; // remember parent sets the scene
+
+      const g = svg.g({id:node.id, class:'component'});
+      this.scene.appendChild(g)
+      ui.scene = g; // remember parent sets the scene
+
       // console.log('ui.scene = this.scene',  this.scene);
       ui.data = node; // .............................................. -> Component.js / this.on("data", (data) => {...
 

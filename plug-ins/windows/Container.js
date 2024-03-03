@@ -22,6 +22,7 @@ export default class Container {
 
       this.on("children.created", (child) => {
         // console.log(`About to start ${child.oo.name}`, child, );
+        child.scene = this.scene;
         child.start();
         this.layout.manage(child);
       }, {replay: true});

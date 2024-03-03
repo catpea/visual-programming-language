@@ -1,17 +1,16 @@
-import { svg } from "domek";
+import { svg, update } from "domek";
 
 export default class Component {
 
   properties = {
     id: uuid(),
     el: {}, // bag of elements
-    g: svg.g({class:'component'}), // svg group node to contain everything
   };
 
   observables = {
 
     parent: undefined, // it may be needed to access parent from a control
-    scene:  undefined, // remember parent sets the scene, child must adds its own .g to it.
+    scene:  undefined, // remember parent sets the scene, this child must adds its own .g to it, then its own g becomes the scene for children
     data:  undefined,
 
     name:  'un-named',
@@ -43,9 +42,22 @@ export default class Component {
   }
 
   traits = {
+    //
+    // appendMain(){
+    //   Object.values(this.el).forEach(el => this.scene.appendChild(el));
+    // },
 
     appendElements(){
+
+      // if(!this.g){
+      //   this.g = svg.g({class:'component'});
+      //   this.scene.appendChild(this.g)
+      // }
+      //
+      // Object.values(this.el).forEach(el => this.g.appendChild(el));
+
       Object.values(this.el).forEach(el => this.scene.appendChild(el));
+
     },
 
     removeElements(){
@@ -70,21 +82,13 @@ export default class Component {
 
   }
 
-  started(){
-
-  }
-
-  stopped(){
-    this.dispose()
-  }
-
   methods = {
+
 
     initialize(){
       // console.log(`%cComponent.initialize!`, 'background: hsl(180, 90%, 60%); color: black;');
 
       this.on("data", (data) => {
-        // console.info('UI COMPONENT IS BINDING TO DATA NODE');
         data.on("x", x => this.x = x);
         data.on("y", y => this.y = y);
         data.on("w", w => this.w = w);
