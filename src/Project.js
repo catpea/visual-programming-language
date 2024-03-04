@@ -58,7 +58,7 @@ export default class Project {
 
     panX: 0,
     panY: 0,
-    zoom: 1,
+    zoom: 0.4,
     iframe: true, // controls if iframe content is visible, iframes interefere with dragging
 
   };

@@ -11428,7 +11428,10 @@ svg.editor-interface {
 }
 div.editor-codemirror {
   background-color: var(--editor-dark);
-  border: 2px solid var(--editor-primary);
+  border: 2px solid var(--editor-dark);
+}
+div.editor-codemirror * {
+  border-radius: 0 !important;
 }
 
 /* plug-ins/obsidian-theme/index.scss */

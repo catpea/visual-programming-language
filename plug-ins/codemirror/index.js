@@ -48,9 +48,29 @@ export default class CodeMirror {
       this.el.ForeignObject.appendChild(div)
       this.appendElements();
 
+      const extensions = [
+        basicSetup,
+        javascript(),
+        EditorView.lineWrapping, //NOTE: EditorView.lineWrapping does/did not honor code indents
+        keymap.of([indentWithTab]),
+        EditorView.updateListener.of((update) => {if (update.docChanged) value = update.state.doc.toString(); }),
+        oneDark,
+        EditorView.theme({
+          ".cm-content, .cm-gutter": {minHeight: "8rem"},
+          ".cm-scroller": {
+            overflow: "auto",
+            borderTopLeftRadius: '0px',
+            borderTopLeftRadius: '0px',
+            borderBottomLeftRadius: '0px',
+            borderBottomRightRadius: '0px',
+         },
+        })
+      ];
+
+
       const codemirror = new EditorView({
         doc: (this.parent.data.doc || ""),
-        extensions: [basicSetup, javascript()],
+        extensions,
         parent: div
       })
 
