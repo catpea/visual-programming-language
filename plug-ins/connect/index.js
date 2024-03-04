@@ -3,6 +3,8 @@ import { svg, update } from "domek";
 import Node from "/plug-ins/node/Node.js";
 import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 
+export class Compatibility {}
+
 export default class Connect {
 
   anchor;
@@ -31,8 +33,10 @@ export default class Connect {
       // Create line
 
       this.line = svg.line({
-        class: 'cable-line-indicator line-ant-trail',
-        'vector-effect': 'non-scaling-stroke',
+        class: 'editor-anchor-line',
+        style: {
+          'pointer-events': 'none' /* required, otherwise the line will mousedrop on it self */
+        }
       });
 
       this.anchor.scene.appendChild(this.line);
@@ -40,6 +44,11 @@ export default class Connect {
       // Remember where mouse touched down
       this.startX = e.clientX;
       this.startY = e.clientY;
+
+      // Sync line with cursor
+      // this.startX = this.anchor.x;
+      // this.startY = this.anchor.y;
+
       // Enable dragging
       this.dragging = true;
       globalThis.project.iframe = false;
@@ -87,14 +96,15 @@ export default class Connect {
 
     this.mouseUpHandler = (e) => {
 
-      const isOverAnotherPort = this.dragging && e.target && e.target.classList.contains('anchor-container');
-			const isOverBackground = this.dragging && e.target && e.target.classList.contains('interface-background');
+      const isOverAnotherPort = this.dragging && e.target && e.target.classList.contains('editor-anchor');
+			const isOverBackground = this.dragging && e.target && e.target.classList.contains('editor-background');
+
 
       if(isOverAnotherPort){
         const node =  new Instance(Node);
         node.id = uuid();
         node.type = 'Line',
-        node.source = [this.anchor.name, this.anchor.root().data.id].join(':'),
+        node.source = [this.anchor.name, this.anchor.root().node.id].join(':'),
         node.target = e.target.dataset.target;
         console.log(`%cCreate data node ${node.id}`, 'background: hsl(0, 50%, 50%); color: white;');
         globalThis.project.concepts.create( node ); // -> see project #onStart for creation.

@@ -2,10 +2,17 @@
   "meta": {
     "id": "17b1cb2a-1a08-4eec-a3fc-f3835cbbdfab",
     "name": "Hello Project",
-    "description": "A Selection Of World VisualPrograms",
-    "version": "1.0.1"
+    "description": "A Selection Of World VisualPrograms"
   },
+
+  "link":[
+
+  ],
+
   "data": [
+
+
+
     {
       "meta": {
         "id": "b",
@@ -17,8 +24,9 @@
         "r": 6,
         "url": "templates/hello-world.json"
       },
-      "data": {}
+      "data": null
     },
+
     {
       "meta": {
         "id": "c",
@@ -30,7 +38,7 @@
         "r": 6,
         "url": "templates/hello-world.json"
       },
-      "data": {}
+      "data": null
     },
     {
       "meta": {
@@ -43,7 +51,7 @@
         "r": 6,
         "url": "templates/hello-world.json"
       },
-      "data": {}
+      "data": null
     },
     {
       "meta": {
@@ -56,7 +64,7 @@
         "r": 6,
         "url": "templates/hello-world.json"
       },
-      "data": {}
+      "data": null
     },
     {
       "meta": {
@@ -69,7 +77,7 @@
         "r": 6,
         "url": "templates/hello-world.json"
       },
-      "data": {}
+      "data": null
     },
     {
       "meta": {
@@ -82,7 +90,7 @@
         "r": 6,
         "url": "templates/hello-world.json"
       },
-      "data": {}
+      "data": null
     },
     {
       "meta": {
@@ -95,24 +103,22 @@
         "r": 6,
         "url": "templates/hello-world.json"
       },
-      "data": {}
+      "data": null
     },
     {
       "meta": {
         "id": "i",
-        "type": "CodeEditor",
+        "type": "VisualProgram",
         "x": 398,
         "y": 221,
-        "w": 800,
-        "h": 600,
-        "H": 600,
+        "w": 284,
+        "h": 299,
         "r": 6,
         "url": "templates/hello-world.json"
       },
-      "data": {
-        "doc": "console.log('Hello World!');\n"
-      }
+      "data": null
     },
+
     {
       "meta": {
         "id": "j",
@@ -120,25 +126,27 @@
         "x": 30,
         "y": 700,
         "w": 320,
-        "h": 256,
         "H": 256,
+        "h": 256,
         "r": 6,
         "src": "http://127.0.0.1:8000/iframe.html"
       },
-      "data": {}
+      "data": null
     },
+
     {
       "meta": {
         "id": "k",
         "type": "Junction",
         "x": 555,
         "y": 555,
-        "w": 32,
-        "h": 32,
         "r": 32
       },
-      "data": {}
+      "data": null
     },
+
+
+
     {
       "meta": {
         "id": "l",
@@ -150,18 +158,8 @@
         "r": 6,
         "src": "http://127.0.0.1:8000/color.html"
       },
-      "data": {}
-    },
-    {
-      "meta": {
-        "id": "6a98b165-b9cc-405c-ab5a-3f494fb2dff4",
-        "type": "Line",
-        "w": 32,
-        "h": 32,
-        "source": "output:j",
-        "target": "input:g"
-      },
-      "data": {}
-    }
+      "data": null
+    } 
+
   ]
 }

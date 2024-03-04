@@ -34,7 +34,7 @@ export default class Control {
 
       this.el.Container = svg.rect({
         name: this.name,
-        class: 'node-container',
+        class: 'editor-control',
         ry: this.r,
         'stroke-width': 2,
         // set initial values

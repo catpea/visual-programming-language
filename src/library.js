@@ -10,3 +10,23 @@ import { v4 as uuid } from "uuid";
 
 globalThis.uuid = uuid
 globalThis.themes = {Nostromo, Obsidian}
+
+globalThis.bundle = {};
+
+import {basicSetup, EditorView} from "codemirror"
+bundle['codemirror'] = {basicSetup, EditorView};
+
+import {javascript} from "@codemirror/lang-javascript"
+bundle['@codemirror/lang-javascript'] = {javascript};
+
+import {  keymap} from "@codemirror/view"
+bundle['@codemirror/view'] = { EditorView, keymap};
+
+import { indentWithTab } from "@codemirror/commands"
+bundle['@codemirror/commands'] = { indentWithTab };
+
+import { EditorState } from "@codemirror/state"
+bundle['@codemirror/state'] = { EditorState };
+
+import { oneDark } from '@codemirror/theme-one-dark'; // import { oneDark } from '/src/com/codearea-theme.js';
+bundle['@codemirror/theme-one-dark'] = { oneDark };

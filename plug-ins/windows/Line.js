@@ -34,8 +34,7 @@ export default class Line {
 
       this.el.Line = svg.line({
         name: this.name,
-        class: 'junction-container',
-        'stroke-width': 2,
+        class: 'editor-line',
       });
 
       this.on('name',  name=>update(this.el.Line,{name}), );
@@ -43,13 +42,8 @@ export default class Line {
       this.on('source',  source=>{
         if(!source) return;
         const [port, id] = source.split(':')
-        // const component = globalThis.project.concepts.find(o=>o.id==id)
         const component = globalThis.project.ui.get(id)
-        // console.log('FOUND ROOT1 COMPONENT', component, component.allAnchors(component));
         const anchor = component.allAnchors(component).find(o=>o.name==port)
-
-        console.log({anchor});
-
         anchor.on('x', x=>this.x1=x)
         anchor.on('y', y=>this.y1=y)
       });
@@ -58,12 +52,7 @@ export default class Line {
         if(!target) return;
         const [port, id] = target.split(':')
         const component = globalThis.project.ui.get(id)
-        // console.log('FOUND ROOT2 COMPONENT', component,  );
-        // console.log('FOUND ROOT2 COMPONENT', component.allAnchors(component));
-
         const anchor = component.allAnchors(component).find(o=>o.name==port)
-        console.log({anchor});
-
         anchor.on('x', x=>this.x2=x)
         anchor.on('y', y=>this.y2=y)
       });
@@ -74,10 +63,7 @@ export default class Line {
       this.on('x2',      x2=>update(this.el.Line,{x2}),     );
       this.on('y2',      y2=>update(this.el.Line,{y2}),     );
 
-      this.on('x1',      x1=>console.log({x1}),     );
-      this.on('y1',      y1=>console.log({y1}),     );
-      this.on('x2',      x2=>console.log({x2}),     );
-      this.on('y2',      y2=>console.log({y2}),     );
+ 
 
       this.appendElements();
     },

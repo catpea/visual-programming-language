@@ -35,10 +35,8 @@ export default class Caption {
 
       this.el.Container = svg.rect({
         name: this.name,
-        class: 'node-container',
+        class: 'editor-caption',
         ry: this.r,
-        // fill: 'red',
-        'stroke-width': 2,
         // set initial values
         // these are special, handeled by the layout manager
         // NOTE: these are observables, getter returns a value, setter notifies listeners, and you can ```this.observe('x', v=>{...})```

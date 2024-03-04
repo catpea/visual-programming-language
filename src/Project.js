@@ -9,6 +9,7 @@ import Zoom from "/plug-ins/zoom/index.js";
 import {svg} from "/plug-ins/domek/index.js";
 
 import VisualProgram from "/plug-ins/applications/VisualProgram.js";
+import CodeEditor from "/plug-ins/applications/CodeEditor.js";
 import Junction from "/plug-ins/windows/Junction.js";
 import Line from "/plug-ins/windows/Line.js";
 import RemoteApplication from "/plug-ins/applications/RemoteApplication.js";
@@ -38,7 +39,8 @@ export default class Project {
   };
 
   properties = {
-    types: [ VisualProgram, Junction, Line, RemoteApplication ], // What can the project instantiate?
+    meta: {},
+    types: [ VisualProgram, Junction, Line, RemoteApplication, CodeEditor ], // What can the project instantiate?
     ui: new Map(), // track all the ui
   };
 
@@ -94,16 +96,13 @@ methods = {
         console.warn(`Skipped Unrecongnized Component Type "${node.type}"`);
         return;
       }
-      // console.log(`%cCreate UI component (${node.type}) based on data node ${node.id}`, 'background: hsl(0, 50%, 60%); color: white;');
-
-  		const ui = new Instance(Ui);
-      this.ui.set(node.id, ui);
 
       const g = svg.g({id:node.id, class:'component'});
       this.scene.appendChild(g)
-      ui.scene = g; // remember parent sets the scene
-      ui.data = node; // .............................................. -> Component.js / this.on("data", (data) => {...
-      //NOTE: do not set parent here, a project is not a parent of a window.
+
+      //NOTE: do not set ui.parent here, a project is not a parent of a window.
+  		const ui = new Instance(Ui, {node, scene:g});
+      this.ui.set(node.id, ui);
       ui.start()
 
     }, {replay:true});
@@ -140,19 +139,30 @@ methods = {
     // const rehydrated = await rehydrator();
 
     const rehydrated = await (await fetch(this.file)).json();
-    for (const raw of rehydrated.data) {
-      if(raw.meta.url) raw.data = await (await fetch(raw.meta.url)).json();
-    }
-    for (const raw of rehydrated.data) {
-      // console.log(`%cCreate data node based on JSON data ${raw.meta.id}`, 'background: hsl(0, 50%, 50%); color: white;');
-      const node =  new Instance(Node);
-
-      Object.assign(node, raw.meta);
-      // console.log(node);
-
-      node.data = raw.data;
+    // for (const raw of rehydrated.data) {
+    //   if(raw.meta.url) raw.data = await (await fetch(raw.meta.url)).json();
+    // }
+    this.meta = rehydrated.meta;
+    for (const {meta, data} of rehydrated.data) {
+      const node = new Instance(Node, {...meta, data});
       project.concepts.create( node ); // -> see project #onStart for creation.
     }
+
+  },
+
+  async save(filename="project.json", meta={}){
+    const packageJson = await (await fetch('package.json')).json();
+    const {version:compatibility } = packageJson;
+    let objects = {
+      meta: Object.assign(this.meta, meta, {compatibility }),
+      data:[],
+    }
+    for (const concept of project.concepts) {
+      const object = concept.toObject();
+      objects.data.push( object );
+    }
+    const str = JSON.stringify(objects, null, 2);
+    console.log(str);
   },
 
   destroy(){

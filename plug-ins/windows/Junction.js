@@ -33,8 +33,7 @@ export default class Junction {
 
       this.el.Circle = svg.circle({
         name: this.name,
-        class: 'junction-container',
-        'stroke-width': 2,
+        class: 'editor-junction',
         r: this.r,
         cx: this.x,
         cy: this.y,

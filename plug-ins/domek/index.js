@@ -1,24 +1,33 @@
 const kebabize = (str) => str.replace(/[A-Z]+(?![a-z])|[A-Z]/g, ($, ofs) => (ofs ? "-" : "") + $.toLowerCase())
 
-function svgProperties(key){
 
-	if( ['clipPathUnits',].includes(key) ){
-		return key;
-	} else {
-	  return kebabize(key);
+const update = function(elements, properties) {
+	const els = Array.isArray(elements) ? elements : [elements];
+	for(const el of els) {
+		for(const key in properties) {
+			let value = properties[key];
+			if(key=='style' && typeof value == 'object'){
+				for (const name in value) {
+					el.style[name] = value[name];
+				}
+				continue;
+			}else if(typeof value == 'object'){
+				value = Object.entries(value).map(([k,v])=>`${k}: ${v};`).join(' ')
+			}
+			if(el.namespaceURI == 'http://www.w3.org/2000/svg') {
+				el.setAttributeNS(null, key, value);
+			} else {
+				el.setAttribute(key, value);
+			}
+		}
 	}
-
 }
 
 const svg = new Proxy({}, {
 	get: function(target, property) {
 		return function(properties, text) {
 			const el = document.createElementNS('http://www.w3.org/2000/svg', property);
-			for(const key in properties) {
-				if(properties.hasOwnProperty(key)) {
-					el.setAttributeNS(null, svgProperties(key), properties[key]);
-				}
-			}
+			update(el, properties)
 			if(text) el.appendChild(document.createTextNode(text));
 			return el;
 		}
@@ -29,11 +38,7 @@ const xhtml = new Proxy({}, {
 	get: function(target, property) {
 		return function(properties, text) {
 			const el = document.createElementNS('http://www.w3.org/1999/xhtml', property);
-			for(const key in properties) {
-				if(properties.hasOwnProperty(key)) {
-					el.setAttributeNS(null, kebabize(key), properties[key]);
-				}
-			}
+			update(el, properties)
 			if(text) el.appendChild(document.createTextNode(text));
 			return el;
 		}
@@ -43,20 +48,24 @@ const xhtml = new Proxy({}, {
 const html = new Proxy({}, {
 	get: function(target, property) {
 		return function(properties, text) {
-
 			const el = document.createElement(property);
-			for(const key in properties) {
-				if(properties.hasOwnProperty(key)) {
-					el.setAttribute(kebabize(key), properties[key]);
-				}
-			}
-
+			update(el, properties)
 			if(text) el.appendChild(document.createTextNode(text));
-
 			return el;
 		}
 	}
 });
+
+
+
+
+
+
+
+
+
+
+
 
 const list = (arrayList, rootElement) => {
 	// Ensure that child nodes' count matches arrayList's length
@@ -85,35 +94,7 @@ const text = function(text) {
 	return document.createTextNode(text);
 }
 
-const update = function(elements, properties) {
-	const els = Array.isArray(elements) ? elements : [elements];
-	for(const el of els) {
-		for(const key in properties) {
-			let value = properties[key];
 
-			if(key=='style' && typeof value == 'object'){
-				for (const name in value) {
-					// console.log('XXX', el, el.namespaceURI, name, value[name]);
-					el.style[name] = value[name];
-					// console.log('XXX', el.style);
-				}
-				// styles merged!
-				continue;
-
-			}else if(typeof value == 'object'){
-				value = Object.entries(value).map(([k,v])=>`${k}: ${v};`).join(' ')
-				// console.log('TRANSLATE', properties[key], value);
-			}
-
-			if(el.namespaceURI == 'http://www.w3.org/2000/svg') {
-				el.setAttributeNS(null, key, value);
-			} else {
-				el.setAttribute(key, value);
-			}
-
-		}
-	}
-}
 
 
 function back(element) {
@@ -148,51 +129,6 @@ function keyboard(verify, callback) {
 	// Return a function to remove the listener
 	return () => document.removeEventListener('keydown', listener);
 }
-
-
-
-async function JSONWriter(data) {
-    // create a new handle
-  const newHandle = await window.showSaveFilePicker({
-  suggestedName: 'project.json',
-  types: [{
-    description: 'JavaScript Object Notation',
-    accept: {
-      'application/json': ['.json'],
-    },
-  }],
-});
-
-  // create a FileSystemWritableFileStream to write to
-  const writableStream = await newHandle.createWritable();
-
-  // write our file
-  await writableStream.write(data);
-
-  // close the file and write the contents to disk.
-  await writableStream.close();
-}
-
-function JSONReader() {
-	return new Promise((resolve, reject) => {
-		const fileSelector = document.getElementById("fileSelector");
-    if(!fileSelector) console.log(`this feature requires a hidden: <input type="file" id="fileSelector" multiple accept="application/json" style="display:none" />`);
-		fileSelector.addEventListener("change", handleFiles, false);
-		fileSelector.click();
-		function handleFiles() {
-			const fileList = this.files;
-			const fileReader = new FileReader();
-			fileReader.onload = function(event) {
-				// console.log(event);
-				const result = JSON.parse(event.target.result);
-				// console.log(result);
-				resolve(result);
-			}
-			fileReader.readAsText(fileList.item(0));
-		}
-	});
-}
-
 
 function dataset(element, data){
 	for (const key in data) {
@@ -247,9 +183,7 @@ export {
 	front,
 
 	keyboard,
-
-	JSONReader,
-	JSONWriter,
+ 
 
 	click,
 	dblclick,

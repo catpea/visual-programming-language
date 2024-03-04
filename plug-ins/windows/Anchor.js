@@ -41,19 +41,17 @@ export default class Anchor {
 
       this.el.Circle = svg.circle({
         name: this.name,
-        class: 'anchor-container',
-        'stroke-width': 2,
+        class: 'editor-anchor',
         r: this.r,
         cx: this.x,
         cy: this.y,
       });
 
-      this.el.Circle.dataset.target = [this.name, this.root().data.id].join(':')
+      this.el.Circle.dataset.target = [this.name, this.root().node.id].join(':')
 
       this.pad = this.el.Circle;
 
       this.on('name',  name=>update(this.el.Circle,{name}), );
-      this.on('color',  fill=>update(this.el.Circle,{style:{fill}}), );
       this.on('x',      cx=>update(this.el.Circle,{cx}),     );
       this.on('y',      cy=>update(this.el.Circle,{cy}),     );
       this.on('r',      r=>update(this.el.Circle,{r}),     );

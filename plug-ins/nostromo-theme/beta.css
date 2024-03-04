@@ -1,0 +1,178 @@
+
+
+
+
+
+/* Node is the main thing that contains caption ports, etc.. */
+
+
+.node-container {
+    fill: var(--primary-background);
+    stroke: var(--primary-border);
+}
+
+.node-container.selected {
+    fill: rgba(0, 0, 0, 0.5);
+    stroke: var(--selected-border);
+}
+
+
+.anchor-container {
+    fill: var(--primary-background);
+    stroke: var(--secondary-color);
+}
+
+
+
+
+
+.node-caption {
+    fill: transparent;
+    stroke: transparent;
+}
+
+.node-caption.selected {
+    fill: transparent;
+}
+
+.node-caption.caption-text {
+    fill: var(--primary-color);
+}
+
+.node-caption.caption-text.selected {
+    fill: var(--selected-color);
+}
+
+
+
+
+
+
+.node-pod {
+    fill: transparent;
+    stroke: transparent;
+}
+
+
+
+
+
+
+
+
+
+.pod-row {
+    fill: transparent;
+    stroke: transparent;
+
+}
+
+.pod-row.selected {
+    fill: transparent;
+    stroke: transparent;
+}
+
+
+
+
+
+
+
+
+
+
+
+.node-port {
+    fill: var(--primary-color);
+}
+
+.node-port.selected {
+    fill: var(--selected-color);
+}
+
+.node-port.input-port {}
+
+.node-port.output-port {}
+
+.port-text {
+    fill: var(--primary-color);
+}
+
+.port-text.selected {
+    fill: var(--selected-color);
+}
+
+
+.editor-control {
+
+    background-color: hsl(186, 85%, 8%);
+}
+
+.editor-control.textarea {
+    border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;
+    border-bottom-style: dotted;
+    outline: none;
+}
+
+
+
+
+
+/* .cable-line {
+    stroke: var(--primary-color);
+    stroke-width: 2;
+}
+
+.cable-line-zone {
+    stroke: var(--dark);
+    stroke-width: 8;
+}
+
+.cable-line-zone.selected {}
+
+.cable-line.selected {
+    stroke: var(--selected-color);
+}
+
+.cable-line.selected.disabled {
+    stroke: color-mix(in lch, var(--primary-color), red, 40%);
+}
+
+.cable-line.disabled {
+    stroke: color-mix(in lch, var(--primary-color), rgba(0, 0, 0, 0.5), 30%);
+}
+
+.cable-line-indicator {
+    stroke: var(--selected-color);
+    stroke-width: 2;
+} */
+
+
+
+
+
+.junction-container {
+    fill: transparent;
+    stroke: var(--secondary-color);
+}
+
+.junction-caption {
+    fill: transparent;
+    stroke: var(--secondary-color);
+}
+
+.junction-caption.selected {
+    fill: transparent;
+    stroke: var(--selected-color)
+}
+
+.junction-port {
+    fill: var(--primary-color);
+    stroke: var(--darkest);
+}
+
+.junction-port.selected {
+    fill: var(--selected-color)
+}

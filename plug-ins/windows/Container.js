@@ -38,7 +38,7 @@ export default class Container {
 
       this.el.Container = svg.rect({
         name: this.name,
-        class: 'node-container',
+        class: 'editor-container',
         ry: this.r,
         'stroke-width': 2,
         // set initial values

@@ -175,14 +175,18 @@ export class Instance {
       } // if
     }
     function executeAll(name, arg, list){
+      let response = null;
       const reversed = Array.from( list ).reverse();
       for (const inherited of reversed) {
-        if(inherited.methods && inherited.methods[name]) inherited.methods[name].bind(composite)(arg)
+        if(inherited.methods && inherited.methods[name]){
+          response = inherited.methods[name].bind(composite)(arg)
+        }
       }
+      return response;
     }
     for (const methodName of methods) {
       Object.defineProperty(this, methodName, {
-        value: function(arg){ executeAll(methodName, arg, this.oo.specifications) },
+        value: function(arg){ return executeAll(methodName, arg, this.oo.specifications) },
         writable: true,
         enumerable: true,
         configurable: false,

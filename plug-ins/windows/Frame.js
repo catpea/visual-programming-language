@@ -42,6 +42,7 @@ export default class Frame {
       });
 
       const iframe = html.iframe({
+        class: 'editor-frame',
         src: this.src,
       });
       // console.log('IFRAME', iframe);

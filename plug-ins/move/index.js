@@ -49,8 +49,8 @@ export default class Move {
       dy = e.clientY - this.startY;
 
       // Add a scaled version of the node
-      dx = dx + (this.component.data.x * globalThis.project.zoom);
-      dy = dy + (this.component.data.y * globalThis.project.zoom);
+      dx = dx + (this.component.node.x * globalThis.project.zoom);
+      dy = dy + (this.component.node.y * globalThis.project.zoom);
       // dx = dx + this.component.panX;
       // dy = dy + this.component.panY;
 
@@ -59,8 +59,8 @@ export default class Move {
       dy = dy / globalThis.project.zoom;
 
       // Final Asignment
-      this.component.data.x = dx;
-      this.component.data.y = dy;
+      this.component.node.x = dx;
+      this.component.node.y = dy;
 
       // End
       dx = 0;

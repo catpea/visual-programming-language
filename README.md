@@ -6,7 +6,14 @@ User Friendly Visual Programming Language
 - All Controls Have Ports: a control no matter how large or small can paint ports.
 - method naming scheme: add + Window + Component = action Parent Class + Class Of Object
 - all Controls have this.anchors where named anchors must be stored
+
 ## TODO
+
+- [ ] BUG: vector-effect: 'non-scaling-stroke'; belongs on SVG element
+- [ ] Junctions
+- [ ] Project Save
+- [ ] Generator
+- [ ] Selection Manager
 
 - [ ] make plug-ins/visual-editor/VisualEditor.js load nodes, junctions, and edges
 - [ ] add a special I/O node set, each time I is added or removed number of input ports change.

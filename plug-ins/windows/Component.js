@@ -11,15 +11,16 @@ export default class Component {
 
     parent: undefined, // it may be needed to access parent from a control
     scene:  undefined, // remember parent sets the scene, this child must adds its own .g to it, then its own g becomes the scene for children
-    data:  undefined,
+    node:  undefined, // data node
+    data:  undefined, // the data that is in the node
 
     name:  'un-named',
 
     x: 0,
     y: 0,
 
-    w: 10,
-    h: 10,
+    w: 0,
+    h: 0,
 
     H: 0, // min h
     r: 0, // border radius
@@ -36,8 +37,8 @@ export default class Component {
     },
     mount: {
       '.scene is required to start': function(){ if(!this.data){return {error:'data missing'}} },
-      '.data is required to start': function(){ if(!this.data){return {error:'data missing'}} },
-      '.data must be an observable object': function(){ if(!this.data.on){return {error:'.on missing on .data'}} },
+      '.node is required to start': function(){ if(!this.node){return {error:'node missing'}} },
+      '.node must be an observable object': function(){ if(!this.node.on){return {error:'.on missing on .node'}} },
     }
   }
 
@@ -107,19 +108,23 @@ export default class Component {
     initialize(){
       // console.log(`%cComponent.initialize!`, 'background: hsl(180, 90%, 60%); color: black;');
 
-      this.on("data", (data) => {
-        data.on("x", x => this.x = x);
-        data.on("y", y => this.y = y);
-        data.on("w", w => this.w = w);
-        data.on("h", h => this.h = h);
-        data.on("H", H => this.H = H);
-        data.on("r", r => this.r = r);
-        data.on("b", b => this.b = b);
-        data.on("p", p => this.p = p);
-        data.on("s", s => this.s = s);
+      this.on("node", (node) => {
 
-        data.on("source", source => this.source = source);
-        data.on("target", target => this.target = target);
+        node.on("x", x => this.x = x);
+        node.on("y", y => this.y = y);
+        node.on("w", w => this.w = w);
+        node.on("h", h => this.h = h);
+        node.on("H", H => this.H = H);
+        node.on("r", r => this.r = r);
+        node.on("b", b => this.b = b);
+        node.on("p", p => this.p = p);
+        node.on("s", s => this.s = s);
+
+        node.on("data", data => this.data = data);
+
+        node.on("source", source => this.source = source);
+        node.on("target", target => this.target = target);
+
       });
     },
 
