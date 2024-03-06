@@ -545,8 +545,17 @@ export class List {
     }
   }
 
-  remove(item){
-    this.#value = this.#value.filter(o => o.id !== item.id);
+  remove(input){
+    let id;
+
+    if(typeof input === 'string'){
+      id = input;
+    }else{
+      if(!input.id) throw new Error('Only stingId and onbect with an id property is supported');
+      id = input.id;
+    }
+
+    this.#value = this.#value.filter(o => o.id !== id);
     this.notify("removed", item);
     this.notify("changed", this);
   }

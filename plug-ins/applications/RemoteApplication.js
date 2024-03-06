@@ -16,7 +16,7 @@ export default class RemoteApplication {
 
     mount(){
       const frame = new Instance(Frame);
-      this.addWindowComponent(frame); // Add Visual Editor To The Window
+      this.createWindowComponent(frame); // Add Visual Editor To The Window
 
       // once data is set, listen on src, and pass it to frame.
       this.on("node", (node) => {

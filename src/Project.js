@@ -41,7 +41,12 @@ export default class Project {
   properties = {
     meta: {},
     types: [ VisualProgram, Junction, Line, RemoteApplication, CodeEditor ], // What can the project instantiate?
-    ui: new Map(), // track all the ui
+
+    // registry
+    nodes: new Map(),
+    applications: new Map(), // NOTE: root windowID
+    anchors: new Map(), // NOTE: format is portName:rootID (not component id, but the root window)
+
   };
 
   observables = {
@@ -101,15 +106,15 @@ methods = {
       this.scene.appendChild(g)
 
       //NOTE: do not set ui.parent here, a project is not a parent of a window.
-  		const ui = new Instance(Ui, {node, scene:g});
-      this.ui.set(node.id, ui);
+  		const ui = new Instance(Ui, {id:node.id, node, scene:g});
+      this.applications.set(node.id, ui);
       ui.start()
 
     }, {replay:true});
 
     this.on("concepts.removed", ({id}) => {
-      this.ui.get(id).stop();
-      this.ui.delete(id);
+      this.applications.get(id).stop();
+      this.applications.delete(id);
     });
 
   }, // initialize
@@ -145,6 +150,7 @@ methods = {
     this.meta = rehydrated.meta;
     for (const {meta, data} of rehydrated.data) {
       const node = new Instance(Node, {...meta, data});
+      this.nodes.set(node.id, node);
       project.concepts.create( node ); // -> see project #onStart for creation.
     }
 
@@ -167,8 +173,8 @@ methods = {
 
   destroy(){
     for (const {id} of this.concepts) {
-      this.ui.get(id).stop();
-      this.ui.delete(id);
+      this.applications.get(id).stop();
+      this.applications.delete(id);
     } // for every tray
     // shut down all properties...
     this.dispose();

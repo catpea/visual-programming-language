@@ -47,7 +47,6 @@ export default class Control {
       });
 
       this.on("anchors.created", (anchor) => {
-        anchor.scene = this.scene;
         anchor.start();
         this.anchorage.manage(anchor);
       }, {replay: true});
@@ -67,7 +66,24 @@ export default class Control {
       this.appendElements();
     },
 
+
+    createControlAnchor({name, side}){
+      if(!name) throw new Error(`It is not possible to create an anchor without an anchor name.`);
+      if(!side===undefined) throw new Error(`It is not possible to create an anchor without specifying a side, 0 or 1.`);
+      const id = [name, this.root().id].join(':')
+      const anchor = new Instance(Anchor, { id, name, side, parent: this, scene: this.scene } )
+      globalThis.project.anchors.set(id, anchor);
+      this.anchors.create(anchor);
+    },
+
+    removeControlAnchor(id){
+      this.anchors.remove(id);
+      globalThis.project.anchors.delete(id);
+    },
+
     destroy(){
+      console.warn('TODO: DESTROY ALL ANCHORS');
+      console.warn('TODO: STOP ANCHORAGE');
       this.removeElements()
     }
 

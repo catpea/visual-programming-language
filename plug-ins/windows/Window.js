@@ -22,11 +22,8 @@ export default class Window {
     mount(){
 
       // ADD DRAGGABLE CAPTION (aka handle)
-      let caption = new Instance(Caption);
-      // caption.scene = this.scene;
-      caption.parent = this;
-      caption.h = 24;
-      this.children.create(caption);
+      let caption = new Instance(Caption, {h: 24});
+      this.createWindowComponent(caption);
 
       const move = new Move({
         component: this,
@@ -42,7 +39,7 @@ export default class Window {
 
     },
 
-    addWindowComponent(component){
+    createWindowComponent(component){
       component.parent = this;
       this.children.create(component);
     },
@@ -54,7 +51,7 @@ export default class Window {
 
     // NOTE: TODO ITEM BELOW
     // TODO: add method constraints this will requre gathering all constraints from each chain item
-    // addWindowComponent: {
+    // createWindowComponent: {
     //   'object must be based on Component': function(v){
     //     console.log('YYY', v);
     //     // if(! Theme.prototype.isPrototypeOf(v) ) return {error:'must extend Theme'};

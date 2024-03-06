@@ -14,8 +14,8 @@ export default class CodeEditor {
 
     mount(){
       const codeMirror = new Instance(CodeMirror);
-      this.addWindowComponent( codeMirror ); // Add Visual Editor To The Window
-      
+      this.createWindowComponent( codeMirror ); // Add Visual Editor To The Window
+
     },
 
   };

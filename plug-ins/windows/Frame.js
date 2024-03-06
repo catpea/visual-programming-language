@@ -26,12 +26,7 @@ export default class Frame {
 
     mount(){
 
-      this.anchors.create(new Instance(Anchor, { name: 'src', parent:this, scene:this.g, side: 0 }))
-      // this.anchors.create(new Instance(Anchor, { name: 'b', parent:this, scene: this.scene, side: 0 }))
-      // this.anchors.create(new Instance(Anchor, { name: 'c', parent:this, scene: this.scene, side: 1 }))
-      // this.anchors.create(new Instance(Anchor, { name: 'd', parent:this, scene: this.scene, side: 1 }))
-      // this.anchors.create(new Instance(Anchor, { name: 'e', parent:this, scene: this.scene, side: 1 }))
-      // this.anchors.create(new Instance(Anchor, { name: 'f', parent:this, scene: this.scene, side: 1 }))
+      this.createControlAnchor({ name: 'src', side: 0 });
 
       this.el.ForeignObject = svg.foreignObject({
         name: this.name,

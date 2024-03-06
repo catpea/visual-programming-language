@@ -14,7 +14,7 @@ export default class VisualProgram {
 
     mount(){
       const editor = new Instance(VisualEditor);
-      this.addWindowComponent( editor ); // Add Visual Editor To The Window
+      this.createWindowComponent( editor ); // Add Visual Editor To The Window
     },
 
   };

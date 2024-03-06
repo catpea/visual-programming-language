@@ -1,21 +1,18 @@
 import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 
-import Component from "/plug-ins/windows/Component.js";
+import Control from "/plug-ins/windows/Control.js";
 import Anchor from "/plug-ins/windows/Anchor.js";
 import { svg, update, click } from "domek";
-import { AnchorLayout } from "/plug-ins/layout-manager/index.js";
 
 export default class Caption {
 
-  static extends = [Component];
+  static extends = [Control];
 
   properties = {
-    anchorage:null,
     handle:null,
   };
 
   observables = {
-    anchors:[],
   };
 
   constraints = {
@@ -31,7 +28,6 @@ export default class Caption {
     },
 
     mount(){
-      this.anchorage = new AnchorLayout(this, {source: 'anchors'});
 
       this.el.Container = svg.rect({
         name: this.name,
@@ -52,15 +48,7 @@ export default class Caption {
         // console.log('CLICKED', this.parent.data.id, this, this.parent);
       });
 
-      this.on("anchors.created", (anchor) => {
-        anchor.start();
-        this.anchorage.manage(anchor);
-      }, {replay: true});
 
-      this.on("anchors.removed", (anchor) => {
-        anchor.stop();
-        this.anchorage.forget(anchor);
-      });
 
       this.on('name',  name=>update(this.el.Container,{name}), );
       this.on('w',  width=>update(this.el.Container,{width}), );
@@ -71,8 +59,9 @@ export default class Caption {
 
       this.appendElements();
 
-      this.anchors.create(new Instance(Anchor, { name: 'input',  parent:this, scene: this.scene, side: 0 }))
-      this.anchors.create(new Instance(Anchor, { name: 'output', parent:this, scene: this.scene, side: 1 }))
+      this.createControlAnchor({ name: 'input', side: 0 });
+      this.createControlAnchor({ name: 'output', side: 1 });
+
     },
 
     destroy(){
