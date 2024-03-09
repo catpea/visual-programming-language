@@ -11390,6 +11390,9 @@ svg.editor-interface {
   &.incompatible {
     fill: var(--editor-danger);
   }
+  &.selected {
+    stroke: var(--editor-warning);
+  }
 }
 .editor-anchor-line {
   stroke: var(--editor-primary);
@@ -11400,11 +11403,17 @@ svg.editor-interface {
   stroke: var(--editor-primary);
   stroke-width: 2;
   vector-effect: "non-scaling-stroke";
+  &.selected {
+    stroke: var(--editor-warning);
+  }
 }
 .editor-caption {
   stroke: var(--editor-primary);
   stroke-width: 2;
   vector-effect: "non-scaling-stroke";
+  &.selected {
+    stroke: var(--editor-warning);
+  }
 }
 .editor-junction {
   stroke: var(--editor-primary);

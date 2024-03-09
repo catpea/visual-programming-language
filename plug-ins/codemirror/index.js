@@ -5,7 +5,8 @@ const {javascript} = bundle['@codemirror/lang-javascript']
 const { keymap} = bundle["@codemirror/view"];
 const { indentWithTab } = bundle["@codemirror/commands"];
 const { EditorState } = bundle["@codemirror/state"];
-const { oneDark } = bundle['@codemirror/theme-one-dark']; // import { oneDark } from '/src/com/codearea-theme.js';
+
+const { oneDark } = bundle['@codemirror/theme-one-dark']; // NOTE: "Dark Backgroung And Light Text" Firefox Extension Mangles The Theme
 
 import { svg, html, update, click } from "domek";
 import Component from "/plug-ins/windows/Component.js";
@@ -48,15 +49,18 @@ export default class CodeMirror {
       this.el.ForeignObject.appendChild(div)
       this.appendElements();
 
+
       const extensions = [
         basicSetup,
         javascript(),
         EditorView.lineWrapping, //NOTE: EditorView.lineWrapping does/did not honor code indents
         keymap.of([indentWithTab]),
-        EditorView.updateListener.of((update) => {if (update.docChanged) value = update.state.doc.toString(); }),
+        // EditorView.updateListener.of((update) => {if (update.docChanged) value = update.state.doc.toString(); }),
         oneDark,
         EditorView.theme({
-          ".cm-content, .cm-gutter": {minHeight: "8rem"},
+
+          '&': { maxHeight: this.h + 'px' },
+          '.cm-gutter,.cm-content': { minHeight: '100px' },
           ".cm-scroller": {
             overflow: "auto",
             borderTopLeftRadius: '0px',
@@ -73,6 +77,7 @@ export default class CodeMirror {
         extensions,
         parent: div
       })
+      // codemirror.setSize(this.w, this.h);
 
       // HACK: code mirror inside a foreign element does not correctly receive focus - we monitor for its parent's click and manually set focus
       this.destructable = click(div, ()=>codemirror.focus())

@@ -42,6 +42,10 @@ export default class Caption {
         y: this.y,
       });
 
+      this.on("selected", selected => selected?this.el.Container.classList.add('selected'):this.el.Container.classList.remove('selected'));
+
+
+
       this.handle = this.el.Container;
 
       this.disposable = click( this.el.Container, e=>{

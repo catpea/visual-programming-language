@@ -1,6 +1,8 @@
 import { svg, update } from "domek";
 
 import Component from "/plug-ins/windows/Component.js";
+import Select from "/plug-ins/select/index.js";
+
 
 import Connect from "/plug-ins/connect/index.js";
 
@@ -39,22 +41,28 @@ export default class Anchor {
 
     mount(){
 
-      this.el.Circle = svg.circle({
+      this.el.Primary = svg.circle({
         name: this.name,
         class: 'editor-anchor',
         r: this.r,
         cx: this.x,
         cy: this.y,
       });
+      this.on("selected", selected => selected?this.el.Primary.classList.add('selected'):this.el.Primary.classList.remove('selected'));
 
-      this.el.Circle.dataset.target = [this.name, this.root().node.id].join(':')
+      const select = new Select({
+        component: this,
+        handle: this.el.Primary,
+      }); this.destructable = ()=>focus.destroy()
 
-      this.pad = this.el.Circle;
+      this.el.Primary.dataset.target = [this.name, this.root().node.id].join(':')
 
-      this.on('name',  name=>update(this.el.Circle,{name}), );
-      this.on('x',      cx=>update(this.el.Circle,{cx}),     );
-      this.on('y',      cy=>update(this.el.Circle,{cy}),     );
-      this.on('r',      r=>update(this.el.Circle,{r}),     );
+      this.pad = this.el.Primary;
+
+      this.on('name',  name=>update(this.el.Primary,{name}), );
+      this.on('x',      cx=>update(this.el.Primary,{cx}),     );
+      this.on('y',      cy=>update(this.el.Primary,{cy}),     );
+      this.on('r',      r=>update(this.el.Primary,{r}),     );
       this.appendElements();
 
       const connect = new Connect({

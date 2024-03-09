@@ -25,8 +25,11 @@ export default class Node {
     p:0,
     s:0,
 
+    selected: false,
+
     source: undefined,
     target: undefined,
+
     url: undefined, // JSON url
     src: undefined, // JSON url
 

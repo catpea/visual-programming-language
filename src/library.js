@@ -19,7 +19,7 @@ bundle['codemirror'] = {basicSetup, EditorView};
 import {javascript} from "@codemirror/lang-javascript"
 bundle['@codemirror/lang-javascript'] = {javascript};
 
-import {  keymap} from "@codemirror/view"
+import {keymap} from "@codemirror/view"
 bundle['@codemirror/view'] = { EditorView, keymap};
 
 import { indentWithTab } from "@codemirror/commands"

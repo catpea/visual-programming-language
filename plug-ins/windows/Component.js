@@ -12,7 +12,11 @@ export default class Component {
     parent: undefined, // it may be needed to access parent from a control
     scene:  undefined, // remember parent sets the scene, this child must adds its own .g to it, then its own g becomes the scene for children
     node:  undefined, // data node
+
+    // node has data, we keep it here at the root of component
     data:  undefined, // the data that is in the node
+
+    selected:  false, // selection manager feature
 
     name:  'un-named',
 
@@ -120,10 +124,12 @@ export default class Component {
         node.on("p", p => this.p = p);
         node.on("s", s => this.s = s);
 
+        // node carries a .data property
         node.on("data", data => this.data = data);
 
-        node.on("source", source => this.source = source);
-        node.on("target", target => this.target = target);
+
+        // node.on("selected", selected => this.selected = selected);
+
 
       });
     },

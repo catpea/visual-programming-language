@@ -6,6 +6,7 @@ import Caption from "/plug-ins/windows/Caption.js";
 
 import Move from "/plug-ins/move/index.js";
 import Focus from "/plug-ins/focus/index.js";
+import Select from "/plug-ins/select/index.js";
 
 
 export default class Window {
@@ -36,6 +37,14 @@ export default class Window {
         component: this,
         handle: this.scene, // set to caption above to react to window captions only
       }); this.destructable = ()=>focus.destroy()
+
+      const select = new Select({
+        component: this,
+        handle: caption.handle,
+      }); this.destructable = ()=>focus.destroy()
+      this.on("selected", selected => caption.selected = selected);
+
+
 
     },
 

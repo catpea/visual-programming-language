@@ -96,6 +96,10 @@ export default class Connect {
 
     this.mouseUpHandler = (e) => {
 
+      if (e.target == this.anchor) {
+        console.log('SELF');
+      }
+
       const isOverAnotherPort = this.dragging && e.target && e.target.classList.contains('editor-anchor');
 			const isOverBackground = this.dragging && e.target && e.target.classList.contains('editor-background');
 
@@ -106,9 +110,19 @@ export default class Connect {
         node.type = 'Line',
         node.source = [this.anchor.name, this.anchor.root().node.id].join(':'),
         node.target = e.target.dataset.target;
-        console.log(`%cCreate data node ${node.id}`, 'background: hsl(0, 50%, 50%); color: white;');
-        globalThis.project.concepts.create( node ); // -> see project #onStart for creation.
+        if(node.source != node.target){
+          console.log(`%cCreate data node ${node.id}`, 'background: hsl(0, 50%, 50%); color: white;');
+          globalThis.project.concepts.create( node ); // -> see project #onStart for creation.
+        }
       }
+
+      if(isOverBackground){
+          // .................
+      }
+
+
+
+
 
       if(this.line) this.line.remove();
       this.dragging = false;

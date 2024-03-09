@@ -74,11 +74,15 @@ svg.editor-interface {
   vector-effect: 'non-scaling-stroke';
 
   &.compatible {
-      fill: var(--editor-success);
+    fill: var(--editor-success);
   }
 
   &.incompatible {
-      fill: var(--editor-danger);
+    fill: var(--editor-danger);
+  }
+
+  &.selected {
+    stroke: var(--editor-warning);
   }
 
 }
@@ -100,12 +104,20 @@ svg.editor-interface {
   stroke: var(--editor-primary);
   stroke-width: 2;
   vector-effect: 'non-scaling-stroke';
+
+  &.selected {
+    stroke: var(--editor-warning);
+  }
 }
 
 .editor-caption {
   stroke: var(--editor-primary);
   stroke-width: 2;
   vector-effect: 'non-scaling-stroke';
+
+  &.selected {
+    stroke: var(--editor-warning);
+  }
 }
 
 .editor-junction {

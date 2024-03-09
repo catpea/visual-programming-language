@@ -20,6 +20,9 @@ export default class Junction {
   methods = {
 
     initialize(){
+
+      this.r = 8;
+
       // console.log(`%cJunction.initialize!`, 'background: hsl(180, 80%, 60%); color: black;', this);
 
       // setInterval(x=>{
@@ -34,7 +37,7 @@ export default class Junction {
       this.el.Circle = svg.circle({
         name: this.name,
         class: 'editor-junction',
-        r: this.r,
+        r: 8,
         cx: this.x,
         cy: this.y,
       });

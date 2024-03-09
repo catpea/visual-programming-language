@@ -1,4 +1,5 @@
 import Component from "/plug-ins/windows/Component.js";
+import Select from "/plug-ins/select/index.js";
 import { svg, update } from "domek";
 
 export default class Line {
@@ -36,8 +37,22 @@ export default class Line {
         name: this.name,
         class: 'editor-line',
       });
+      this.on("selected", selected => selected?this.el.Line.classList.add('selected'):this.el.Line.classList.remove('selected'));
+
+
+      const select = new Select({
+        component: this,
+        handle: this.el.Line,
+      }); this.destructable = ()=>focus.destroy()
 
       this.on('name',  name=>update(this.el.Line,{name}), );
+
+      this.on("node", (node) => {
+        // used for Line
+        node.on("source", source => this.source = source);
+        node.on("target", target => this.target = target);
+      });
+
 
       this.on('source', id=>{
         if(!id) throw new Error(`Line requires source id`);
