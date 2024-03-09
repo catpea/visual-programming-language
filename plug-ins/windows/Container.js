@@ -41,6 +41,8 @@ export default class Container {
         class: 'editor-container',
         ry: this.r,
         'stroke-width': 2,
+        'vector-effect': 'non-scaling-stroke',
+        
         // set initial values
         // these are special, handeled by the layout manager
         // NOTE: these are observables, getter returns a value, setter notifies listeners, and you can ```this.observe('x', v=>{...})```

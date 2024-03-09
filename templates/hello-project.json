@@ -124,18 +124,6 @@
     },
     {
       "meta": {
-        "id": "k",
-        "type": "Junction",
-        "x": 555,
-        "y": 555,
-        "w": 32,
-        "h": 32,
-        "r": 32
-      },
-      "data": {}
-    },
-    {
-      "meta": {
         "id": "l",
         "type": "RemoteApplication",
         "x": 166.584398549084,

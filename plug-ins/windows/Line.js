@@ -36,6 +36,8 @@ export default class Line {
       this.el.Line = svg.line({
         name: this.name,
         class: 'editor-line',
+        'vector-effect': 'non-scaling-stroke',
+
       });
       this.on("selected", selected => selected?this.el.Line.classList.add('selected'):this.el.Line.classList.remove('selected'));
 
@@ -56,16 +58,16 @@ export default class Line {
 
       this.on('source', id=>{
         if(!id) throw new Error(`Line requires source id`);
-        const anchor = globalThis.project.anchors.get( id );
-        anchor.on('x', x=>this.x1=x)
-        anchor.on('y', y=>this.y1=y)
+        const component = id.includes(':')?globalThis.project.anchors.get( id ):globalThis.project.applications.get( id );
+        component.on('x', x=>this.x1=x)
+        component.on('y', y=>this.y1=y)
       });
 
       this.on('target',  id=>{
         if(!id) throw new Error(`Line requires target id`);
-        const anchor = globalThis.project.anchors.get( id );
-        anchor.on('x', x=>this.x2=x)
-        anchor.on('y', y=>this.y2=y)
+        const component = id.includes(':')?globalThis.project.anchors.get( id ):globalThis.project.applications.get( id );
+        component.on('x', x=>this.x2=x)
+        component.on('y', y=>this.y2=y)
       });
 
 

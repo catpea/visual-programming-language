@@ -1,11 +1,16 @@
-import Component from "/plug-ins/windows/Component.js";
 import { svg, update } from "domek";
+
+import Component from "/plug-ins/windows/Component.js";
+
+import Select from "/plug-ins/select/index.js";
+import Connect from "/plug-ins/connect/index.js";
 
 export default class Junction {
 
   static extends = [Component];
 
   properties = {
+    pad: null
   };
 
   observables = {
@@ -37,10 +42,20 @@ export default class Junction {
       this.el.Circle = svg.circle({
         name: this.name,
         class: 'editor-junction',
-        r: 8,
+        'vector-effect': 'non-scaling-stroke',
+        r: this.r,
         cx: this.x,
         cy: this.y,
       });
+
+      this.pad = this.el.Circle;
+
+      const connect = new Connect({
+        anchor: this,
+        // handle: caption.handle,
+        // window: this,
+        zone: window,
+      }); this.destructable = ()=>connect.destroy()
 
       this.on('name',  name=>update(this.el.Circle,{name}), );
       this.on('x',      cx=>update(this.el.Circle,{cx}),     );

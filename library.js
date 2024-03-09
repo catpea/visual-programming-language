@@ -27088,7 +27088,9 @@
   // src/library.js
   globalThis.uuid = v4_default;
   globalThis.themes = { Nostromo, Obsidian };
-  globalThis.bundle = {};
+  globalThis.bundle = {
+    uuid: v4_default
+  };
   bundle["codemirror"] = { basicSetup, EditorView };
   bundle["@codemirror/lang-javascript"] = { javascript };
   bundle["@codemirror/view"] = { EditorView, keymap };

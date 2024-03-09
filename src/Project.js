@@ -119,7 +119,11 @@ methods = {
 
   }, // initialize
 
-
+  add({meta, data}){
+    const node = new Instance(Node, {...meta, data});
+    this.nodes.set(node.id, node);
+    project.concepts.create( node ); // -> see project #onStart for creation.
+  },
 
   async mount (){
 

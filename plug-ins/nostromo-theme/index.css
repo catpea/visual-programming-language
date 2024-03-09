@@ -31,7 +31,7 @@ body {
 }
 
 rect {
-    vector-effect: non-scaling-stroke;
+
 }
 
 svg.editor-interface {
@@ -71,7 +71,7 @@ svg.editor-interface {
   fill: var(--editor-dark);
 
   stroke-width: 2;
-  vector-effect: 'non-scaling-stroke';
+
 
   &.compatible {
     fill: var(--editor-success);
@@ -95,16 +95,12 @@ svg.editor-interface {
 .editor-anchor-line {
   stroke: var(--editor-primary);
   stroke-width: 2;
-  vector-effect: 'non-scaling-stroke';
-
 }
 
 
 .editor-line {
   stroke: var(--editor-primary);
   stroke-width: 2;
-  vector-effect: 'non-scaling-stroke';
-
   &.selected {
     stroke: var(--editor-warning);
   }
@@ -113,8 +109,6 @@ svg.editor-interface {
 .editor-caption {
   stroke: var(--editor-primary);
   stroke-width: 2;
-  vector-effect: 'non-scaling-stroke';
-
   &.selected {
     stroke: var(--editor-warning);
   }
@@ -123,25 +117,21 @@ svg.editor-interface {
 .editor-junction {
   stroke: var(--editor-primary);
   stroke-width: 2;
-  vector-effect: 'non-scaling-stroke';
 }
 
 .editor-container {
   stroke: var(--editor-primary);
   stroke-width: 2;
-  vector-effect: 'non-scaling-stroke';
 }
 
 .editor-control {
   stroke: var(--editor-primary);
   stroke-width: 2;
-  vector-effect: 'non-scaling-stroke';
 }
 
 .editor-frame {
   stroke: var(--editor-primary);
   stroke-width: 2;
-  vector-effect: 'non-scaling-stroke';
 }
 
 div.editor-codemirror {

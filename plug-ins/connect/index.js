@@ -1,4 +1,5 @@
 import { svg, update } from "domek";
+const uuid = bundle['uuid'];
 
 import Node from "/plug-ins/node/Node.js";
 import {Instance} from "/plug-ins/object-oriented-programming/index.js";
@@ -36,7 +37,9 @@ export default class Connect {
         class: 'editor-anchor-line',
         style: {
           'pointer-events': 'none' /* required, otherwise the line will mousedrop on it self */
-        }
+        },
+        'vector-effect': 'non-scaling-stroke',
+
       });
 
       this.anchor.scene.appendChild(this.line);
@@ -77,7 +80,7 @@ export default class Connect {
 
 
 
-      const geometry = {
+      this.geometry = {
         // origin of th eindicator line is the port
         x1: this.anchor.x,
         y1: this.anchor.y,
@@ -86,7 +89,7 @@ export default class Connect {
         y2: dy,
       };
 
-      update(this.line, geometry);
+      update(this.line, this.geometry);
 
       // End
       dx = 0;
@@ -105,19 +108,60 @@ export default class Connect {
 
 
       if(isOverAnotherPort){
-        const node =  new Instance(Node);
-        node.id = uuid();
-        node.type = 'Line',
-        node.source = [this.anchor.name, this.anchor.root().node.id].join(':'),
-        node.target = e.target.dataset.target;
-        if(node.source != node.target){
-          console.log(`%cCreate data node ${node.id}`, 'background: hsl(0, 50%, 50%); color: white;');
-          globalThis.project.concepts.create( node ); // -> see project #onStart for creation.
+
+        let source;
+        if(this.anchor.oo.name === 'Anchor'){
+          source = [this.anchor.name, this.anchor.root().node.id].join(':');
+        }else if(this.anchor.oo.name === 'Junction'){
+          source = this.anchor.id;
+        }
+
+        const target = e.target.dataset.target;
+
+        if(source != target){
+          console.log(`%cCreate data node`, 'background: hsl(0, 50%, 50%); color: white;');
+          globalThis.project.add({
+            meta: {
+              id: uuid(),
+              type: "Line",
+              source, target
+            },
+            data: {}
+          })
         }
       }
 
       if(isOverBackground){
-          // .................
+        const junctionId = uuid();
+        globalThis.project.add({
+          meta: {
+            id: junctionId,
+            type: "Junction",
+            x: this.geometry.x2,
+            y: this.geometry.y2,
+          },
+          data: {}
+        });
+
+        console.log('this.anchor.oo.name',this.anchor.oo.name,);
+        let source;
+
+        if(this.anchor.oo.name === 'Anchor'){
+          source = [this.anchor.name, this.anchor.root().node.id].join(':');
+        }else if(this.anchor.oo.name === 'Junction'){
+          source = this.anchor.id;
+        }
+
+        const target = junctionId;
+
+        globalThis.project.add({
+          meta: {
+            id: uuid(),
+            type: "Line",
+            source, target
+          },
+          data: {}
+        })
       }
 
 

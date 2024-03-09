@@ -44,6 +44,7 @@ export default class Anchor {
       this.el.Primary = svg.circle({
         name: this.name,
         class: 'editor-anchor',
+        'vector-effect': 'non-scaling-stroke',
         r: this.r,
         cx: this.x,
         cy: this.y,

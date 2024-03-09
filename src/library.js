@@ -11,7 +11,10 @@ import { v4 as uuid } from "uuid";
 globalThis.uuid = uuid
 globalThis.themes = {Nostromo, Obsidian}
 
-globalThis.bundle = {};
+globalThis.bundle = {
+  uuid,
+  
+};
 
 import {basicSetup, EditorView} from "codemirror"
 bundle['codemirror'] = {basicSetup, EditorView};
