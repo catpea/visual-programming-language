@@ -1,5 +1,4 @@
 import Component from "/plug-ins/windows/Component.js";
-import { VerticalLayout } from "/plug-ins/layout-manager/index.js";
 
 import { svg, update } from "domek";
 
@@ -17,21 +16,18 @@ export default class Container {
   methods = {
 
     initialize(){
-      // console.log(`%cContainer.initialize!`, 'background: hsl(180, 80%, 60%); color: black;');
-      this.layout = new VerticalLayout(this);
 
       this.on("children.created", (child) => {
-        // console.log(`About to start ${child.oo.name}`, child, );
         child.scene = this.scene;
         child.start();
         this.layout.manage(child);
       }, {replay: true});
 
-      this.on("children.removed", (item) => {
-        // log('children.removed');
-        item.stop();
-        this.layout.forget(item);
+      this.on("children.removed", (child) => {
+        child.stop();
+        this.layout.forget(child);
       });
+
     },
 
     mount(){
@@ -42,7 +38,7 @@ export default class Container {
         ry: this.r,
         'stroke-width': 2,
         'vector-effect': 'non-scaling-stroke',
-        
+
         // set initial values
         // these are special, handeled by the layout manager
         // NOTE: these are observables, getter returns a value, setter notifies listeners, and you can ```this.observe('x', v=>{...})```

@@ -126,11 +126,6 @@ export default class Component {
 
         // node carries a .data property
         node.on("data", data => this.data = data);
-
-
-        // node.on("selected", selected => this.selected = selected);
-
-
       });
     },
 

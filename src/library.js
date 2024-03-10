@@ -13,8 +13,11 @@ globalThis.themes = {Nostromo, Obsidian}
 
 globalThis.bundle = {
   uuid,
-  
+
 };
+
+import EventEmitter from 'events';
+bundle['events'] = EventEmitter;
 
 import {basicSetup, EditorView} from "codemirror"
 bundle['codemirror'] = {basicSetup, EditorView};

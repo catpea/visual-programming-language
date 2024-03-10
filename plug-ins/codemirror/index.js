@@ -15,6 +15,10 @@ export default class CodeMirror {
 
   static extends = [Component];
 
+  observables = {
+    doc: undefined,
+  };
+
   methods = {
     initialize(){
       this.h = 600;
@@ -72,7 +76,7 @@ export default class CodeMirror {
       ];
 
 
-      const codemirror = new EditorView({
+      this.editorView = new EditorView({
         doc: (this.parent.data.doc || ""),
         extensions,
         parent: div
@@ -80,7 +84,14 @@ export default class CodeMirror {
       // codemirror.setSize(this.w, this.h);
 
       // HACK: code mirror inside a foreign element does not correctly receive focus - we monitor for its parent's click and manually set focus
-      this.destructable = click(div, ()=>codemirror.focus())
+      this.destructable = click(div, ()=>this.editorView.focus())
+
+      this.on('doc', value=>{
+        const doc = String(value);
+        const editorState = EditorState.create({ doc, extensions });
+        this.editorView.setState( editorState );
+      });
+
 
     }
   }

@@ -3,11 +3,15 @@ import Node from "/plug-ins/node/Node.js";
 
 import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 
+
+import Keyboard from "/plug-ins/keyboard/index.js";
 import Pan from "/plug-ins/pan/index.js";
 import Zoom from "/plug-ins/zoom/index.js";
 
 import {svg} from "/plug-ins/domek/index.js";
 
+
+import ColorPicker from "/plug-ins/applications/ColorPicker.js";
 import VisualProgram from "/plug-ins/applications/VisualProgram.js";
 import CodeEditor from "/plug-ins/applications/CodeEditor.js";
 import Junction from "/plug-ins/windows/Junction.js";
@@ -40,10 +44,11 @@ export default class Project {
 
   properties = {
     meta: {},
-    types: [ VisualProgram, Junction, Line, RemoteApplication, CodeEditor ], // What can the project instantiate?
+    types: [ ColorPicker, VisualProgram, Junction, Line, RemoteApplication, CodeEditor ], // What can the project instantiate?
 
     // registry
     nodes: new Map(),
+    pipes: new Map(),
     applications: new Map(), // NOTE: root windowID
     anchors: new Map(), // NOTE: format is portName:rootID (not component id, but the root window)
 
@@ -114,21 +119,50 @@ methods = {
 
     this.on("concepts.removed", ({id}) => {
       this.applications.get(id).stop();
+      this.applications.get(id).destroy();
       this.applications.delete(id);
     });
 
   }, // initialize
 
-  add({meta, data}){
+  pipe(sourceId, targetId){
+
+    if(!sourceId) throw new Error('sourceId is required');
+    if(!targetId) throw new Error('targetId is required');
+    const source = this.pipes.get(sourceId);
+    const target = this.pipes.get(targetId);
+    source.on('data', (data)=>target.emit('data', data));
+  },
+
+  create({meta, data}){
     const node = new Instance(Node, {...meta, data});
     this.nodes.set(node.id, node);
     project.concepts.create( node ); // -> see project #onStart for creation.
+  },
+  remove(id){
+    const node = this.nodes.get(id);
+    project.concepts.remove( node );
+    node.stop();
+    node.destroy();
+  },
+
+  removeSelected(){
+    for (const [id, application] of this.applications) {
+      if(application.selected){
+        this.remove(id);
+      }
+    }
   },
 
   async mount (){
 
     // features that need to be installed after DOM nodes are created
     // pan(this);
+    const keyboard = new Keyboard({
+      component: this,
+      handle: window, // set to caption above to react to window captions only
+    }); this.destructable = ()=>keyboard.destroy()
+
 
     const zoom = new Zoom({
       component: this,

@@ -9,7 +9,7 @@ User Friendly Visual Programming Language
 - Externally, you may not interact with object's properties directly, only via methods (creating an api, and taking care of minot config)
 
 ## TODO
-
+- [ ] HORIZONTAL LAYOUT! for toolbox
 - [ ] BUG: vector-effect: 'non-scaling-stroke'; belongs on SVG element
 - [ ] Junctions
 - [ ] Project Save

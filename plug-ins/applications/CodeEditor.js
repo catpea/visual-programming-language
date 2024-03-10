@@ -10,11 +10,19 @@ export default class CodeEditor {
   methods = {
 
     initialize(){
+      this.w = 800;
+      this.h = 600;
     },
 
     mount(){
       const codeMirror = new Instance(CodeMirror);
       this.createWindowComponent( codeMirror ); // Add Visual Editor To The Window
+
+      const id = ['input', this.id].join(':');
+      const input = globalThis.project.pipes.get(id);
+      input.on('data', (data)=>{
+        codeMirror.doc = JSON.stringify(data, null, 2);
+      })
 
     },
 

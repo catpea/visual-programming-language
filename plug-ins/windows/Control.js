@@ -4,13 +4,14 @@ import Component from "/plug-ins/windows/Component.js";
 import Anchor from "/plug-ins/windows/Anchor.js";
 import { svg, update } from "domek";
 import { AnchorLayout } from "/plug-ins/layout-manager/index.js";
+import { Pipe } from "/plug-ins/pipe/Pipe.js";
 
 export default class Control {
 
   static extends = [Component];
 
   properties = {
-    anchorage:null,
+    anchorage: null,
   };
 
   observables = {
@@ -31,6 +32,7 @@ export default class Control {
 
     mount(){
       this.anchorage = new AnchorLayout(this, {source: 'anchors'});
+      // this.piper = new EventSystem(this.root(), {source: 'streams'});
 
       this.el.Container = svg.rect({
         name: this.name,
@@ -48,11 +50,14 @@ export default class Control {
 
       this.on("anchors.created", (anchor) => {
         anchor.start();
+        this.createPipe(anchor.name, anchor.side);
         this.anchorage.manage(anchor);
       }, {replay: true});
 
       this.on("anchors.removed", (anchor) => {
         anchor.stop();
+        this.removePipe(anchor.name);
+        globalThis.project.anchors.set(id, anchor);
         this.anchorage.forget(anchor);
       });
 
@@ -64,6 +69,19 @@ export default class Control {
       this.on('r',     ry=>update(this.el.Container,{ry}),     );
 
       this.appendElements();
+    },
+
+
+    createPipe(name, direction){
+      const id = [name, this.root().id].join(':');
+      const pipe = new Pipe(id, direction);
+      globalThis.project.pipes.set(id, pipe);
+    },
+
+    removePipe(name){
+      const id = [name, this.root().id].join(':');
+      globalThis.project.pipes.get(id).stop();
+      globalThis.project.pipes.remove(id);
     },
 
 

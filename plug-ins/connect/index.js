@@ -108,60 +108,22 @@ export default class Connect {
 
 
       if(isOverAnotherPort){
-
-        let source;
-        if(this.anchor.oo.name === 'Anchor'){
-          source = [this.anchor.name, this.anchor.root().node.id].join(':');
-        }else if(this.anchor.oo.name === 'Junction'){
-          source = this.anchor.id;
-        }
-
+        const source = this.anchor.oo.name==='Anchor'?[this.anchor.name, this.anchor.root().node.id].join(':'):this.anchor.id;
         const target = e.target.dataset.target;
-
         if(source != target){
-          console.log(`%cCreate data node`, 'background: hsl(0, 50%, 50%); color: white;');
-          globalThis.project.add({
-            meta: {
-              id: uuid(),
-              type: "Line",
-              source, target
-            },
-            data: {}
-          })
+          globalThis.project.create({ meta: { id: uuid(), type: "Line", source, target }, data: {} });
+          globalThis.project.pipe( source, target );
+
         }
       }
 
       if(isOverBackground){
         const junctionId = uuid();
-        globalThis.project.add({
-          meta: {
-            id: junctionId,
-            type: "Junction",
-            x: this.geometry.x2,
-            y: this.geometry.y2,
-          },
-          data: {}
-        });
-
-        console.log('this.anchor.oo.name',this.anchor.oo.name,);
-        let source;
-
-        if(this.anchor.oo.name === 'Anchor'){
-          source = [this.anchor.name, this.anchor.root().node.id].join(':');
-        }else if(this.anchor.oo.name === 'Junction'){
-          source = this.anchor.id;
-        }
-
+        globalThis.project.create({ meta: { id: junctionId, type: "Junction", x: this.geometry.x2, y: this.geometry.y2, }, data: {} });
+        const source = this.anchor.oo.name==='Anchor'?[this.anchor.name, this.anchor.root().node.id].join(':'):this.anchor.id;
         const target = junctionId;
-
-        globalThis.project.add({
-          meta: {
-            id: uuid(),
-            type: "Line",
-            source, target
-          },
-          data: {}
-        })
+        globalThis.project.create({ meta: { id: uuid(), type: "Line", source, target }, data: {} });
+        globalThis.project.pipe( source, target );
       }
 
 

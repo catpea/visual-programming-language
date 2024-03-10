@@ -63,7 +63,13 @@ export default class Node {
       this.on('url', url => {
         // console.log('node got url', url);
       })
-    }
+    },
+
+    stop(){},
+    
+    destroy(){
+      this.dispose()
+    },
 
   }
 

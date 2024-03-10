@@ -37,6 +37,11 @@ export default class Anchor {
 
       this.x = 0;
       this.y = 0;
+
+ 
+
+
+
     },
 
     mount(){
@@ -54,7 +59,7 @@ export default class Anchor {
       const select = new Select({
         component: this,
         handle: this.el.Primary,
-      }); this.destructable = ()=>focus.destroy()
+      }); this.destructable = ()=>select.destroy()
 
       this.el.Primary.dataset.target = [this.name, this.root().node.id].join(':')
 
@@ -68,9 +73,12 @@ export default class Anchor {
 
       const connect = new Connect({
         anchor: this,
-        // handle: caption.handle,
-        // window: this,
         zone: window,
+
+        connect: ()=>{
+
+        },
+
       }); this.destructable = ()=>connect.destroy()
 
 

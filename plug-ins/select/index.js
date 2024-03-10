@@ -30,7 +30,6 @@ export default class Select {
 
       }else{
         if(this.component.selected){
-          console.log('Selected', this.component.id);
           for (const [id, application] of globalThis.project.applications) {
             if(this.component.id !== application.id){
               application.selected = false;

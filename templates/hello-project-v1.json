@@ -1,0 +1,213 @@
+{
+  "meta": {
+    "id": "17b1cb2a-1a08-4eec-a3fc-f3835cbbdfab",
+    "name": "Hello Project",
+    "description": "A Selection Of World VisualPrograms",
+    "compatibility": "1.0.1"
+  },
+  "data": [
+    {
+      "meta": {
+        "id": "b",
+        "type": "CodeEditor",
+        "x": 1843.9949358101105,
+        "y": 1415.0649036820562,
+        "w": 728,
+        "h": 415,
+        "url": "templates/hello-world.json"
+      },
+      "data": {
+        "doc": "Meow!"
+      }
+    },
+    {
+      "meta": {
+        "id": "c",
+        "type": "VisualProgram",
+        "x": 143.4063741973741,
+        "y": 2173.0218075347743,
+        "w": 175,
+        "h": 302,
+        "url": "templates/hello-world.json"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "d",
+        "type": "VisualProgram",
+        "x": 774.8323239179822,
+        "y": 1449.0146973051196,
+        "w": 122,
+        "h": 191,
+        "url": "templates/hello-world.json"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "e",
+        "type": "CodeEditor",
+        "x": 992.6225844256419,
+        "y": 1494.8871558641126,
+        "w": 590,
+        "h": 298,
+        "url": "templates/hello-world.json"
+      },
+      "data": {
+        "doc": "Bork, bork!"
+      }
+    },
+    {
+      "meta": {
+        "id": "f",
+        "type": "VisualProgram",
+        "x": 1461.0082030915487,
+        "y": 2199.5707307579582,
+        "w": 211,
+        "h": 524,
+        "url": "templates/hello-world.json"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "g",
+        "type": "VisualProgram",
+        "x": 916.7055354759952,
+        "y": 2188.22683669417,
+        "w": 269,
+        "h": 420,
+        "url": "templates/hello-world.json"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "h",
+        "type": "VisualProgram",
+        "x": 369.16362430414074,
+        "y": 928.698155768205,
+        "w": 107,
+        "h": 190,
+        "url": "templates/hello-world.json"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "i",
+        "type": "CodeEditor",
+        "x": 780.7482393787861,
+        "y": 793.3366707472015,
+        "w": 800,
+        "h": 600,
+        "H": 600,
+        "url": "templates/hello-world.json"
+      },
+      "data": {
+        "doc": "console.log('Hello World!');\n"
+      }
+    },
+    {
+      "meta": {
+        "id": "j",
+        "type": "RemoteApplication",
+        "x": 433.33651435599876,
+        "y": 2118.5607097114803,
+        "w": 320,
+        "h": 256,
+        "H": 256,
+        "src": "http://127.0.0.1:8000/iframe.html"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "l",
+        "type": "RemoteApplication",
+        "x": 166.584398549084,
+        "y": 1288.0696685096632,
+        "w": 480,
+        "h": 480,
+        "src": "http://127.0.0.1:8000/color.html"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "6a98b165-b9cc-405c-ab5a-3f494fb2dff4",
+        "type": "Line",
+        "w": 32,
+        "h": 32,
+        "source": "output:j",
+        "target": "input:g"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "0ccb6a20-d9ad-4d52-9095-3093e60c840c",
+        "type": "Line",
+        "source": "output:h",
+        "target": "input:i"
+      }
+    },
+    {
+      "meta": {
+        "id": "4f20eab6-df94-40af-ad3b-24bb74f0aff6",
+        "type": "Line",
+        "source": "output:i",
+        "target": "input:b"
+      }
+    },
+    {
+      "meta": {
+        "id": "f4d1691c-54c7-4313-8ae2-40f5af4e7aee",
+        "type": "Line",
+        "source": "output:l",
+        "target": "input:d"
+      }
+    },
+    {
+      "meta": {
+        "id": "b39abee3-d883-449d-ae70-b6a161206f85",
+        "type": "Line",
+        "source": "output:d",
+        "target": "input:e"
+      }
+    },
+    {
+      "meta": {
+        "id": "4ba2ea22-3aa4-4a98-a37d-78c6762028c1",
+        "type": "Line",
+        "source": "output:g",
+        "target": "input:f"
+      }
+    },
+    {
+      "meta": {
+        "id": "d8ebba73-f9e5-4dc3-a276-d5bb13f09b7a",
+        "type": "Line",
+        "source": "output:e",
+        "target": "input:b"
+      }
+    },
+    {
+      "meta": {
+        "id": "3b8009fa-17ba-44c1-a5d3-520da6556dd1",
+        "type": "Line",
+        "source": "output:f",
+        "target": "input:b"
+      }
+    },
+    {
+      "meta": {
+        "id": "6f50031a-92d2-4ec7-b725-347aaa2ee176",
+        "type": "Line",
+        "source": "output:c",
+        "target": "src:j"
+      }
+    }
+  ]
+}

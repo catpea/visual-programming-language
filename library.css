@@ -11403,6 +11403,14 @@ svg.editor-interface {
     stroke: var(--editor-warning);
   }
 }
+.editor-line-midpoint {
+  fill: var(--editor-primary);
+  stroke: var(--editor-primary);
+  &.selected {
+    stroke: var(--editor-warning);
+    fill: var(--editor-warning);
+  }
+}
 .editor-caption {
   stroke: var(--editor-primary);
   stroke-width: 2;

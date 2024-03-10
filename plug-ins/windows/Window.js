@@ -1,6 +1,6 @@
 import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 
-import Container from "/plug-ins/windows/Container.js";
+import Vertical from "/plug-ins/windows/Vertical.js";
 import Control from "/plug-ins/windows/Control.js";
 import Caption from "/plug-ins/windows/Caption.js";
 
@@ -11,7 +11,11 @@ import Select from "/plug-ins/select/index.js";
 
 export default class Window {
 
-  static extends = [Container];
+  static extends = [Vertical];
+
+  properties = {
+    streams: new Map(),
+  };
 
   methods = {
 
