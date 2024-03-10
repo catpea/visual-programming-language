@@ -9,14 +9,15 @@
 
     {
       "meta": {
-        "id": "c",
+        "id": "a",
         "type": "ColorPicker",
         "x": 100,
         "y": 100,
         "w": 512,
         "h": 512,
         "H": 512,
-        "url": "color.jpg"
+        "url": "color.jpg",
+        "colorAnchors":8
       },
       "data": {
         "cursors": [[10,10],[20,20],[30,30],[40,40]]
@@ -29,6 +30,17 @@
         "type": "CodeEditor",
         "x": 800,
         "y": 800
+      },
+      "data": {
+        "doc": "No data..."
+      }
+    },
+    {
+      "meta": {
+        "id": "c",
+        "type": "ThemeBuilder",
+        "x": 800,
+        "y": 100
       },
       "data": {
         "doc": "No data..."

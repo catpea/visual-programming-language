@@ -103,8 +103,8 @@ export default class Connect {
         console.log('SELF');
       }
 
-      const isOverAnotherPort = this.dragging && e.target && e.target.classList.contains('editor-anchor');
-			const isOverBackground = this.dragging && e.target && e.target.classList.contains('editor-background');
+      const isOverAnotherPort = this.dragging && e?.target?.classList?.contains('editor-anchor');
+			const isOverBackground = this.dragging && e?.target?.classList?.contains('editor-background');
 
 
       if(isOverAnotherPort){

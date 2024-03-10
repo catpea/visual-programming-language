@@ -99,7 +99,7 @@ svg.editor-interface {
 
 
 .editor-line {
-  stroke: var(--editor-primary);
+  stroke: var(--editor-secondary);
   stroke-width: 2;
   &.selected {
     stroke: var(--editor-warning);

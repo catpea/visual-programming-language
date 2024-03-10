@@ -12,11 +12,27 @@ import {svg} from "/plug-ins/domek/index.js";
 
 
 import ColorPicker from "/plug-ins/applications/ColorPicker.js";
+import ThemeBuilder from "/plug-ins/applications/ThemeBuilder.js";
 import VisualProgram from "/plug-ins/applications/VisualProgram.js";
 import CodeEditor from "/plug-ins/applications/CodeEditor.js";
 import Junction from "/plug-ins/windows/Junction.js";
 import Line from "/plug-ins/windows/Line.js";
 import RemoteApplication from "/plug-ins/applications/RemoteApplication.js";
+
+function intersection(a,b){
+  const response = new Set();
+  for (const item of a) {
+    if(b.has(item)) response.add(item)
+  }
+  return response;
+}
+function difference(a,b){
+  const response = new Set();
+  for (const item of a) {
+    if(!b.has(item)) response.add(item)
+  }
+  return response;
+}
 
 export default class Project {
 
@@ -44,7 +60,7 @@ export default class Project {
 
   properties = {
     meta: {},
-    types: [ ColorPicker, VisualProgram, Junction, Line, RemoteApplication, CodeEditor ], // What can the project instantiate?
+    types: [ ColorPicker, ThemeBuilder, VisualProgram, Junction, Line, RemoteApplication, CodeEditor ], // What can the project instantiate?
 
     // registry
     nodes: new Map(),
@@ -187,7 +203,24 @@ methods = {
     // }
     this.meta = rehydrated.meta;
     for (const {meta, data} of rehydrated.data) {
-      const node = new Instance(Node, {...meta, data});
+
+      const node = new Instance(Node);
+      const nodeKeys = new Set([...Object.keys(node.oo.specification.properties), ...Object.keys(node.oo.specification.observables)]);
+      const metaKeys = new Set([...Object.keys(meta)]);
+
+      const commonProperties = intersection(nodeKeys, metaKeys);
+      const newProperties = difference(metaKeys, commonProperties);
+
+      // console.log(commonProperties);
+      // console.log(newProperties);
+
+      for (const newProperty of newProperties) {
+        node.oo.addObservable(newProperty, meta[newProperty])
+      }
+
+      Object.assign(node, meta, {data})
+
+      // node
       this.nodes.set(node.id, node);
       project.concepts.create( node ); // -> see project #onStart for creation.
     }

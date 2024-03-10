@@ -196,35 +196,37 @@ export class Instance {
 
 
 
-
-
-
     const observableData = {};
+    this.oo.addObservable = (observableName, observableValue=undefined) => {
+      const isArray = Array.isArray(observableValue)?true:false;
+      if(observableName in this === false){
+
+        if(isArray){
+          observableData[observableName] = new List(observableName, observableValue);
+          Object.defineProperty(this, observableName, {
+            get: () => observableData[observableName].value,
+            set: (value) => {throw new Error(`observable array ${name} cannot be replaced`)},
+            configurable: false,
+          });
+        }else{ // primitive
+          observableData[observableName] = new Primitive(observableName, observableValue);
+          Object.defineProperty(this, observableName, {
+            get: () => observableData[observableName].value,
+            set: (value) => observableData[observableName].value = value,
+            configurable: false,
+          });
+        }
+
+      }
+    }
+
+
     // Install Observables
     for (const inherited of this.oo.specifications) {
       // begin at top, avoid properties that already exist.
       if(inherited.observables){
         for (const [observableName, observableValue] of Object.entries(inherited.observables)) {
-          const isArray = Array.isArray(observableValue)?true:false;
-          if(observableName in this === false){
-
-            if(isArray){
-              observableData[observableName] = new List(observableName, observableValue);
-              Object.defineProperty(this, observableName, {
-                get: () => observableData[observableName].value,
-                set: (value) => {throw new Error(`observable array ${name} cannot be replaced`)},
-                configurable: false,
-              });
-            }else{ // primitive
-              observableData[observableName] = new Primitive(observableName, observableValue);
-              Object.defineProperty(this, observableName, {
-                get: () => observableData[observableName].value,
-                set: (value) => observableData[observableName].value = value,
-                configurable: false,
-              });
-            }
-
-          }
+          this.oo.addObservable(observableName, observableValue);
         } // for properties
       } // if
     }

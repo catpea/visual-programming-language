@@ -40,11 +40,9 @@ export default class Node {
   methods = {
 
     toObject(){
-
       const meta = {};
       const data = this.data;
       const object = {meta, data};
-
       for (const [name, value] of Object.entries(this.oo.specification.properties)) {
         console.log(this[name], name, value);
         if(this[name] !== value) meta[name] = this[name]
@@ -52,21 +50,16 @@ export default class Node {
       for (const [name, value] of Object.entries(this.oo.specification.observables).filter(([name])=>!['data'].includes(name))) {
         if(this[name] !==value) meta[name] = this[name]
       }
-
       return object;
     },
 
+
     initialize(){
-      this.on('data', data => {
-        // console.log('node got data', data);
-      })
-      this.on('url', url => {
-        // console.log('node got url', url);
-      })
+      
     },
 
     stop(){},
-    
+
     destroy(){
       this.dispose()
     },

@@ -16,6 +16,9 @@ globalThis.bundle = {
 
 };
 
+import lodash from 'lodash';
+bundle['lodash'] = lodash;
+
 import EventEmitter from 'events';
 bundle['events'] = EventEmitter;
 

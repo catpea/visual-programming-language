@@ -1,9 +1,9 @@
 import { svg, html, update } from "domek";
-import Container from "/plug-ins/windows/Container.js";
+import Control from "/plug-ins/windows/Control.js";
 
 export default class ImagePicker {
 
-  static extends = [Container];
+  static extends = [Control];
 
   observables = {
     url: undefined,
@@ -24,21 +24,15 @@ export default class ImagePicker {
         y: this.y,
       });
 
+      this.root().node.on('colorAnchors', count=>Array(count).fill().map((_,i)=>this.createControlAnchor({name: `output${i}`, side:1})));
+
       const canvas = html.canvas({
         class: 'editor-image-picker-canvas w-100',
         width: this.w,
         height: this.h,
       });
 
-      // function getEventLocation(element, event){
-      // 		const pos = getElementPosition(element);
-      //     const actualWidth = element.getBoundingClientRect().width;
-      //     const actualWeight = element.getBoundingClientRect().height;
-      //     const ratio = Math.min(actualWidth / element.width, actualWeight / element.height);
-      //     const x = event.pageX/ratio;
-      //     const y = event.pageY/ratio;
-      //     return { x , y };
-      // }
+
 
       const that = this;
       const getData = function(e){
@@ -51,7 +45,11 @@ export default class ImagePicker {
 
         const data = context.getImageData(position.x, position.y, 1, 1).data;
         const color = [data[0], data[1], data[2], data[3]];
-        const packet = { name:'color'+e.button, data:{position, color} };
+        const packet = {
+          name:'color'+e.button,
+          color: `rgba(${color.join(', ')})`,
+          data:{position, color}
+        };
 
         // console.log('SEND PACKET', packet);
         // const id = ['output', that.root().id].join(':');
@@ -59,9 +57,10 @@ export default class ImagePicker {
         // console.log(output);
 
 
-
-
-        that.pipe('output').emit('data', packet);
+        // console.log( that.anchors.filter(anchor=>anchor.selected).map(anchor=>anchor.name) );
+        for (const name of that.anchors.filter(anchor=>anchor.selected).map(anchor=>anchor.name)) {
+          that.pipe(name).emit('data', packet);
+        }
 
         // output.emit('data', packet);
 
