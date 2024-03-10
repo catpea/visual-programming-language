@@ -1,29 +1,12 @@
-:root,
-[data-ui-theme=nostromo] {
-
-    /* --editor-dark: hsl(60, 100%, 4%);
-    --editor-darker: hsl(120, 46%, 3%);
-    --editor-darkest: hsl(60, 100%, 1%);
-
-    --editor-primary-color: green;
-    --editor-secondary-color: orange;
-    --editor-primary-background: rgba(0, 0, 0);
-    --editor-primary-border: var(--primary-color);
-
-    --editor-selected-color: orange;
-    --editor-selected-background: rgba(0, 0, 0);
-    --editor-selected-border: var(--selected-color); */
-
-    --editor-primary:   hsl(215, 97%, 51%);
-    --editor-secondary: hsl(208, 7%, 45%);
-
-    --editor-success:   hsl(152, 68%, 31%);
-    --editor-info:      hsl(190, 89%, 49%);
-    --editor-warning:   hsl(45, 100%, 51%);
-    --editor-danger:    hsl(354, 71%, 53%);
-
-    --editor-light:     hsl(200, 23%, 97%);
-    --editor-dark:      hsl(210, 10%, 14%);
+:root, [data-ui-theme=nostromo] {
+  --editor-primary: rgba(240, 81, 51, 255);
+  --editor-secondary: rgba(187, 163, 73, 255);
+  --editor-success: rgba(106, 134, 59, 255);
+  --editor-info: rgba(145, 196, 177, 255);
+  --editor-warning: rgba(220, 163, 47, 255);
+  --editor-danger: rgba(254, 145, 76, 255);
+  --editor-light: rgba(49, 52, 61, 255);
+  --editor-dark: rgba(27, 19, 17, 255);
 }
 
 body {

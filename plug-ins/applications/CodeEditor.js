@@ -21,7 +21,7 @@ export default class CodeEditor {
       // const id = ['input', this.id].join(':');
       // const input = globalThis.project.pipes.get(id);
       this.pipe('input').on('data', (data)=>{
-        codeMirror.doc = JSON.stringify(data, null, 2);
+        codeMirror.doc = data.doc;
       })
 
     },

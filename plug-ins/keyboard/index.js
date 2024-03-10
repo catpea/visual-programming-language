@@ -23,7 +23,9 @@ export default class Keyboard {
 
 		this.keyDownHandler = (e) => {
       if (event.isComposing || event.keyCode === 229) { return; }
+      console.log('plug-ins/keyboard/index.js', e.code);
       if(e.code === 'Delete') globalThis.project.removeSelected()
+      if(e.code === 'Enter') globalThis.project.save()
 		};
 
 		this.handle.addEventListener('keydown', this.keyDownHandler);

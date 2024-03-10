@@ -1,6 +1,10 @@
 import { svg, html, update } from "domek";
 import Control from "/plug-ins/windows/Control.js";
 
+function range(n){
+  return Array(n).fill().map((_,i)=>i)
+}
+
 export default class ImagePicker {
 
   static extends = [Control];
@@ -24,7 +28,23 @@ export default class ImagePicker {
         y: this.y,
       });
 
-      this.root().node.on('colorAnchors', count=>Array(count).fill().map((_,i)=>this.createControlAnchor({name: `output${i}`, side:1})));
+      this.root().node.on('colorAnchors', count=>{
+
+        for (const number of range(count)) {
+          const name = `color${number}`;
+          this.createControlAnchor({name, side:1})
+          this.oo.addObservable(`color${number}`)
+        }
+
+        for (const number of range(count)) {
+          const name = `color${number}`;
+          // this.pipe(`color{i}`).on('data', data=>this[name]=data); // update local property
+        }
+
+        // Array(count).fill().map((_,i)=>{
+        //
+      });
+      // this.any(colorNames, packet=>{})
 
       const canvas = html.canvas({
         class: 'editor-image-picker-canvas w-100',
@@ -40,8 +60,6 @@ export default class ImagePicker {
         const context = this.getContext('2d');
         var ratio = Math.min(this.width/this.getBoundingClientRect().width , this.height/this.getBoundingClientRect().height );
         const position = {r:ratio, z:globalThis.project.zoom, x:(e.layerX*ratio )*globalThis.project.zoom, y:(e.layerY*ratio )*globalThis.project.zoom};
-        // context.fillRect(position.x, position.y, 10, 10);
-
 
         const data = context.getImageData(position.x, position.y, 1, 1).data;
         const color = [data[0], data[1], data[2], data[3]];
@@ -51,23 +69,20 @@ export default class ImagePicker {
           data:{position, color}
         };
 
-        // console.log('SEND PACKET', packet);
-        // const id = ['output', that.root().id].join(':');
-        // const output = globalThis.project.pipes.get(id);
-        // console.log(output);
-
-
         // console.log( that.anchors.filter(anchor=>anchor.selected).map(anchor=>anchor.name) );
         for (const name of that.anchors.filter(anchor=>anchor.selected).map(anchor=>anchor.name)) {
+
+          // store color locally
+          that[name] = packet;
+
+          // send it along
           that.pipe(name).emit('data', packet);
+
         }
-
-        // output.emit('data', packet);
-
-        // output.enqueue(packet);
       }
       canvas.addEventListener("mousedown", getData);
       this.destructible = ()=> canvas.removeEventListener("mousedown", getData);
+
 
 
       this.el.Primary.appendChild(canvas)

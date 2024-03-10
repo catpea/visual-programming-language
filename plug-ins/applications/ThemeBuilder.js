@@ -28,6 +28,10 @@ class ThemeColors {
 
   static extends = [Control];
 
+  properties = {
+    colors: [ 'primary', 'secondary', 'success', 'info', 'warning', 'danger', 'light', 'dark' ],
+  };
+
   methods = {
 
     initialize(){
@@ -38,25 +42,29 @@ class ThemeColors {
 
     mount(){
 
-      this.createControlAnchor({ name: 'primary', side: 0 });
-      this.createControlAnchor({ name: 'secondary', side: 0 });
-      this.createControlAnchor({ name: 'success', side: 0 });
-      this.createControlAnchor({ name: 'info', side: 0 });
-      this.createControlAnchor({ name: 'warning', side: 0 });
-      this.createControlAnchor({ name: 'danger', side: 0 });
-      this.createControlAnchor({ name: 'light', side: 0 });
-      this.createControlAnchor({ name: 'dark', side: 0 });
+      for (const color of this.colors) {
+        this.createControlAnchor({ name: color, side: 0 });
+      }
 
-      this.pipe('primary').on('data', (data)=> document.documentElement.style.setProperty('--editor-primary', data.color) )
-      this.pipe('secondary').on('data', (data)=> document.documentElement.style.setProperty('--editor-secondary', data.color) )
-      this.pipe('success').on('data', (data)=> document.documentElement.style.setProperty('--editor-success', data.color) )
-      this.pipe('info').on('data', (data)=> document.documentElement.style.setProperty('--editor-info', data.color) )
-      this.pipe('warning').on('data', (data)=> document.documentElement.style.setProperty('--editor-warning', data.color) )
-      this.pipe('danger').on('data', (data)=> document.documentElement.style.setProperty('--editor-danger', data.color) )
-      this.pipe('light').on('data', (data)=> document.documentElement.style.setProperty('--editor-light', data.color) )
-      this.pipe('dark').on('data', (data)=> document.documentElement.style.setProperty('--editor-dark', data.color) )
+      for (const color of this.colors) {
+        this.oo.addObservable(color, 'magenta')
+      }
 
-    },
+      for (const color of this.colors) {
+        this.pipe(color).on('data', (data)=> document.documentElement.style.setProperty(`--editor-${color}`, data.color) )
+        this.pipe(color).on('data', (data)=> this[color] = data.color )
+      }
+
+      this.any(this.colors, colors=>{
+        let vars = [];
+        for (const color of this.colors) {
+          vars.push(`  --editor-${color}: ${this[color]};`);
+        }
+        const doc = `:root, [data-ui-theme=nostromo] {\n${vars.join('\n')}\n}\n`;
+        this.pipe('output').emit('data', {format:'css', doc})
+      })
+
+    }, // end mount
 
 
   };

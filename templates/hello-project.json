@@ -6,7 +6,6 @@
     "compatibility": "1.0.1"
   },
   "data": [
-
     {
       "meta": {
         "id": "a",
@@ -17,19 +16,16 @@
         "h": 512,
         "H": 512,
         "url": "color.jpg",
-        "colorAnchors":8
+        "colorAnchors": 8
       },
-      "data": {
-        "cursors": [[10,10],[20,20],[30,30],[40,40]]
-      }
+      "data": { }
     },
-
     {
       "meta": {
         "id": "b",
         "type": "CodeEditor",
-        "x": 800,
-        "y": 800
+        "x": 955.7114413736152,
+        "y": 100.58171604955939
       },
       "data": {
         "doc": "No data..."
@@ -39,15 +35,93 @@
       "meta": {
         "id": "c",
         "type": "ThemeBuilder",
-        "x": 800,
-        "y": 100
+        "x": 683.464250010732,
+        "y": 100.00000000000001
       },
       "data": {
         "doc": "No data..."
       }
+    },
+    {
+      "meta": {
+        "id": "eadfdc00-a7d5-40d0-92d1-686a904dbf3d",
+        "type": "Line",
+        "source": "color0:a",
+        "target": "primary:c"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "70cdf331-95ce-41e5-afce-5689cda4e597",
+        "type": "Line",
+        "source": "color1:a",
+        "target": "secondary:c"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "be5a62f1-e2b8-4662-b84e-da7198ea687c",
+        "type": "Line",
+        "source": "color2:a",
+        "target": "success:c"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "c9e7853d-ac05-4e70-9e66-8b18b7bfee4e",
+        "type": "Line",
+        "source": "color3:a",
+        "target": "info:c"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "1ce351aa-6ee2-4064-b785-351492e7e2c0",
+        "type": "Line",
+        "source": "color4:a",
+        "target": "warning:c"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "86db8737-1866-4adc-829a-91db41cd38a4",
+        "type": "Line",
+        "source": "color5:a",
+        "target": "danger:c"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "be8b6501-bd62-460d-813b-a822ea3997cf",
+        "type": "Line",
+        "source": "color6:a",
+        "target": "light:c"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "87c04852-7756-4bf2-adec-f2dbe42fa7ff",
+        "type": "Line",
+        "source": "color7:a",
+        "target": "dark:c"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "cc9c2f5d-2815-4d8e-9028-a29ee0c1b57c",
+        "type": "Line",
+        "source": "output:c",
+        "target": "input:b"
+      },
+      "data": {}
     }
-
-
-
   ]
 }
