@@ -30,11 +30,19 @@ export default class Select {
 
       }else{
         if(this.component.selected){
-          for (const [id, application] of globalThis.project.applications) {
-            if(this.component.id !== application.id){
-              application.selected = false;
+
+          for (const [id, item] of globalThis.project.applications) {
+            if(this.component.id !== item.id){
+              item.selected = false;
             }
           }
+          for (const [id, item] of globalThis.project.anchors) {
+            if(this.component.id !== item.id){
+              item.selected = false;
+            }
+          }
+
+
         }
       }
 

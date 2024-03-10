@@ -108,7 +108,7 @@ export default class Connect {
 
 
       if(isOverAnotherPort){
-        const source = this.anchor.oo.name==='Anchor'?[this.anchor.name, this.anchor.root().node.id].join(':'):this.anchor.id;
+        const source = [this.anchor.name, this.anchor.root().node.id].join(':');
         const target = e.target.dataset.target;
         if(source != target){
           globalThis.project.create({ meta: { id: uuid(), type: "Line", source, target }, data: {} });
@@ -120,8 +120,8 @@ export default class Connect {
       if(isOverBackground){
         const junctionId = uuid();
         globalThis.project.create({ meta: { id: junctionId, type: "Junction", x: this.geometry.x2, y: this.geometry.y2, }, data: {} });
-        const source = this.anchor.oo.name==='Anchor'?[this.anchor.name, this.anchor.root().node.id].join(':'):this.anchor.id;
-        const target = junctionId;
+        const source = [this.anchor.name, this.anchor.root().node.id].join(':');
+        const target = ['input', junctionId].join(':');
         globalThis.project.create({ meta: { id: uuid(), type: "Line", source, target }, data: {} });
         globalThis.project.pipe( source, target );
       }

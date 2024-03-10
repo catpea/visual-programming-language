@@ -94,6 +94,12 @@ export default class Component {
       return Math.floor(Math.random() * (maxFloored - minCeiled + 1) + minCeiled); // The maximum is inclusive and the minimum is inclusive
     },
 
+    pipe(name){
+      const id = [name, this.root().id].join(':');
+      const pipe = globalThis.project.pipes.get(id);
+      return pipe;
+    },
+
     root() {
       let response = null;
       if(!this.parent){

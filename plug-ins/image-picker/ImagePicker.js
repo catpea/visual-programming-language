@@ -53,11 +53,18 @@ export default class ImagePicker {
         const color = [data[0], data[1], data[2], data[3]];
         const packet = { name:'color'+e.button, data:{position, color} };
 
-        console.log('SEND PACKET', packet);
-        const id = ['output', that.root().id].join(':');
-        const output = globalThis.project.pipes.get(id);
-        console.log(output);
-        output.emit('data', packet);
+        // console.log('SEND PACKET', packet);
+        // const id = ['output', that.root().id].join(':');
+        // const output = globalThis.project.pipes.get(id);
+        // console.log(output);
+
+
+
+
+        that.pipe('output').emit('data', packet);
+
+        // output.emit('data', packet);
+
         // output.enqueue(packet);
       }
       canvas.addEventListener("mousedown", getData);

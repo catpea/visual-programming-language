@@ -32,6 +32,7 @@ export default class Caption {
       this.el.Container = svg.rect({
         name: this.name,
         class: 'editor-caption',
+        'vector-effect': 'non-scaling-stroke',
         ry: this.r,
         // set initial values
         // these are special, handeled by the layout manager

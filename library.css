@@ -11421,6 +11421,9 @@ svg.editor-interface {
 .editor-junction {
   stroke: var(--editor-primary);
   stroke-width: 2;
+  &.selected {
+    stroke: var(--editor-warning);
+  }
 }
 .editor-container {
   stroke: var(--editor-primary);

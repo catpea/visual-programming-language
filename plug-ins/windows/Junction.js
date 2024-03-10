@@ -1,16 +1,19 @@
-import { svg, update } from "domek";
+import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 
-import Component from "/plug-ins/windows/Component.js";
+import Control from "/plug-ins/windows/Control.js";
+import Anchor from "/plug-ins/windows/Anchor.js";
+import { svg, update, click } from "domek";
 
+import Move from "/plug-ins/move/index.js";
+import Focus from "/plug-ins/focus/index.js";
 import Select from "/plug-ins/select/index.js";
-import Connect from "/plug-ins/connect/index.js";
 
 export default class Junction {
 
-  static extends = [Component];
+  static extends = [Control];
 
   properties = {
-    pad: null
+    handle:null,
   };
 
   observables = {
@@ -23,46 +26,55 @@ export default class Junction {
   }
 
   methods = {
-
     initialize(){
-
-      this.r = 8;
-
-      // console.log(`%cJunction.initialize!`, 'background: hsl(180, 80%, 60%); color: black;', this);
-
-      // setInterval(x=>{
-      //   this.x = this.x + this.getRandomIntInclusive(-1,1);
-      //   this.y = this.y + this.getRandomIntInclusive(-1,1);
-      // }, 1_000/22);
-
+      this.w = 0;
+      this.h = 0;
+      this.r = 12;
     },
 
     mount(){
 
-      this.el.Circle = svg.circle({
+      this.el.Primary = svg.circle({
         name: this.name,
         class: 'editor-junction',
         'vector-effect': 'non-scaling-stroke',
         r: this.r,
+        width: this.w,
+        height: this.h,
         cx: this.x,
         cy: this.y,
       });
 
-      this.pad = this.el.Circle;
+      this.on("selected", selected => selected?this.el.Primary.classList.add('selected'):this.el.Primary.classList.remove('selected'));
 
-      const connect = new Connect({
-        anchor: this,
-        // handle: caption.handle,
-        // window: this,
+      const move = new Move({
+        component: this,
+        handle: this.el.Primary,
+        window: this,
         zone: window,
-      }); this.destructable = ()=>connect.destroy()
+      }); this.destructable = ()=>move.destroy()
 
-      this.on('name',  name=>update(this.el.Circle,{name}), );
-      this.on('x',      cx=>update(this.el.Circle,{cx}),     );
-      this.on('y',      cy=>update(this.el.Circle,{cy}),     );
-      this.on('r',      r=>update(this.el.Circle,{r}),     );
+      const focus = new Focus({
+        component: this,
+        handle: this.scene, // set to caption above to react to window captions only
+      }); this.destructable = ()=>focus.destroy()
+
+      const select = new Select({
+        component: this,
+        handle: this.el.Primary,
+      }); this.destructable = ()=>select.destroy()
 
       this.appendElements();
+
+      const inputAnchor = this.createControlAnchor({ name: 'input', side:  0, r:4});
+      const outputAnchor = this.createControlAnchor({ name: 'output', side: 1, r:4});
+      
+      this.pipe('input').on('data', (data)=>this.pipe('output').emit('data', data))
+
+      this.on('name', name=>update(this.el.Primary,{name}) );
+      this.on('x',      cx=>update(this.el.Primary,{cx})   );
+      this.on('y',      cy=>update(this.el.Primary,{cy})   );
+
     },
 
     destroy(){
