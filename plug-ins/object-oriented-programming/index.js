@@ -198,6 +198,10 @@ export class Instance {
 
     const observableData = {};
     this.oo.addObservable = (observableName, observableValue=undefined) => {
+
+
+      // TODO: inherited.observables[observableName] = observableValue; // (for serialization)
+
       const isArray = Array.isArray(observableValue)?true:false;
       if(observableName in this === false){
 
@@ -267,6 +271,16 @@ export class Instance {
         const entries = observables.map(key => [key, this[key]])
         const packet = Object.fromEntries(entries);
         callback1(packet);
+      }
+      observables.map(event=>this.on(event, callback2));
+    }
+
+    this.all = function(observables, callback1){
+      const callback2 = ()=>{
+        const entries = observables.map(key => [key, this[key]])
+        const packet = Object.fromEntries(entries);
+        const isReady = Object.values(packet).every(value=>value!==undefined)
+        if(isReady) callback1(packet);
       }
       observables.map(event=>this.on(event, callback2));
     }

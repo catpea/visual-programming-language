@@ -155,6 +155,7 @@ methods = {
     this.nodes.set(node.id, node);
     project.concepts.create( node ); // -> see project #onStart for creation.
   },
+
   remove(id){
     const node = this.nodes.get(id);
     project.concepts.remove( node );
@@ -207,22 +208,17 @@ methods = {
       const node = new Instance(Node);
       const nodeKeys = new Set([...Object.keys(node.oo.specification.properties), ...Object.keys(node.oo.specification.observables)]);
       const metaKeys = new Set([...Object.keys(meta)]);
-
       const commonProperties = intersection(nodeKeys, metaKeys);
       const newProperties = difference(metaKeys, commonProperties);
-
-      // console.log(commonProperties);
-      // console.log(newProperties);
-
       for (const newProperty of newProperties) {
         node.oo.addObservable(newProperty, meta[newProperty])
       }
-
       Object.assign(node, meta, {data})
-
-      // node
       this.nodes.set(node.id, node);
       project.concepts.create( node ); // -> see project #onStart for creation.
+
+      
+
     }
 
   },

@@ -112,7 +112,7 @@ export default class Connect {
         const target = e.target.dataset.target;
         if(source != target){
           globalThis.project.create({ meta: { id: uuid(), type: "Line", source, target }, data: {} });
-          globalThis.project.pipe( source, target );
+          /// GGGG globalThis.project.pipe( source, target );
 
         }
       }
@@ -123,7 +123,7 @@ export default class Connect {
         const source = [this.anchor.name, this.anchor.root().node.id].join(':');
         const target = ['input', junctionId].join(':');
         globalThis.project.create({ meta: { id: uuid(), type: "Line", source, target }, data: {} });
-        globalThis.project.pipe( source, target );
+        /// GGGG globalThis.project.pipe( source, target );
       }
 
 

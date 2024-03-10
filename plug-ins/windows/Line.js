@@ -81,6 +81,9 @@ export default class Line {
       });
 
 
+      this.all(['source', 'target'], ({source, target})=>globalThis.project.pipe( source, target ))
+      // ;
+
 
       // this.on('x1',      x1=>update(this.el.Primary,{x1}),     );
       // this.on('y1',      y1=>update(this.el.Primary,{y1}),     );
