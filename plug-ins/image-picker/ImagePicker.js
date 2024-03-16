@@ -1,4 +1,4 @@
-import { svg, html, update } from "domek";
+import { svg, html, update } from "/plug-ins/domek/index.js"
 import Control from "/plug-ins/windows/Control.js";
 
 function range(n){
@@ -54,36 +54,20 @@ export default class ImagePicker {
 
 
 
-      const that = this;
-      const getData = function(e){
-    	  // const eventLocation = getEventLocation(this, e);
-        const context = this.getContext('2d');
-        var ratio = Math.min(this.width/this.getBoundingClientRect().width , this.height/this.getBoundingClientRect().height );
-        const position = {r:ratio, z:globalThis.project.zoom, x:(e.layerX*ratio )*globalThis.project.zoom, y:(e.layerY*ratio )*globalThis.project.zoom};
 
-        const data = context.getImageData(position.x, position.y, 1, 1).data;
-        const color = [data[0], data[1], data[2], data[3]];
-        const packet = {
-          name:'color'+e.button,
-          color: `rgba(${color.join(', ')})`,
-          data:{position, color}
-        };
-
-        // console.log( that.anchors.filter(anchor=>anchor.selected).map(anchor=>anchor.name) );
-        for (const name of that.anchors.filter(anchor=>anchor.selected).map(anchor=>anchor.name)) {
-
-          // store color locally
-          that[name] = packet;
-
-          // send it along
-          that.pipe(name).emit('data', packet);
-
-        }
-      }
-      canvas.addEventListener("mousedown", getData);
-      this.destructible = ()=> canvas.removeEventListener("mousedown", getData);
-
-
+      const pick = new Pick({
+        component: this,
+        handle: canvas,
+        zone: window,
+        onData: data => {
+          for (const name of this.anchors.filter(anchor=>anchor.selected).map(anchor=>anchor.name)) {
+            // store color locally
+            this[name] = data;
+            // send it along
+            this.pipe(name).emit('data', data);
+          }
+        },
+      }); this.destructable = ()=>pick.destroy()
 
       this.el.Primary.appendChild(canvas)
 
@@ -111,5 +95,99 @@ export default class ImagePicker {
 
     }
   };
+
+}
+
+
+
+class Pick {
+
+
+    component;
+    handle;
+    zone;
+    onData;
+
+    mouseDownHandler;
+    mouseMoveHandler;
+    mouseUpHandler;
+
+    dragging = false;
+
+    constructor({component, handle, zone, onData}){
+      if(!component) throw new Error('component is required')
+      if(!handle) throw new Error('handle is required')
+      if(!zone) throw new Error('zone is required')
+      if(!onData) throw new Error('onData is required')
+
+      this.component = component;
+      this.handle = handle;
+      this.zone = zone;
+      this.onData = onData;
+      this.mount();
+    }
+
+    mount(){
+
+
+
+      this.mouseMoveHandler = (e) => {
+        const context = this.handle.getContext('2d');
+
+        const rect = this.handle.getBoundingClientRect();
+
+        let imageRatio = Math.min(
+          this.handle.width/
+          (this.handle.getBoundingClientRect().width/globalThis.project.zoom),
+          this.handle.height/
+          (this.handle.getBoundingClientRect().height/globalThis.project.zoom)
+        );
+
+        // raw coordinates
+        const trueX = e.clientX - rect.left;
+        const trueY = e.clientY - rect.top;
+
+        // corrected for zoom
+        const zoomedX = trueX / globalThis.project.zoom;
+        const zoomedY = trueY / globalThis.project.zoom;
+
+        // corrected for image ratio (taking under consideration canvas resizing)
+        const ratiodX = zoomedX * imageRatio;
+        const ratiodY = zoomedY * imageRatio;
+
+        const position = { x:ratiodX, y:ratiodY};
+        const data = context.getImageData(position.x, position.y, 1, 1).data;
+        const rgba = [data[0], data[1], data[2], data[3]];
+        const packet = {
+          color: `rgba(${rgba.join(', ')})`,
+          rgba,
+          ...position,
+        };
+        this.onData(packet);
+
+       };
+
+       this.mouseDownHandler = (e) => {
+         this.dragging = true;
+         this.mouseMoveHandler(e); //kick off
+         this.zone.addEventListener('mousemove', this.mouseMoveHandler);
+       };
+
+      this.mouseUpHandler = (e) => {
+        this.dragging = false;
+        this.zone.removeEventListener('mousemove', this.mouseMoveHandler);
+      };
+
+      this.handle.addEventListener('mousedown', this.mouseDownHandler);
+      this.zone.addEventListener('mouseup', this.mouseUpHandler);
+
+    }
+
+    destroy(){
+      this.handle.removeEventListener('mousedown', this.mouseDownHandler);
+      this.zone.removeEventListener('mousemove', this.mouseMoveHandler);
+      this.zone.removeEventListener('mouseup', this.mouseUpHandler);
+    }
+
 
 }

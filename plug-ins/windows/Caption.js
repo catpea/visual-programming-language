@@ -2,7 +2,7 @@ import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 
 import Control from "/plug-ins/windows/Control.js";
 import Anchor from "/plug-ins/windows/Anchor.js";
-import { svg, update, click } from "domek";
+import { svg, update, click } from "/plug-ins/domek/index.js"
 
 export default class Caption {
 

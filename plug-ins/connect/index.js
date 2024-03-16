@@ -1,4 +1,4 @@
-import { svg, update } from "domek";
+import { svg, update } from "/plug-ins/domek/index.js"
 const uuid = bundle['uuid'];
 
 import Node from "/plug-ins/node/Node.js";

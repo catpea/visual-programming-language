@@ -8,7 +8,7 @@ const { EditorState } = bundle["@codemirror/state"];
 
 const { oneDark } = bundle['@codemirror/theme-one-dark']; // NOTE: "Dark Backgroung And Light Text" Firefox Extension Mangles The Theme
 
-import { svg, html, update, click } from "domek";
+import { svg, html, update, click } from "/plug-ins/domek/index.js"
 import Component from "/plug-ins/windows/Component.js";
 
 export default class CodeMirror {

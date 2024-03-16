@@ -2,7 +2,7 @@ import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 
 import Component from "/plug-ins/windows/Component.js";
 import Anchor from "/plug-ins/windows/Anchor.js";
-import { svg, update } from "domek";
+import { svg, update } from "/plug-ins/domek/index.js"
 import { AnchorLayout } from "/plug-ins/layout-manager/index.js";
 import { Pipe } from "/plug-ins/pipe/Pipe.js";
 

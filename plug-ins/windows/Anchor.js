@@ -1,4 +1,4 @@
-import { svg, update } from "domek";
+import { svg, update } from "/plug-ins/domek/index.js"
 
 import Component from "/plug-ins/windows/Component.js";
 import Select from "/plug-ins/select/index.js";

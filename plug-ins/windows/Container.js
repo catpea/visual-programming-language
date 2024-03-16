@@ -1,6 +1,6 @@
 import Component from "/plug-ins/windows/Component.js";
 
-import { svg, update } from "domek";
+import { svg, update } from "/plug-ins/domek/index.js"
 
 export default class Container {
   static extends = [Component];

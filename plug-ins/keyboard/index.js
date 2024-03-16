@@ -1,4 +1,4 @@
-import { front } from "domek";
+import { front } from "/plug-ins/domek/index.js";
 
 export default class Keyboard {
 
