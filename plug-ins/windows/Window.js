@@ -13,6 +13,10 @@ export default class Window {
 
   static extends = [Vertical];
 
+  observables = {
+    caption: 'Untitled',
+  };
+
   properties = {
     streams: new Map(),
   };
@@ -27,10 +31,14 @@ export default class Window {
     mount(){
 
       // ADD DRAGGABLE CAPTION (aka handle)
-      let caption = new Instance(Caption, {h: 24});
+      let caption = new Instance(Caption, {h: 24, text: this.caption});
+      this.on('caption', v=>caption.text=v)
       this.createWindowComponent(caption);
       //
 
+      this.on("node", (node) => {
+        node.on("caption", caption => this.caption = caption);
+      });
 
       const move = new Move({
         component: this,

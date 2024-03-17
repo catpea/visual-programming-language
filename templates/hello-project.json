@@ -9,6 +9,7 @@
     {
       "meta": {
         "id": "a",
+        "caption": "Color Picker",
         "type": "ColorPicker",
         "x": 100,
         "y": 100,
@@ -23,6 +24,7 @@
     {
       "meta": {
         "id": "b",
+        "caption": "Code Editor",
         "type": "CodeEditor",
         "x": 955.7114413736152,
         "y": 100.58171604955939
@@ -34,6 +36,7 @@
     {
       "meta": {
         "id": "c",
+        "caption": "Theme Builder",
         "type": "ThemeBuilder",
         "x": 683.464250010732,
         "y": 100.00000000000001
@@ -129,6 +132,8 @@
     {
       "meta": {
         "id": "element-debug1",
+        "caption": "Element Debugger",
+
         "type": "ElementDebugger",
         "x": 100,
         "y": 777
@@ -139,6 +144,7 @@
     {
       "meta": {
         "id": "application-debug1",
+        "caption": "Application Debugger",
         "type": "ApplicationDebugger",
         "x": 500,
         "y": 777
@@ -149,6 +155,7 @@
     {
       "meta": {
         "id": "anchor-debug1",
+        "caption": "Anchor Debugger",
         "type": "AnchorDebugger",
         "x": 900,
         "y": 777
@@ -159,6 +166,7 @@
     {
       "meta": {
         "id": "pipe-debug1",
+        "caption": "Pipe Debugger",
         "type": "PipeDebugger",
         "x": 1300,
         "y": 777

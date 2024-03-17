@@ -10,11 +10,10 @@ export default class Label {
 
   properties = {
     handle:null,
-
   };
 
   observables = {
-    caption: '',
+    text: '',
   };
 
   constraints = {
@@ -103,7 +102,7 @@ export default class Label {
       }));
 
 
-      const captionText = text(this.caption);
+      const captionText = text(this.text);
       this.el.Caption.appendChild(captionText);
 
       this.on("selected", selected => selected?this.el.Container.classList.add('selected'):this.el.Container.classList.remove('selected'));
@@ -119,7 +118,7 @@ export default class Label {
       this.on('y',      y=>update(this.el.Container,{y}),     );
       this.on('r',     ry=>update(this.el.Container,{ry}),     );
 
-      this.on('caption',  caption=>captionText.nodeValue = caption);
+      this.on('text',  text=>captionText.nodeValue = text);
       this.any(['x','y'], ({x, y})=>  updateZUI(this.el.Caption, { x: x*globalThis.project.zoom, y: y*globalThis.project.zoom, }, {style: {scale:1}, x, y })  )
       this.any(['x','y','w', 'h'], ({x,y,w:width,h:height})=>     updateZUI(clipPathRect, { x: x*globalThis.project.zoom, y: y*globalThis.project.zoom, width: width*globalThis.project.zoom, height: this.h*globalThis.project.zoom }, { x, y, width, height}) )
 

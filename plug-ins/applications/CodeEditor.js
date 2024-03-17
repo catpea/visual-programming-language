@@ -18,6 +18,8 @@ export default class CodeEditor {
       const codeMirror = new Instance(CodeMirror);
       this.createWindowComponent( codeMirror ); // Add Visual Editor To The Window
 
+
+
       // const id = ['input', this.id].join(':');
       // const input = globalThis.project.pipes.get(id);
       this.pipe('input').on('data', (data)=>{

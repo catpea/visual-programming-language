@@ -14,6 +14,7 @@ export default class Caption {
   };
 
   observables = {
+    text: '',
   };
 
   constraints = {
@@ -57,6 +58,7 @@ export default class Caption {
 
 
 
+      this.on('text',  text=>label.text=text, );
       this.on('name',  name=>update(this.el.Container,{name}), );
       this.on('w',  width=>update(this.el.Container,{width}), );
       this.on('h', height=>update(this.el.Container,{height}),);

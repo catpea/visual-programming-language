@@ -20,7 +20,7 @@ export default class ColorPicker {
       this.createWindowComponent( imagePicker ); // Add Visual Editor To The Window
 
       this.on("node", (node) => {
-        // used for Primary
+
         node.on("url", url => imagePicker.url = url);
         node.on("h", h => imagePicker.h = h);
         node.on("w", w => imagePicker.w = w);
