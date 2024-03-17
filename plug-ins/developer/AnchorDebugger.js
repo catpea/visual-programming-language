@@ -16,8 +16,13 @@ export default class AnchorDebugger {
 
     mount(){
 
-      globalThis.project.on("anchors.created", (node) => {
-        this.createWindowComponent( new Instance(DeviceInfo, {h: 32, caption: `${node.oo.name}: ${node.id.substr(0,8)}... ${node.type}`}) );
+      globalThis.project.on("anchors.created", (anchor) => {
+        // this.createWindowComponent( new Instance(DeviceInfo, {h: 32, caption: `${node.oo.name}: ${node.id.substr(0,8)}... ${node.type}`}) );
+
+        const deviceInfo = new Instance(DeviceInfo, {h: 32, caption: `${anchor.oo.name}: ${anchor.id.substr(0,8)}... ${anchor.type}`});
+        this.createWindowComponent( deviceInfo );
+        anchor.on('selected', selected=>deviceInfo.selected=selected)
+
       }, {replay:true});
 
       globalThis.project.on("anchors.removed", ({id}) => {

@@ -23,8 +23,10 @@ export default class ApplicationDebugger {
       // })
 
 
-      globalThis.project.on("applications.created", (node) => {
-        this.createWindowComponent( new Instance(DeviceInfo, {h: 32, caption: `${node.oo.name}: ${node.id.substr(0,8)}... ${node.type}`}) );
+      globalThis.project.on("applications.created", (application) => {
+        const deviceInfo = new Instance(DeviceInfo, {h: 32, caption: `${application.oo.name}: ${application.id.substr(0,81)}... ${application.type}`});
+        this.createWindowComponent( deviceInfo );
+        application.on('selected', selected=>deviceInfo.selected=selected)
       }, {replay:true});
 
       globalThis.project.on("applications.removed", ({id}) => {

@@ -33,7 +33,7 @@ export default class DeviceInfo {
 
       this.el.Container = svg.rect({
         name: this.name,
-        class: 'editor-node-info',
+        class: 'editor-device-info',
         'vector-effect': 'non-scaling-stroke',
         ry: this.r,
         // set initial values
@@ -46,12 +46,29 @@ export default class DeviceInfo {
       });
 
 
-      this.el.Caption = svg.text({
-        name: this.name,
-        class: 'editor-node-info-text',
-        'dominant-baseline': 'hanging',
+      this.el.ClipPath = svg.clipPath({
+        id: `clip-path-${this.id}`,
+
+      });
+
+      const clipPathRect = svg.rect({
         x: this.x,
         y: this.y,
+        width: this.w,
+        height: this.h,
+      });
+
+      this.el.ClipPath.appendChild(clipPathRect);
+
+      this.el.Caption = svg.text({
+        name: this.name,
+        class: 'editor-device-info-text',
+        'dominant-baseline': 'hanging',
+        'clip-path': `url(#clip-path-${this.id})`,
+        x: this.x,
+        y: this.y,
+
+
       }, );
 
       const captionText = text(this.caption);
@@ -79,6 +96,9 @@ export default class DeviceInfo {
 
       this.on('caption',  caption=>captionText.nodeValue = caption);
       this.any(['x','y'], properties=>update(this.el.Caption, properties))
+      // this.any(['x','y'], properties=>update(this.el.ClipPath, properties))
+      this.any(['x','y'], properties=>update(clipPathRect, properties))
+      this.any(['x','y','w', 'h'], ({x,y,w:width,h:height})=>update(clipPathRect, {x,y,width,height}))
 
 
       this.appendElements();

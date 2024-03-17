@@ -11444,12 +11444,15 @@ div.editor-codemirror {
 div.editor-codemirror * {
   border-radius: 0 !important;
 }
-.editor-node-info-text {
+.editor-device-info-text {
   fill: var(--editor-primary);
 }
-.editor-node-info {
+.editor-device-info {
   stroke: var(--editor-primary);
   fill: var(--editor-dark);
+  &.selected {
+    fill: var(--editor-warning);
+  }
 }
 
 /* plug-ins/obsidian-theme/index.scss */
