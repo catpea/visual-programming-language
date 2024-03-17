@@ -24,7 +24,7 @@ export default class ApplicationDebugger {
 
 
       globalThis.project.on("applications.created", (application) => {
-        const deviceInfo = new Instance(DeviceInfo, {h: 32, caption: `${application.oo.name}: ${application.id.substr(0,81)}... ${application.type}`});
+        const deviceInfo = new Instance(DeviceInfo, {h: 32, caption: `${application.oo.name}: ${application.id}... ${application.type}`});
         this.createWindowComponent( deviceInfo );
         application.on('selected', selected=>deviceInfo.selected=selected)
       }, {replay:true});

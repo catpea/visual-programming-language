@@ -4,7 +4,7 @@ import Control from "/plug-ins/windows/Control.js";
 import Anchor from "/plug-ins/windows/Anchor.js";
 import { svg, update, click, text } from "/plug-ins/domek/index.js"
 
-export default class DeviceInfo {
+export default class Label {
 
   static extends = [Control];
 
@@ -33,7 +33,7 @@ export default class DeviceInfo {
 
       this.el.Container = svg.rect({
         name: this.name,
-        class: 'editor-device-info',
+        class: 'editor-label',
         'vector-effect': 'non-scaling-stroke',
         ry: this.r,
         // set initial values
@@ -44,6 +44,7 @@ export default class DeviceInfo {
         x: this.x,
         y: this.y,
       });
+      this.handle = this.el.Container;
 
 
       this.el.ClipPath = svg.clipPath({
@@ -68,8 +69,6 @@ export default class DeviceInfo {
 
       this.el.ClipPath.appendChild(clipPathRect);
 
-
-
       this.el.ClipPathRectTest = svg.rect({
         x: this.x,
         y: this.y,
@@ -82,7 +81,7 @@ export default class DeviceInfo {
 
       this.el.Caption = svg.text({
         name: this.name,
-        class: 'editor-device-info-text',
+        class: 'editor-label-text',
         'dominant-baseline': 'hanging',
         'clip-path': `url(#clip-path-${this.id})`,
         x: this.x,
@@ -98,7 +97,6 @@ export default class DeviceInfo {
       }
       globalThis.project.on('zoom', v=> requestAnimationFrame(() => {
 
-        // this.el.Caption.style.scale = 1/globalThis.project.zoom;
         updateZUI(this.el.Caption, { style: {scale:1/globalThis.project.zoom}, x: this.x*globalThis.project.zoom, y: this.y*globalThis.project.zoom, }, {style: {scale:1}, x: this.x, y: this.y, })
         updateZUI(clipPathRect, { x: this.x*globalThis.project.zoom, y: this.y*globalThis.project.zoom, width: this.w*globalThis.project.zoom, height: this.h*globalThis.project.zoom, }, { x: this.x, y: this.y, width: this.w, height: this.h})
 
@@ -110,15 +108,9 @@ export default class DeviceInfo {
 
       this.on("selected", selected => selected?this.el.Container.classList.add('selected'):this.el.Container.classList.remove('selected'));
 
-
-
-      this.handle = this.el.Container;
-
-      this.disposable = click( this.el.Container, e=>{
-        // console.log('CLICKED', this.parent.data.id, this, this.parent);
-      });
-
-
+      // this.disposable = click( this.el.Container, e=>{
+      //   // console.log('CLICKED', this.parent.data.id, this, this.parent);
+      // });
 
       this.on('name',  name=>update(this.el.Container,{name}), );
       this.on('w',  width=>update(this.el.Container,{width}), );
@@ -127,22 +119,11 @@ export default class DeviceInfo {
       this.on('y',      y=>update(this.el.Container,{y}),     );
       this.on('r',     ry=>update(this.el.Container,{ry}),     );
 
-
       this.on('caption',  caption=>captionText.nodeValue = caption);
-
-
-      // PRE ZUI TEXT
-      // this.any(['x','y'], ({x, y})=>   update(this.el.Caption, properties))
-      // this.any(['x','y','w', 'h'], ({x,y,w:width,h:height})=>    update(clipPathRect, {x,y,width,height}))
-
       this.any(['x','y'], ({x, y})=>  updateZUI(this.el.Caption, { x: x*globalThis.project.zoom, y: y*globalThis.project.zoom, }, {style: {scale:1}, x, y })  )
       this.any(['x','y','w', 'h'], ({x,y,w:width,h:height})=>     updateZUI(clipPathRect, { x: x*globalThis.project.zoom, y: y*globalThis.project.zoom, width: width*globalThis.project.zoom, height: this.h*globalThis.project.zoom }, { x, y, width, height}) )
 
-
       this.appendElements();
-
-      // this.createControlAnchor({ name: 'input', side: 0 });
-      // this.createControlAnchor({ name: 'output', side: 1 });
 
     },
 

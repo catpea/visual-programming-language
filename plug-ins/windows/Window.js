@@ -29,6 +29,8 @@ export default class Window {
       // ADD DRAGGABLE CAPTION (aka handle)
       let caption = new Instance(Caption, {h: 24});
       this.createWindowComponent(caption);
+      //
+
 
       const move = new Move({
         component: this,

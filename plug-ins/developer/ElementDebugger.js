@@ -17,7 +17,7 @@ export default class ElementDebugger {
     mount(){
 
       globalThis.project.on("elements.created", (node) => {
-        this.createWindowComponent( new Instance(DeviceInfo, {h: 32, caption: `${node.oo.name}: ${node.id.substr(0,8)}... ${node.type}`}) );
+        this.createWindowComponent( new Instance(DeviceInfo, {h: 32, caption: `${node.oo.name}: ${node.id}... ${node.type}`}) );
       }, {replay:true});
 
       globalThis.project.on("elements.removed", ({id}) => {

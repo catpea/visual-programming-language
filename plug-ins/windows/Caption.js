@@ -1,6 +1,7 @@
 import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 
 import Control from "/plug-ins/windows/Control.js";
+import Label from "/plug-ins/windows/Label.js";
 import Anchor from "/plug-ins/windows/Anchor.js";
 import { svg, update, click } from "/plug-ins/domek/index.js"
 
@@ -46,8 +47,9 @@ export default class Caption {
       this.on("selected", selected => selected?this.el.Container.classList.add('selected'):this.el.Container.classList.remove('selected'));
 
 
+      const label = new Instance(Label, {scene:this.scene, h: 24, caption: `${this.name}`});
+      this.destructable = ()=>{label.stop(); label.destroy();}
 
-      this.handle = this.el.Container;
 
       this.disposable = click( this.el.Container, e=>{
         // console.log('CLICKED', this.parent.data.id, this, this.parent);
@@ -62,7 +64,14 @@ export default class Caption {
       this.on('y',      y=>update(this.el.Container,{y}),     );
       this.on('r',     ry=>update(this.el.Container,{ry}),     );
 
+      this.any(['x','y','w','h'],  ({x,y,w,h})=>Object.assign(label, {x,y,w,h}));
+
+
+
       this.appendElements();
+      label.start()
+      this.handle = label.el.Container;
+
 
       this.createControlAnchor({ name: 'input', side: 0 });
       this.createControlAnchor({ name: 'output', side: 1 });

@@ -19,7 +19,7 @@ export default class AnchorDebugger {
       globalThis.project.on("anchors.created", (anchor) => {
         // this.createWindowComponent( new Instance(DeviceInfo, {h: 32, caption: `${node.oo.name}: ${node.id.substr(0,8)}... ${node.type}`}) );
 
-        const deviceInfo = new Instance(DeviceInfo, {h: 32, caption: `${anchor.oo.name}: ${anchor.id.substr(0,8)}... ${anchor.type}`});
+        const deviceInfo = new Instance(DeviceInfo, {h: 32, caption: `${anchor.oo.name}: ${anchor.id}... ${anchor.type}`});
         this.createWindowComponent( deviceInfo );
         anchor.on('selected', selected=>deviceInfo.selected=selected)
 
