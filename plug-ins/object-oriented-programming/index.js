@@ -597,6 +597,9 @@ export class List {
   		if(typeof callback !== "function") throw new TypeError("Needs a function.");
   		return this.#value.find(callback);
   	}
+  	get(id) {
+  		return this.#value.find(o=>o.id===id);
+  	}
   	map(callback) {
   		if(typeof callback !== "function") throw new TypeError("Needs a function.");
   		return this.#value.map(callback);

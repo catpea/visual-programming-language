@@ -31,12 +31,12 @@ export default class Select {
       }else{
         if(this.component.selected){
 
-          for (const [id, item] of globalThis.project.applications) {
+          for (const item of globalThis.project.applications) {
             if(this.component.id !== item.id){
               item.selected = false;
             }
           }
-          for (const [id, item] of globalThis.project.anchors) {
+          for (const item of globalThis.project.anchors) {
             if(this.component.id !== item.id){
               item.selected = false;
             }

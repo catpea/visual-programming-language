@@ -57,7 +57,7 @@ export default class Control {
       this.on("anchors.removed", (anchor) => {
         anchor.stop();
         this.removePipe(anchor.name);
-        globalThis.project.anchors.set(id, anchor);
+        globalThis.project.anchors.create(anchor);
         this.anchorage.forget(anchor);
       });
 
@@ -75,7 +75,7 @@ export default class Control {
     createPipe(name, direction){
       const id = [name, this.root().id].join(':');
       const pipe = new Pipe(id, direction);
-      globalThis.project.pipes.set(id, pipe);
+      globalThis.project.pipes.create(pipe);
     },
 
     removePipe(name){
@@ -90,13 +90,13 @@ export default class Control {
       if(!side===undefined) throw new Error(`It is not possible to create an anchor without specifying a side, 0 or 1.`);
       const id = [name, this.root().id].join(':')
       const anchor = new Instance(Anchor, { id, name, side, parent: this, scene: this.scene } )
-      globalThis.project.anchors.set(id, anchor);
+      globalThis.project.anchors.create(anchor);
       this.anchors.create(anchor);
     },
 
     removeControlAnchor(id){
       this.anchors.remove(id);
-      globalThis.project.anchors.delete(id);
+      globalThis.project.anchors.remove(id);
     },
 
     destroy(){

@@ -11444,6 +11444,13 @@ div.editor-codemirror {
 div.editor-codemirror * {
   border-radius: 0 !important;
 }
+.editor-node-info-text {
+  fill: var(--editor-primary);
+}
+.editor-node-info {
+  stroke: var(--editor-primary);
+  fill: var(--editor-dark);
+}
 
 /* plug-ins/obsidian-theme/index.scss */
 [data-ui-theme=obsidian] svg.editor-interface {

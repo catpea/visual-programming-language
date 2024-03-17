@@ -10,7 +10,9 @@ import Zoom from "/plug-ins/zoom/index.js";
 
 import {svg} from "/plug-ins/domek/index.js";
 
+// Begin UI
 
+// User
 import ColorPicker from "/plug-ins/applications/ColorPicker.js";
 import ThemeBuilder from "/plug-ins/applications/ThemeBuilder.js";
 import VisualProgram from "/plug-ins/applications/VisualProgram.js";
@@ -18,6 +20,14 @@ import CodeEditor from "/plug-ins/applications/CodeEditor.js";
 import Junction from "/plug-ins/windows/Junction.js";
 import Line from "/plug-ins/windows/Line.js";
 import RemoteApplication from "/plug-ins/applications/RemoteApplication.js";
+
+// Developer
+import ElementDebugger from "/plug-ins/developer/ElementDebugger.js";
+import ApplicationDebugger from "/plug-ins/developer/ApplicationDebugger.js";
+import AnchorDebugger from "/plug-ins/developer/AnchorDebugger.js";
+import PipeDebugger from "/plug-ins/developer/PipeDebugger.js";
+
+// End UI
 
 function intersection(a,b){
   const response = new Set();
@@ -60,13 +70,11 @@ export default class Project {
 
   properties = {
     meta: {},
-    types: [ ColorPicker, ThemeBuilder, VisualProgram, Junction, Line, RemoteApplication, CodeEditor ], // What can the project instantiate?
+    types: [
+      ColorPicker, ThemeBuilder, VisualProgram, Junction, Line, RemoteApplication, CodeEditor,
+      ElementDebugger, ApplicationDebugger, AnchorDebugger, PipeDebugger,
+    ], // What can the project instantiate?
 
-    // registry
-    nodes: new Map(),
-    pipes: new Map(),
-    applications: new Map(), // NOTE: root windowID
-    anchors: new Map(), // NOTE: format is portName:rootID (not component id, but the root window)
 
   };
 
@@ -79,8 +87,18 @@ export default class Project {
     name: "Bork",
 
     archetypes: [],
-    concepts: [],
-    transports: [],
+
+    // PRIMARY DATA, note Line component represents edges, these must come second, forst take care of non-Line, then Line
+    elements: [], // use instead of old .nodes
+
+    // SECONDATY LOOKUP DATA - registry for fast lookup purposes
+    applications: [], // NOTE: root windowID
+
+    anchors: [], // NOTE: format is portName:rootID (not component id, but the root window)
+    pipes: [],
+    //
+
+
 
     panX: 0,
     panY: 0,
@@ -114,7 +132,7 @@ methods = {
     this.on('file', async v=> {
     });
 
-    this.on("concepts.created", (node) => {
+    this.on("elements.created", (node) => {
 
       const Ui = this.types.find(o=>o.name==node.type); // concept as in conceptmap is a component as it is a GUI thing.
       // if(!Ui) throw new Error(`Unrecongnized type "${node.type}"`);
@@ -128,15 +146,15 @@ methods = {
 
       //NOTE: do not set ui.parent here, a project is not a parent of a window.
   		const ui = new Instance(Ui, {id:node.id, node, scene:g});
-      this.applications.set(node.id, ui);
+      this.applications.create(ui);
       ui.start()
 
     }, {replay:true});
 
-    this.on("concepts.removed", ({id}) => {
+    this.on("elements.removed", ({id}) => {
       this.applications.get(id).stop();
       this.applications.get(id).destroy();
-      this.applications.delete(id);
+      this.applications.remove(id);
     });
 
   }, // initialize
@@ -152,19 +170,18 @@ methods = {
 
   create({meta, data}){
     const node = new Instance(Node, {...meta, data});
-    this.nodes.set(node.id, node);
-    project.concepts.create( node ); // -> see project #onStart for creation.
+    this.elements.create(node);
   },
 
   remove(id){
     const node = this.nodes.get(id);
-    project.concepts.remove( node );
+    project.elements.remove( node );
     node.stop();
     node.destroy();
   },
 
   removeSelected(){
-    for (const [id, application] of this.applications) {
+    for (const application of this.applications) {
       if(application.selected){
         this.remove(id);
       }
@@ -179,7 +196,6 @@ methods = {
       component: this,
       handle: window, // set to caption above to react to window captions only
     }); this.destructable = ()=>keyboard.destroy()
-
 
     const zoom = new Zoom({
       component: this,
@@ -214,8 +230,9 @@ methods = {
         node.oo.addObservable(newProperty, meta[newProperty])
       }
       Object.assign(node, meta, {data})
-      this.nodes.set(node.id, node);
-      project.concepts.create( node ); // -> see project #onStart for creation.
+
+      // this is where all nodes and edges are kept, simple reactive array
+      project.elements.create( node ); // -> see project #onStart for creation.
 
 
 
@@ -230,7 +247,7 @@ methods = {
       meta: Object.assign(this.meta, meta, {compatibility }),
       data:[],
     }
-    for (const concept of project.concepts) {
+    for (const concept of project.elements) {
       const object = concept.toObject();
       objects.data.push( object );
     }
@@ -239,9 +256,9 @@ methods = {
   },
 
   destroy(){
-    for (const {id} of this.concepts) {
+    for (const {id} of this.elements) {
       this.applications.get(id).stop();
-      this.applications.delete(id);
+      this.applications.remove(id);
     } // for every tray
     // shut down all properties...
     this.dispose();

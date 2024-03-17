@@ -122,6 +122,51 @@
         "target": "input:b"
       },
       "data": {}
+    },
+
+
+
+    {
+      "meta": {
+        "id": "element-debug1",
+        "type": "ElementDebugger",
+        "x": 100,
+        "y": 777
+      },
+      "data": { }
+    },
+
+    {
+      "meta": {
+        "id": "application-debug1",
+        "type": "ApplicationDebugger",
+        "x": 500,
+        "y": 777
+      },
+      "data": { }
+    },
+
+    {
+      "meta": {
+        "id": "anchor-debug1",
+        "type": "AnchorDebugger",
+        "x": 900,
+        "y": 777
+      },
+      "data": { }
+    },
+
+    {
+      "meta": {
+        "id": "pipe-debug1",
+        "type": "PipeDebugger",
+        "x": 1300,
+        "y": 777
+      },
+      "data": { }
     }
+
+
+
   ]
 }
