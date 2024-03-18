@@ -47,6 +47,7 @@
       this.oo.name = specification.constructor.name;
       this.oo.class = Class;
       this.oo.specification = specification;
+      this.oo.newObservables = [];
       this.oo.extends = [];
       this.oo.disposables = [];
       this.oo.specifications = [];
@@ -133,7 +134,10 @@
         });
       }
       const observableData = {};
-      this.oo.addObservable = (observableName, observableValue = void 0) => {
+      this.oo.createObservable = (observableName, observableValue = void 0, internal = false) => {
+        if (!internal) {
+          this.oo.newObservables.push(observableName);
+        }
         const isArray = Array.isArray(observableValue) ? true : false;
         if (observableName in this === false) {
           if (isArray) {
@@ -158,7 +162,7 @@
       for (const inherited of this.oo.specifications) {
         if (inherited.observables) {
           for (const [observableName, observableValue] of Object.entries(inherited.observables)) {
-            this.oo.addObservable(observableName, observableValue);
+            this.oo.createObservable(observableName, observableValue, true);
           }
         }
       }
@@ -695,6 +699,9 @@
         for (const [name2, value2] of Object.entries(this.oo.specification.observables).filter(([name3]) => !["data"].includes(name3))) {
           if (this[name2] !== value2)
             meta[name2] = this[name2];
+        }
+        for (const name2 of this.oo.newObservables) {
+          meta[name2] = this[name2];
         }
         return object;
       },
@@ -1883,7 +1890,7 @@
           for (const number of range(count)) {
             const name2 = `color${number}`;
             this.createControlAnchor({ name: name2, side: 1 });
-            this.oo.addObservable(`color${number}`);
+            this.oo.createObservable(`color${number}`);
           }
           for (const number of range(count)) {
             const name2 = `color${number}`;
@@ -2063,7 +2070,7 @@
           this.createControlAnchor({ name: color, side: 0 });
         }
         for (const color of this.colors) {
-          this.oo.addObservable(color, "magenta");
+          this.oo.createObservable(color, "magenta");
         }
         for (const color of this.colors) {
           this.pipe(color).on("data", (data) => document.documentElement.style.setProperty(`--editor-${color}`, data.color));
@@ -2800,7 +2807,7 @@ ${vars.join("\n")}
           const commonProperties = intersection(nodeKeys, metaKeys);
           const newProperties = difference(metaKeys, commonProperties);
           for (const newProperty of newProperties) {
-            node.oo.addObservable(newProperty, meta[newProperty]);
+            node.oo.createObservable(newProperty, meta[newProperty]);
           }
           Object.assign(node, meta, { data });
           project.elements.create(node);

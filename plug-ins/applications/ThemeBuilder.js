@@ -47,7 +47,7 @@ class ThemeColors {
       }
 
       for (const color of this.colors) {
-        this.oo.addObservable(color, 'magenta')
+        this.oo.createObservable(color, 'magenta')
       }
 
       for (const color of this.colors) {

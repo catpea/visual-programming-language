@@ -9,25 +9,25 @@
     {
       "meta": {
         "id": "a",
-        "caption": "Color Picker",
         "type": "ColorPicker",
-        "x": 100,
-        "y": 100,
+        "x": 108,
+        "y": 328,
         "w": 512,
         "h": 512,
         "H": 512,
         "url": "color.jpg",
+        "caption": "Color Picker",
         "colorAnchors": 8
       },
-      "data": { }
+      "data": {}
     },
     {
       "meta": {
         "id": "b",
-        "caption": "Code Editor",
         "type": "CodeEditor",
-        "x": 955.7114413736152,
-        "y": 100.58171604955939
+        "x": 1379.7114413736153,
+        "y": 88.58171604955939,
+        "caption": "Code Editor"
       },
       "data": {
         "doc": "No data..."
@@ -36,10 +36,10 @@
     {
       "meta": {
         "id": "c",
-        "caption": "Theme Builder",
         "type": "ThemeBuilder",
-        "x": 683.464250010732,
-        "y": 100.00000000000001
+        "x": 953.464250010732,
+        "y": 498,
+        "caption": "Theme Builder"
       },
       "data": {
         "doc": "No data..."
@@ -126,68 +126,55 @@
       },
       "data": {}
     },
-
-
-
     {
       "meta": {
         "id": "zoompan-debug1",
-        "caption": "Zoom & Pan Debugger",
-
         "type": "ZoomPanDebugger",
-        "x": 10,
-        "y": 555
+        "x": 102,
+        "y": 105,
+        "caption": "Zoom & Pan Debugger"
       },
-      "data": { }
+      "data": {}
     },
-
-
     {
       "meta": {
         "id": "element-debug1",
-        "caption": "Element Debugger",
-
         "type": "ElementDebugger",
-        "x": 100,
-        "y": 777
+        "x": 136,
+        "y": 1141,
+        "caption": "Element Debugger"
       },
-      "data": { }
+      "data": {}
     },
-
     {
       "meta": {
         "id": "application-debug1",
-        "caption": "Application Debugger",
         "type": "ApplicationDebugger",
-        "x": 500,
-        "y": 777
+        "x": 648,
+        "y": 1127,
+        "caption": "Application Debugger"
       },
-      "data": { }
+      "data": {}
     },
-
     {
       "meta": {
         "id": "anchor-debug1",
-        "caption": "Anchor Debugger",
         "type": "AnchorDebugger",
-        "x": 900,
-        "y": 777
+        "x": 1472,
+        "y": 1075,
+        "caption": "Anchor Debugger"
       },
-      "data": { }
+      "data": {}
     },
-
     {
       "meta": {
         "id": "pipe-debug1",
-        "caption": "Pipe Debugger",
         "type": "PipeDebugger",
-        "x": 1300,
-        "y": 777
+        "x": 1930,
+        "y": 1073,
+        "caption": "Pipe Debugger"
       },
-      "data": { }
+      "data": {}
     }
-
-
-
   ]
 }

@@ -228,7 +228,7 @@ methods = {
       const commonProperties = intersection(nodeKeys, metaKeys);
       const newProperties = difference(metaKeys, commonProperties);
       for (const newProperty of newProperties) {
-        node.oo.addObservable(newProperty, meta[newProperty])
+        node.oo.createObservable(newProperty, meta[newProperty])
       }
       Object.assign(node, meta, {data})
 

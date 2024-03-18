@@ -43,19 +43,26 @@ export default class Node {
       const meta = {};
       const data = this.data;
       const object = {meta, data};
+
       for (const [name, value] of Object.entries(this.oo.specification.properties)) {
         console.log(this[name], name, value);
         if(this[name] !== value) meta[name] = this[name]
       }
+
       for (const [name, value] of Object.entries(this.oo.specification.observables).filter(([name])=>!['data'].includes(name))) {
-        if(this[name] !==value) meta[name] = this[name]
+        if(this[name] !==value) meta[name] = this[name];
       }
+
+      for (const name of this.oo.newObservables) {
+        meta[name] = this[name];
+      }
+
       return object;
     },
 
 
     initialize(){
-      
+
     },
 
     stop(){},

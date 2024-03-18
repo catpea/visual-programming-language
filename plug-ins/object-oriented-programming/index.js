@@ -52,6 +52,7 @@ export class Instance {
     this.oo.name = specification.constructor.name;
     this.oo.class = Class;
     this.oo.specification = specification;
+    this.oo.newObservables = [];
 
     this.oo.extends = [];
     this.oo.disposables = [];
@@ -197,8 +198,12 @@ export class Instance {
 
 
     const observableData = {};
-    this.oo.addObservable = (observableName, observableValue=undefined) => {
+    this.oo.createObservable = (observableName, observableValue=undefined, internal=false) => {
 
+      if(!internal){
+        // this is a user defined observable
+        this.oo.newObservables.push(observableName);
+      }
 
       // TODO: inherited.observables[observableName] = observableValue; // (for serialization)
 
@@ -230,7 +235,7 @@ export class Instance {
       // begin at top, avoid properties that already exist.
       if(inherited.observables){
         for (const [observableName, observableValue] of Object.entries(inherited.observables)) {
-          this.oo.addObservable(observableName, observableValue);
+          this.oo.createObservable(observableName, observableValue, true);
         } // for properties
       } // if
     }

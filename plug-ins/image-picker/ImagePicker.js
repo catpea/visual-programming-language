@@ -33,7 +33,7 @@ export default class ImagePicker {
         for (const number of range(count)) {
           const name = `color${number}`;
           this.createControlAnchor({name, side:1})
-          this.oo.addObservable(`color${number}`)
+          this.oo.createObservable(`color${number}`)
         }
 
         for (const number of range(count)) {
