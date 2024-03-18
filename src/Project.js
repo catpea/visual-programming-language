@@ -26,6 +26,7 @@ import ElementDebugger from "/plug-ins/developer/ElementDebugger.js";
 import ApplicationDebugger from "/plug-ins/developer/ApplicationDebugger.js";
 import AnchorDebugger from "/plug-ins/developer/AnchorDebugger.js";
 import PipeDebugger from "/plug-ins/developer/PipeDebugger.js";
+import ZoomPanDebugger from "/plug-ins/developer/ZoomPanDebugger.js";
 
 // End UI
 
@@ -72,7 +73,7 @@ export default class Project {
     meta: {},
     types: [
       ColorPicker, ThemeBuilder, VisualProgram, Junction, Line, RemoteApplication, CodeEditor,
-      ElementDebugger, ApplicationDebugger, AnchorDebugger, PipeDebugger,
+      ElementDebugger, ApplicationDebugger, AnchorDebugger, PipeDebugger, ZoomPanDebugger,
     ], // What can the project instantiate?
 
 

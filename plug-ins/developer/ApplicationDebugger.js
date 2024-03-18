@@ -1,7 +1,7 @@
 import {Instance} from "/plug-ins/object-oriented-programming/index.js";
 
 import Window from "/plug-ins/windows/Window.js";
-import DeviceInfo from "/plug-ins/developer/controls/DeviceInfo.js";
+import Label from "/plug-ins/windows/Label.js";
 
 export default class ApplicationDebugger {
 
@@ -18,13 +18,13 @@ export default class ApplicationDebugger {
       //
       // globalThis.project.on('applications.created', concept=>{
       //   // for (const [id, application] of globalThis.project.applications) {
-      //     this.createWindowComponent( new Instance(DeviceInfo, {h: 32, caption: `${application.oo.name}: ${application.id.substr(0,8)}... ${application.type}`}) );
+      //     this.createWindowComponent( new Instance(Label, {h: 32, text: `${application.oo.name}: ${application.id.substr(0,8)}... ${application.type}`}) );
       //   // }
       // })
 
 
       globalThis.project.on("applications.created", (application) => {
-        const deviceInfo = new Instance(DeviceInfo, {h: 32, caption: `${application.oo.name}: ${application.id}... ${application.type}`});
+        const deviceInfo = new Instance(Label, {h: 32, text: `${application.oo.name}: ${application.caption||'--'} ${application.id}`});
         this.createWindowComponent( deviceInfo );
         application.on('selected', selected=>deviceInfo.selected=selected)
       }, {replay:true});

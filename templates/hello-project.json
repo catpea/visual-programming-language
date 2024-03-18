@@ -131,6 +131,19 @@
 
     {
       "meta": {
+        "id": "zoompan-debug1",
+        "caption": "Zoom & Pan Debugger",
+
+        "type": "ZoomPanDebugger",
+        "x": 10,
+        "y": 555
+      },
+      "data": { }
+    },
+
+
+    {
+      "meta": {
         "id": "element-debug1",
         "caption": "Element Debugger",
 
