@@ -155,6 +155,89 @@ export class VerticalLayout extends Layout {
 
 export class HorizontalLayout extends Layout {
 
+	manage(child) {
+
+		const children = this.parent[this.source];
+		const childCount = children.length;
+		const siblingCount = this.above(this.parent, child).length;
+		console.log(`${this.constructor.name} got ${childCount} child${childCount==1?'':'ren'} to layout! (I have ${siblingCount} sibling${siblingCount==1?'':'s'} before me.)`);
+
+		child.x = this.calculateChildX(child);
+		child.y = this.calculateChildY(child);
+		child.w = this.calculateChildW(child)
+
+		this.parent.on('x', () => child.x = this.calculateChildX(child) );
+		this.parent.on('y', () => child.y = this.calculateChildY(child) );
+		this.parent.on('h', () => child.y = this.calculateChildY(child) );
+
+		// when parent width changes children's width should change
+		// this.parent.on('w', () => child.x = this.calculateChildX(child) );
+
+		this.parent.on('children.changed', list => list.forEach(child=>{
+			child.w=this.calculateChildW(child)
+			child.x = this.calculateChildX(child);
+			
+		}));
+
+
+		child.on('h', () => this.parent.h = this.calculateH() );
+
+
+	}
+
+	calculateChildX(child){
+		const response =
+			this.parent.x +
+			this.parent.b +
+			this.parent.p +
+			this.above(this.parent, child).reduce((total, child) => total + child.w, 0) +
+			((this.parent.s * 2) * this.above(this.parent, child).length);
+			return response;
+
+	}
+
+	calculateChildW(child){
+		const children = this.parent[this.source];
+		const childCount = children.length;
+		const siblingCount = this.above(this.parent, child).length;
+
+		console.log(childCount, siblingCount);
+		const response =
+			this.parent.w / childCount;
+
+		return response;
+	}
+
+	calculateChildY(child){
+		const response =
+			this.parent.y +
+			this.parent.b +
+			this.parent.p;
+		return response;
+	}
+
+
+	calculateH() {
+		let heightOfChildren = 0;
+		const children = this.parent[this.source];
+		heightOfChildren = children.reduce((max, c) =>     c.h>max?c.h:max, 0) ;
+				// ((this.parent.s * 2) * (children.length > 0 ? children.length - 1 : 0 /* not counting gap in last child as it does not have one*/ ))
+
+
+		let response =
+			this.parent.b +
+			this.parent.p +
+			// this.parent.H + // NOT A MISTAKE design can hold a base h that is used in calculations
+			heightOfChildren +
+			this.parent.p +
+			this.parent.b;
+
+			// if(response < this.parent.H) response = this.parent.H; // hard height (min-height)
+			if(response < this.parent.H) response = this.parent.H; // hard height (min-height)
+
+		return response;
+	}
+
 }
 
 export class ManualLayout extends Layout {

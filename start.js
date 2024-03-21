@@ -24,7 +24,7 @@ let exampleOnResolvePlugin = ()=>({
   setup(build) {
     // Redirect all paths starting with "images/" to "./public/images/"
     build.onResolve({ filter: /^\// }, args => {
-      console.log( args );
+      // console.log( args );
       return { path: path.join(__dirname,   args.path) }
     })
 

@@ -3,7 +3,7 @@ import { VerticalLayout } from "/plug-ins/layout-manager/index.js";
 
 import Container from "/plug-ins/windows/Container.js";
 
-export default class Horizontal {
+export default class Vertical {
   static extends = [Container];
   methods = {
     initialize(){

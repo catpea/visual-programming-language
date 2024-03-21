@@ -1000,6 +1000,54 @@
       return response;
     }
   };
+  var HorizontalLayout = class extends Layout {
+    static {
+      __name(this, "HorizontalLayout");
+    }
+    manage(child) {
+      const children = this.parent[this.source];
+      const childCount = children.length;
+      const siblingCount = this.above(this.parent, child).length;
+      console.log(`${this.constructor.name} got ${childCount} child${childCount == 1 ? "" : "ren"} to layout! (I have ${siblingCount} sibling${siblingCount == 1 ? "" : "s"} before me.)`);
+      child.x = this.calculateChildX(child);
+      child.y = this.calculateChildY(child);
+      child.w = this.calculateChildW(child);
+      this.parent.on("x", () => child.x = this.calculateChildX(child));
+      this.parent.on("y", () => child.y = this.calculateChildY(child));
+      this.parent.on("h", () => child.y = this.calculateChildY(child));
+      this.parent.on("children.changed", (list) => list.forEach((child2) => {
+        child2.w = this.calculateChildW(child2);
+        child2.x = this.calculateChildX(child2);
+      }));
+      child.on("h", () => this.parent.h = this.calculateH());
+    }
+    calculateChildX(child) {
+      const response = this.parent.x + this.parent.b + this.parent.p + this.above(this.parent, child).reduce((total, child2) => total + child2.w, 0) + this.parent.s * 2 * this.above(this.parent, child).length;
+      return response;
+    }
+    calculateChildW(child) {
+      const children = this.parent[this.source];
+      const childCount = children.length;
+      const siblingCount = this.above(this.parent, child).length;
+      console.log(childCount, siblingCount);
+      const response = this.parent.w / childCount;
+      return response;
+    }
+    calculateChildY(child) {
+      const response = this.parent.y + this.parent.b + this.parent.p;
+      return response;
+    }
+    calculateH() {
+      let heightOfChildren = 0;
+      const children = this.parent[this.source];
+      heightOfChildren = children.reduce((max, c) => c.h > max ? c.h : max, 0);
+      let response = this.parent.b + this.parent.p + // this.parent.H + // NOT A MISTAKE design can hold a base h that is used in calculations
+      heightOfChildren + this.parent.p + this.parent.b;
+      if (response < this.parent.H)
+        response = this.parent.H;
+      return response;
+    }
+  };
   var AnchorLayout = class extends Layout {
     static {
       __name(this, "AnchorLayout");
@@ -1207,9 +1255,9 @@
   };
 
   // plug-ins/windows/Vertical.js
-  var Horizontal = class {
+  var Vertical = class {
     static {
-      __name(this, "Horizontal");
+      __name(this, "Vertical");
     }
     static extends = [Container];
     methods = {
@@ -1791,7 +1839,7 @@
     static {
       __name(this, "Window");
     }
-    static extends = [Horizontal];
+    static extends = [Vertical];
     observables = {
       caption: "Untitled"
     };
@@ -2586,6 +2634,19 @@ ${vars.join("\n")}
     };
   };
 
+  // plug-ins/windows/Horizontal.js
+  var Horizontal = class {
+    static {
+      __name(this, "Horizontal");
+    }
+    static extends = [Container];
+    methods = {
+      initialize() {
+        this.layout = new HorizontalLayout(this);
+      }
+    };
+  };
+
   // plug-ins/developer/ZoomPanDebugger.js
   var ZoomPanDebugger = class {
     static {
@@ -2601,6 +2662,16 @@ ${vars.join("\n")}
         this.h = 600;
       },
       mount() {
+        const horizontal = new Instance(Horizontal);
+        this.createWindowComponent(horizontal);
+        const info1 = new Instance(Label, { h: 32, text: "Hello" });
+        info1.parent = this;
+        horizontal.children.create(info1);
+        globalThis.project.any(["panX", "panY"], ({ panX, panY }) => info1.text = `${panX}x${panY}`);
+        const info2 = new Instance(Label, { h: 32, text: "World" });
+        info2.parent = this;
+        horizontal.children.create(info2);
+        globalThis.project.on("zoom", (zoom) => info2.text = `@${zoom}`);
         const displayText = new Instance(Label, { h: 32, text: this.text });
         this.createWindowComponent(displayText);
         globalThis.project.any(["panX", "panY", "zoom"], ({ panX, panY, zoom }) => this.text = `Pan & Zoom
