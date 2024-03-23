@@ -1,0 +1,180 @@
+{
+  "meta": {
+    "id": "17b1cb2a-1a08-4eec-a3fc-f3835cbbdfab",
+    "name": "Hello Project",
+    "description": "A Selection Of World VisualPrograms",
+    "compatibility": "1.0.1"
+  },
+  "data": [
+    {
+      "meta": {
+        "id": "a",
+        "type": "ColorPicker",
+        "x": 108,
+        "y": 328,
+        "w": 512,
+        "h": 512,
+        "H": 512,
+        "url": "color.jpg",
+        "caption": "Color Picker",
+        "colorAnchors": 8
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "b",
+        "type": "CodeEditor",
+        "x": 1379.7114413736153,
+        "y": 88.58171604955939,
+        "caption": "Code Editor"
+      },
+      "data": {
+        "doc": "No data..."
+      }
+    },
+    {
+      "meta": {
+        "id": "c",
+        "type": "ThemeBuilder",
+        "x": 953.464250010732,
+        "y": 498,
+        "caption": "Theme Builder"
+      },
+      "data": {
+        "doc": "No data..."
+      }
+    },
+    {
+      "meta": {
+        "id": "eadfdc00-a7d5-40d0-92d1-686a904dbf3d",
+        "type": "Line",
+        "source": "color0:a",
+        "target": "primary:c"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "70cdf331-95ce-41e5-afce-5689cda4e597",
+        "type": "Line",
+        "source": "color1:a",
+        "target": "secondary:c"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "be5a62f1-e2b8-4662-b84e-da7198ea687c",
+        "type": "Line",
+        "source": "color2:a",
+        "target": "success:c"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "c9e7853d-ac05-4e70-9e66-8b18b7bfee4e",
+        "type": "Line",
+        "source": "color3:a",
+        "target": "info:c"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "1ce351aa-6ee2-4064-b785-351492e7e2c0",
+        "type": "Line",
+        "source": "color4:a",
+        "target": "warning:c"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "86db8737-1866-4adc-829a-91db41cd38a4",
+        "type": "Line",
+        "source": "color5:a",
+        "target": "danger:c"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "be8b6501-bd62-460d-813b-a822ea3997cf",
+        "type": "Line",
+        "source": "color6:a",
+        "target": "light:c"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "87c04852-7756-4bf2-adec-f2dbe42fa7ff",
+        "type": "Line",
+        "source": "color7:a",
+        "target": "dark:c"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "cc9c2f5d-2815-4d8e-9028-a29ee0c1b57c",
+        "type": "Line",
+        "source": "output:c",
+        "target": "input:b"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "zoompan-debug1",
+        "type": "ZoomPanDebugger",
+        "x": 102,
+        "y": 105,
+        "caption": "Zoom & Pan Debugger"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "element-debug1",
+        "type": "ElementDebugger",
+        "x": 136,
+        "y": 1141,
+        "caption": "Element Debugger"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "application-debug1",
+        "type": "ApplicationDebugger",
+        "x": 648,
+        "y": 1127,
+        "caption": "Application Debugger"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "anchor-debug1",
+        "type": "AnchorDebugger",
+        "x": 1472,
+        "y": 1075,
+        "caption": "Anchor Debugger"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "pipe-debug1",
+        "type": "PipeDebugger",
+        "x": 1930,
+        "y": 1073,
+        "caption": "Pipe Debugger"
+      },
+      "data": {}
+    }
+  ]
+}

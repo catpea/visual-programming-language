@@ -160,7 +160,7 @@ export class HorizontalLayout extends Layout {
 		const children = this.parent[this.source];
 		const childCount = children.length;
 		const siblingCount = this.above(this.parent, child).length;
-		console.log(`${this.constructor.name} got ${childCount} child${childCount==1?'':'ren'} to layout! (I have ${siblingCount} sibling${siblingCount==1?'':'s'} before me.)`);
+		// console.log(`${this.constructor.name} got ${childCount} child${childCount==1?'':'ren'} to layout! (I have ${siblingCount} sibling${siblingCount==1?'':'s'} before me.)`);
 
 		child.x = this.calculateChildX(child);
 		child.y = this.calculateChildY(child);
@@ -176,7 +176,7 @@ export class HorizontalLayout extends Layout {
 		this.parent.on('children.changed', list => list.forEach(child=>{
 			child.w=this.calculateChildW(child)
 			child.x = this.calculateChildX(child);
-			
+
 		}));
 
 
@@ -196,17 +196,57 @@ export class HorizontalLayout extends Layout {
 
 	}
 
-	calculateChildW(child){
+	calculateChildW1(child){
 		const children = this.parent[this.source];
 		const childCount = children.length;
 		const siblingCount = this.above(this.parent, child).length;
 
-		console.log(childCount, siblingCount);
-		const response =
-			this.parent.w / childCount;
-
+		// console.log(childCount, siblingCount);
+		let response = this.parent.w / childCount;
 		return response;
+
+		// if(child.W) response = child.W; // hard height (min-height)
+		//
+
+		// const usedUp = this.above(this.parent, child).reduce((total, child) => total + child.w, 0);
+		// const remaining = this.parent.w;
+
+		// let hardWidth = this.above(this.parent, child).reduce((total, child) => total + child.W, 0);
+		// let flexWidth = this.parent.w - hardWidth;
+		//
+		// return response;
 	}
+
+
+
+	calculateChildW(child){
+		if(!(child.W===undefined)) return (child.W<1?this.parent.w*child.W:child.W);
+		const children = this.parent[this.source];
+
+		let softElements = children.filter(child=>child.W===undefined);
+		let hardElements = children.filter(child=>!(child.W===undefined));
+
+		// console.log(softElements, hardElements);
+
+		let hardSpace = hardElements.reduce((total, child) => total + (child.W<1?this.parent.w*child.W:child.W), 0);
+		console.log({hardSpace});
+		let availableSoftSpace = this.parent.w - hardSpace;
+		// let freeSpace = softElements.reduce((total, child) => total + child.w, 0);
+
+		// console.log( hardSpace, softSpace );
+
+ 		let softUnit = availableSoftSpace / (softElements.length||1);
+		console.log( availableSoftSpace, softUnit  );
+
+		return softUnit;
+
+	}
+
+
+
+
+
+
 
 	calculateChildY(child){
 		const response =

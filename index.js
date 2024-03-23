@@ -1008,7 +1008,6 @@
       const children = this.parent[this.source];
       const childCount = children.length;
       const siblingCount = this.above(this.parent, child).length;
-      console.log(`${this.constructor.name} got ${childCount} child${childCount == 1 ? "" : "ren"} to layout! (I have ${siblingCount} sibling${siblingCount == 1 ? "" : "s"} before me.)`);
       child.x = this.calculateChildX(child);
       child.y = this.calculateChildY(child);
       child.w = this.calculateChildW(child);
@@ -1025,13 +1024,25 @@
       const response = this.parent.x + this.parent.b + this.parent.p + this.above(this.parent, child).reduce((total, child2) => total + child2.w, 0) + this.parent.s * 2 * this.above(this.parent, child).length;
       return response;
     }
-    calculateChildW(child) {
+    calculateChildW1(child) {
       const children = this.parent[this.source];
       const childCount = children.length;
       const siblingCount = this.above(this.parent, child).length;
-      console.log(childCount, siblingCount);
-      const response = this.parent.w / childCount;
+      let response = this.parent.w / childCount;
       return response;
+    }
+    calculateChildW(child) {
+      if (!(child.W === void 0))
+        return child.W < 1 ? this.parent.w * child.W : child.W;
+      const children = this.parent[this.source];
+      let softElements = children.filter((child2) => child2.W === void 0);
+      let hardElements = children.filter((child2) => !(child2.W === void 0));
+      let hardSpace = hardElements.reduce((total, child2) => total + (child2.W < 1 ? this.parent.w * child2.W : child2.W), 0);
+      console.log({ hardSpace });
+      let availableSoftSpace = this.parent.w - hardSpace;
+      let softUnit = availableSoftSpace / (softElements.length || 1);
+      console.log(availableSoftSpace, softUnit);
+      return softUnit;
     }
     calculateChildY(child) {
       const response = this.parent.y + this.parent.b + this.parent.p;
@@ -2584,9 +2595,9 @@ ${vars.join("\n")}
       mount() {
         globalThis.project.on("elements.created", (node) => {
           const [box, [type, kind, id2]] = nest(Horizontal, { id: node.id }, [
-            [Label, { h: 32, text: node.oo.name, parent: this }, (chid, parent) => parent.children.create(chid)],
+            [Label, { h: 32, W: 0.1, text: node.oo.name, parent: this }, (chid, parent) => parent.children.create(chid)],
             [Label, { h: 32, text: node.type, parent: this }, (chid, parent) => parent.children.create(chid)],
-            [Label, { h: 32, text: node.id, parent: this }, (chid, parent) => parent.children.create(chid)]
+            [Label, { h: 32, W: 0.5, text: node.id, parent: this }, (chid, parent) => parent.children.create(chid)]
           ], (c) => this.createWindowComponent(c));
         }, { replay: true });
         globalThis.project.on("elements.removed", ({ id: id2 }) => {
@@ -2694,7 +2705,7 @@ ${vars.join("\n")}
       },
       mount() {
         const [horizontal, [info1, info2]] = nest(Horizontal, [
-          [Label, { h: 32, text: "Hello", parent: this }, (c, p2) => p2.children.create(c)],
+          [Label, { h: 32, W: 100, text: "Hello", parent: this }, (c, p2) => p2.children.create(c)],
           [Label, { h: 32, text: "World", parent: this }, (c, p2) => p2.children.create(c)]
         ], (c) => this.createWindowComponent(c));
         globalThis.project.any(["panX", "panY"], ({ panX, panY }) => info1.text = `${panX}x${panY}`);

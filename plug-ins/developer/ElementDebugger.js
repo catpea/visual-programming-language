@@ -22,9 +22,9 @@ export default class ElementDebugger {
       globalThis.project.on("elements.created", (node) => {
 
         const [box, [ type, kind, id ]] = nest(Horizontal, {id: node.id}, [
-          [Label, {h: 32, text: node.oo.name, parent:this}, (chid, parent)=> parent.children.create(chid)],
-          [Label, {h: 32,   text: node.type, parent:this}, (chid, parent)=> parent.children.create(chid)],
-          [Label, {h: 32,   text: node.id, parent:this}, (chid, parent)=> parent.children.create(chid)]
+          [Label, {h: 32, W:.1, text: node.oo.name, parent:this}, (chid, parent)=> parent.children.create(chid)],
+          [Label, {h: 32,  text: node.type, parent:this}, (chid, parent)=> parent.children.create(chid)],
+          [Label, {h: 32, W:.5,  text: node.id, parent:this}, (chid, parent)=> parent.children.create(chid)]
         ], (c)=>this.createWindowComponent(c))
 
       }, {replay:true});

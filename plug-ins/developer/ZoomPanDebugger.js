@@ -23,7 +23,7 @@ export default class ZoomPanDebugger {
     mount(){
 
       const [horizontal, [ info1, info2 ]] = nest(Horizontal, [
-        [Label, {h: 32, text: 'Hello', parent:this}, (c,p)=>p.children.create(c)],
+        [Label, {h: 32, W:100, text: 'Hello', parent:this}, (c,p)=>p.children.create(c)],
         [Label, {h: 32,   text: 'World', parent:this}, (c,p)=>p.children.create(c)]
       ], (c)=>this.createWindowComponent(c),)
 
