@@ -2530,6 +2530,46 @@ ${vars.join("\n")}
     };
   };
 
+  // plug-ins/nest/index.js
+  var typeOf = /* @__PURE__ */ __name(function(variable) {
+    if (Array.isArray(variable))
+      return "Array";
+    if (typeof variable === "function")
+      return "Function";
+    if (Object(variable) === variable)
+      return "Object";
+  }, "typeOf");
+  var byType = /* @__PURE__ */ __name(function(input) {
+    const response = {};
+    for (const variable of input) {
+      response[typeOf(variable)] = variable;
+    }
+    return response;
+  }, "byType");
+  function nest(Type, ...input) {
+    if (!Type)
+      return;
+    const { Object: attr, Array: children, Function: init } = byType(input);
+    const instance = new Instance(Type, attr);
+    if (init)
+      init(instance, this ? this.parent : null);
+    return [instance, children?.map((child) => nest.bind({ parent: instance })(...child)).map(([ins, chi]) => chi ? [ins, chi] : ins)];
+  }
+  __name(nest, "nest");
+
+  // plug-ins/windows/Horizontal.js
+  var Horizontal = class {
+    static {
+      __name(this, "Horizontal");
+    }
+    static extends = [Container];
+    methods = {
+      initialize() {
+        this.layout = new HorizontalLayout(this);
+      }
+    };
+  };
+
   // plug-ins/developer/ElementDebugger.js
   var ElementDebugger = class {
     static {
@@ -2543,7 +2583,11 @@ ${vars.join("\n")}
       },
       mount() {
         globalThis.project.on("elements.created", (node) => {
-          this.createWindowComponent(new Instance(Label, { h: 32, text: `${node.oo.name}: ${node.id}... ${node.type}` }));
+          const [box, [type, kind, id2]] = nest(Horizontal, { id: node.id }, [
+            [Label, { h: 32, text: node.oo.name, parent: this }, (chid, parent) => parent.children.create(chid)],
+            [Label, { h: 32, text: node.type, parent: this }, (chid, parent) => parent.children.create(chid)],
+            [Label, { h: 32, text: node.id, parent: this }, (chid, parent) => parent.children.create(chid)]
+          ], (c) => this.createWindowComponent(c));
         }, { replay: true });
         globalThis.project.on("elements.removed", ({ id: id2 }) => {
           this.removeWindowComponent(id2);
@@ -2634,19 +2678,6 @@ ${vars.join("\n")}
     };
   };
 
-  // plug-ins/windows/Horizontal.js
-  var Horizontal = class {
-    static {
-      __name(this, "Horizontal");
-    }
-    static extends = [Container];
-    methods = {
-      initialize() {
-        this.layout = new HorizontalLayout(this);
-      }
-    };
-  };
-
   // plug-ins/developer/ZoomPanDebugger.js
   var ZoomPanDebugger = class {
     static {
@@ -2662,15 +2693,11 @@ ${vars.join("\n")}
         this.h = 600;
       },
       mount() {
-        const horizontal = new Instance(Horizontal);
-        this.createWindowComponent(horizontal);
-        const info1 = new Instance(Label, { h: 32, text: "Hello" });
-        info1.parent = this;
-        horizontal.children.create(info1);
+        const [horizontal, [info1, info2]] = nest(Horizontal, [
+          [Label, { h: 32, text: "Hello", parent: this }, (c, p2) => p2.children.create(c)],
+          [Label, { h: 32, text: "World", parent: this }, (c, p2) => p2.children.create(c)]
+        ], (c) => this.createWindowComponent(c));
         globalThis.project.any(["panX", "panY"], ({ panX, panY }) => info1.text = `${panX}x${panY}`);
-        const info2 = new Instance(Label, { h: 32, text: "World" });
-        info2.parent = this;
-        horizontal.children.create(info2);
         globalThis.project.on("zoom", (zoom) => info2.text = `@${zoom}`);
         const displayText = new Instance(Label, { h: 32, text: this.text });
         this.createWindowComponent(displayText);
