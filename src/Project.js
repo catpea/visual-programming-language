@@ -45,6 +45,20 @@ function difference(a,b){
   return response;
 }
 
+
+// Debounce function to limit the rate at which the `onResize` function is called
+const debounce = (func, wait) => {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+};
+
 export default class Project {
 
   // extends = [];
@@ -99,7 +113,8 @@ export default class Project {
     pipes: [],
     //
 
-
+    w:0,
+    h:0,
 
     panX: 0,
     panY: 0,
@@ -190,6 +205,18 @@ methods = {
   },
 
   async mount (){
+
+    const onResize = () => { this.w = this.svg.clientWidth; this.h = this.svg.clientHeight; };
+    const debouncedOnResize = debounce(onResize, 69);
+    window.addEventListener('resize', debouncedOnResize);
+    onResize()
+    this.any(['zoom', 'panX', 'panY'], ()=>{
+      onResize()
+
+    });
+    // window.removeEventListener('resize', debouncedOnResize);
+
+
 
     // features that need to be installed after DOM nodes are created
     // pan(this);

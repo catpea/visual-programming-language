@@ -265,10 +265,16 @@ export class Instance {
 
 
     // Enable Observing
-    this.on = function(eventPath, observerCallback, options){
+    this.on = function(eventPath, observerCallback, options, control){
       const [name, path] = eventPath.split('.', 2);
       if(!observableData[name]) throw new Error(`property "${name}" not defined (${Object.keys(observableData).join(', ')})`);
-      disposable( observableData[name].observe(path||name, observerCallback, options) );
+
+
+      if(control?.manualDispose){
+        return observableData[name].observe(path||name, observerCallback, options);
+      }else{
+        disposable( observableData[name].observe(path||name, observerCallback, options) );
+      }
     }
 
     this.any = function(observables, callback1){
@@ -277,7 +283,7 @@ export class Instance {
         const packet = Object.fromEntries(entries);
         callback1(packet);
       }
-      observables.map(event=>this.on(event, callback2));
+      return observables.map(event=>this.on(event, callback2, undefined, {manualDispose: true}));
     }
 
     this.all = function(observables, callback1){
@@ -287,7 +293,7 @@ export class Instance {
         const isReady = Object.values(packet).every(value=>value!==undefined)
         if(isReady) callback1(packet);
       }
-      observables.map(event=>this.on(event, callback2));
+      return observables.map(event=>this.on(event, callback2, undefined, {manualDispose: true}));
     }
 
     // Install State (must come after methods as it may call come of them)
@@ -462,6 +468,7 @@ export class Primitive {
     // console.log(`this.#observers.${eventName}`, this.#observers[eventName]);
     if (options.autorun && this.#value !== undefined) observerCallback(this.#value);
     return () => {
+      console.log(`UNOBSERVING ${eventName}`);
       this.unobserve(eventName, observerCallback);
     };
   }

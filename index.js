@@ -178,11 +178,15 @@
         disposables.map((f) => f());
         this.oo.disposables.map((f) => f());
       };
-      this.on = function(eventPath, observerCallback, options) {
+      this.on = function(eventPath, observerCallback, options, control) {
         const [name2, path] = eventPath.split(".", 2);
         if (!observableData[name2])
           throw new Error(`property "${name2}" not defined (${Object.keys(observableData).join(", ")})`);
-        disposable(observableData[name2].observe(path || name2, observerCallback, options));
+        if (control?.manualDispose) {
+          return observableData[name2].observe(path || name2, observerCallback, options);
+        } else {
+          disposable(observableData[name2].observe(path || name2, observerCallback, options));
+        }
       };
       this.any = function(observables, callback1) {
         const callback2 = /* @__PURE__ */ __name(() => {
@@ -190,7 +194,7 @@
           const packet = Object.fromEntries(entries);
           callback1(packet);
         }, "callback2");
-        observables.map((event2) => this.on(event2, callback2));
+        return observables.map((event2) => this.on(event2, callback2, void 0, { manualDispose: true }));
       };
       this.all = function(observables, callback1) {
         const callback2 = /* @__PURE__ */ __name(() => {
@@ -200,7 +204,7 @@
           if (isReady)
             callback1(packet);
         }, "callback2");
-        observables.map((event2) => this.on(event2, callback2));
+        return observables.map((event2) => this.on(event2, callback2, void 0, { manualDispose: true }));
       };
       const stateConstraints = {};
       const stateConstraint = /* @__PURE__ */ __name(function(constraints, constraintName) {
@@ -332,6 +336,7 @@
       if (options.autorun && this.#value !== void 0)
         observerCallback(this.#value);
       return () => {
+        console.log(`UNOBSERVING ${eventName}`);
         this.unobserve(eventName, observerCallback);
       };
     }
@@ -1018,6 +1023,10 @@
         child2.w = this.calculateChildW(child2);
         child2.x = this.calculateChildX(child2);
       }));
+      this.parent.on("w", () => {
+        child.w = this.calculateChildW(child);
+        child.x = this.calculateChildX(child);
+      });
       child.on("h", () => this.parent.h = this.calculateH());
     }
     calculateChildX(child) {
@@ -1038,10 +1047,8 @@
       let softElements = children.filter((child2) => child2.W === void 0);
       let hardElements = children.filter((child2) => !(child2.W === void 0));
       let hardSpace = hardElements.reduce((total, child2) => total + (child2.W < 1 ? this.parent.w * child2.W : child2.W), 0);
-      console.log({ hardSpace });
       let availableSoftSpace = this.parent.w - hardSpace;
       let softUnit = availableSoftSpace / (softElements.length || 1);
-      console.log(availableSoftSpace, softUnit);
       return softUnit;
     }
     calculateChildY(child) {
@@ -1224,19 +1231,8 @@
     observables = {
       children: []
     };
-    methods = {
-      initialize() {
-        this.on("children.created", (child) => {
-          child.scene = this.scene;
-          child.start();
-          this.layout.manage(child);
-        }, { replay: true });
-        this.on("children.removed", (child) => {
-          child.stop();
-          this.layout.forget(child);
-        });
-      },
-      mount() {
+    traits = {
+      draw() {
         this.el.Container = svg.rect({
           name: this.name,
           class: "editor-container",
@@ -1258,6 +1254,23 @@
         this.on("y", (y) => update(this.el.Container, { y }));
         this.on("r", (ry) => update(this.el.Container, { ry }));
         this.appendElements();
+      }
+    };
+    methods = {
+      initialize() {
+        this.on("children.created", (child) => {
+          child.scene = this.scene;
+          child.start();
+          this.layout.manage(child);
+        }, { replay: true });
+        this.on("children.removed", (child) => {
+          child.stop();
+          this.layout.forget(child);
+        });
+      },
+      mount() {
+        if (0) {
+        }
       },
       destroy() {
         this.removeElements();
@@ -1577,6 +1590,19 @@
     };
   };
 
+  // plug-ins/windows/Horizontal.js
+  var Horizontal = class {
+    static {
+      __name(this, "Horizontal");
+    }
+    static extends = [Container];
+    methods = {
+      initialize() {
+        this.layout = new HorizontalLayout(this);
+      }
+    };
+  };
+
   // plug-ins/windows/Label.js
   var Label = class {
     static {
@@ -1600,6 +1626,7 @@
     };
     methods = {
       initialize() {
+        this.s = 3;
       },
       mount() {
         this.el.Container = svg.rect({
@@ -1619,13 +1646,6 @@
         this.el.ClipPath = svg.clipPath({
           id: `clip-path-${this.id}`
         });
-        this.el.ClipPathRectTest = svg.rect({
-          x: this.x,
-          y: this.y,
-          width: this.w,
-          height: this.h,
-          fill: "magenta"
-        });
         const clipPathRect = svg.rect({
           x: this.x,
           y: this.y,
@@ -1633,14 +1653,6 @@
           height: this.h
         });
         this.el.ClipPath.appendChild(clipPathRect);
-        this.el.ClipPathRectTest = svg.rect({
-          x: this.x,
-          y: this.y,
-          width: this.w,
-          height: this.h,
-          fill: "pink",
-          style: "opacity: 0.2;"
-        });
         this.el.Caption = svg.text({
           name: this.name,
           class: "editor-label-text",
@@ -1657,7 +1669,7 @@
           }
         }, "updateZUI");
         globalThis.project.on("zoom", (v) => requestAnimationFrame(() => {
-          updateZUI(this.el.Caption, { style: { scale: 1 / globalThis.project.zoom }, x: this.x * globalThis.project.zoom, y: this.y * globalThis.project.zoom }, { style: { scale: 1 }, x: this.x, y: this.y });
+          updateZUI(this.el.Caption, { style: { scale: 1 / globalThis.project.zoom }, x: (this.x + this.s) * globalThis.project.zoom, y: (this.y + this.s) * globalThis.project.zoom }, { style: { scale: 1 }, x: this.x + this.s, y: this.y + this.s });
           updateZUI(clipPathRect, { x: this.x * globalThis.project.zoom, y: this.y * globalThis.project.zoom, width: this.w * globalThis.project.zoom, height: this.h * globalThis.project.zoom }, { x: this.x, y: this.y, width: this.w, height: this.h });
         }));
         const captionText = text(this.text);
@@ -1670,7 +1682,7 @@
         this.on("y", (y) => update(this.el.Container, { y }));
         this.on("r", (ry) => update(this.el.Container, { ry }));
         this.on("text", (text2) => captionText.nodeValue = text2);
-        this.any(["x", "y"], ({ x, y }) => updateZUI(this.el.Caption, { x: x * globalThis.project.zoom, y: y * globalThis.project.zoom }, { style: { scale: 1 }, x, y }));
+        this.any(["x", "y"], ({ x, y }) => updateZUI(this.el.Caption, { x: (x + this.s) * globalThis.project.zoom, y: (y + this.s) * globalThis.project.zoom }, { style: { scale: 1 }, x: x + this.s, y: y + this.s }));
         this.any(["x", "y", "w", "h"], ({ x, y, w: width, h: height }) => updateZUI(clipPathRect, { x: x * globalThis.project.zoom, y: y * globalThis.project.zoom, width: width * globalThis.project.zoom, height: this.h * globalThis.project.zoom }, { x, y, width, height }));
         this.appendElements();
       },
@@ -1679,6 +1691,33 @@
       }
     };
   };
+
+  // plug-ins/nest/index.js
+  var typeOf = /* @__PURE__ */ __name(function(variable) {
+    if (Array.isArray(variable))
+      return "Array";
+    if (typeof variable === "function")
+      return "Function";
+    if (Object(variable) === variable)
+      return "Object";
+  }, "typeOf");
+  var byType = /* @__PURE__ */ __name(function(input) {
+    const response = {};
+    for (const variable of input) {
+      response[typeOf(variable)] = variable;
+    }
+    return response;
+  }, "byType");
+  function nest(Type, ...input) {
+    if (!Type)
+      return;
+    const { Object: attr, Array: children, Function: init } = byType(input);
+    const instance = new Instance(Type, attr);
+    if (init)
+      init(instance, this ? this.parent : null);
+    return [instance, children?.map((child) => nest.bind({ parent: instance })(...child)).map(([ins, chi]) => chi ? [ins, chi] : ins)];
+  }
+  __name(nest, "nest");
 
   // plug-ins/windows/Caption.js
   var Caption = class {
@@ -1705,40 +1744,65 @@
       initialize() {
       },
       mount() {
-        this.el.Container = svg.rect({
-          name: this.name,
-          class: "editor-caption",
-          "vector-effect": "non-scaling-stroke",
-          ry: this.r,
-          // set initial values
-          // these are special, handeled by the layout manager
-          // NOTE: these are observables, getter returns a value, setter notifies listeners, and you can ```this.observe('x', v=>{...})```
-          width: this.w,
-          height: this.h,
-          x: this.x,
-          y: this.y
-        });
-        this.on("selected", (selected) => selected ? this.el.Container.classList.add("selected") : this.el.Container.classList.remove("selected"));
-        const label = new Instance(Label, { scene: this.scene, h: 24, caption: `${this.name}` });
-        this.destructable = () => {
-          label.stop();
-          label.destroy();
-        };
-        this.disposable = click(this.el.Container, (e) => {
-        });
-        this.on("text", (text2) => label.text = text2);
-        this.on("name", (name2) => update(this.el.Container, { name: name2 }));
-        this.on("w", (width) => update(this.el.Container, { width }));
-        this.on("h", (height) => update(this.el.Container, { height }));
-        this.on("x", (x) => update(this.el.Container, { x }));
-        this.on("y", (y) => update(this.el.Container, { y }));
-        this.on("r", (ry) => update(this.el.Container, { ry }));
-        this.any(["x", "y", "w", "h"], ({ x, y, w, h }) => Object.assign(label, { x, y, w, h }));
-        this.appendElements();
-        label.start();
-        this.handle = label.el.Container;
         this.createControlAnchor({ name: "input", side: 0 });
         this.createControlAnchor({ name: "output", side: 1 });
+        const [horizontal, [info1, info2]] = nest(Horizontal, { parent: this, scene: this.scene }, [
+          [Label, { h: 24, text: this.text, parent: this }, (c, p2) => p2.children.create(c)],
+          [Label, { h: 24, W: 24, text: "^", parent: this }, (c, p2) => p2.children.create(c)]
+        ], (c) => {
+          this.destructable = () => {
+            c.stop();
+            c.destroy();
+          };
+        });
+        this.handle = info1.el.Container;
+        horizontal.start();
+        this.on("selected", (selected) => selected ? info1.el.Container.classList.add("selected") : info1.el.Container.classList.remove("selected"));
+        this.on("text", (text2) => info1.text = text2);
+        this.any(["x", "y", "w", "h"], ({ x, y, w, h }) => Object.assign(horizontal, { x, y, w, h }));
+        let maximizer;
+        let maximized = false;
+        let restoreWindow = {};
+        let restoreZoomPan = {};
+        this.disposable = click(info2.handle, (e) => {
+          console.log("maximized", maximized);
+          if (maximized) {
+            console.log("MINIMIZE", maximizer);
+            maximizer.map((a) => a());
+            maximized = false;
+            Object.assign(this.root(), restoreWindow);
+            Object.assign(globalThis.project, restoreZoomPan);
+          } else {
+            console.log("MAXIMIZE!");
+            restoreWindow = {
+              x: this.root().x,
+              y: this.root().y,
+              w: this.root().w,
+              h: this.root().h
+            };
+            restoreZoomPan = {
+              panX: globalThis.project.panX,
+              panY: globalThis.project.panY,
+              zoom: globalThis.project.zoom
+            };
+            const handler = /* @__PURE__ */ __name(() => {
+              this.root().x = 0 - globalThis.project.panX / globalThis.project.zoom;
+              this.root().y = 0 - globalThis.project.panY / globalThis.project.zoom;
+              this.root().w = globalThis.project.w / globalThis.project.zoom;
+              this.root().h = globalThis.project.h / globalThis.project.zoom;
+            }, "handler");
+            maximizer = globalThis.project.any(["zoom", "panX", "panY", "w", "h"], handler);
+            handler();
+            console.log("maximizer", maximizer);
+            maximized = true;
+          }
+          console.log({
+            x: this.root().x,
+            y: this.root().y,
+            w: this.root().w,
+            h: this.root().h
+          });
+        });
       },
       destroy() {
         this.removeElements();
@@ -1863,6 +1927,7 @@
           throw new Error("Window oo Not Found");
       },
       mount() {
+        this.draw();
         let caption = new Instance(Caption, { h: 24, text: this.caption });
         this.on("caption", (v) => caption.text = v);
         this.createWindowComponent(caption);
@@ -2541,46 +2606,6 @@ ${vars.join("\n")}
     };
   };
 
-  // plug-ins/nest/index.js
-  var typeOf = /* @__PURE__ */ __name(function(variable) {
-    if (Array.isArray(variable))
-      return "Array";
-    if (typeof variable === "function")
-      return "Function";
-    if (Object(variable) === variable)
-      return "Object";
-  }, "typeOf");
-  var byType = /* @__PURE__ */ __name(function(input) {
-    const response = {};
-    for (const variable of input) {
-      response[typeOf(variable)] = variable;
-    }
-    return response;
-  }, "byType");
-  function nest(Type, ...input) {
-    if (!Type)
-      return;
-    const { Object: attr, Array: children, Function: init } = byType(input);
-    const instance = new Instance(Type, attr);
-    if (init)
-      init(instance, this ? this.parent : null);
-    return [instance, children?.map((child) => nest.bind({ parent: instance })(...child)).map(([ins, chi]) => chi ? [ins, chi] : ins)];
-  }
-  __name(nest, "nest");
-
-  // plug-ins/windows/Horizontal.js
-  var Horizontal = class {
-    static {
-      __name(this, "Horizontal");
-    }
-    static extends = [Container];
-    methods = {
-      initialize() {
-        this.layout = new HorizontalLayout(this);
-      }
-    };
-  };
-
   // plug-ins/developer/ElementDebugger.js
   var ElementDebugger = class {
     static {
@@ -2741,6 +2766,17 @@ ${vars.join("\n")}
     return response;
   }
   __name(difference, "difference");
+  var debounce = /* @__PURE__ */ __name((func, wait) => {
+    let timeout;
+    return /* @__PURE__ */ __name(function executedFunction(...args) {
+      const later = /* @__PURE__ */ __name(() => {
+        clearTimeout(timeout);
+        func(...args);
+      }, "later");
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    }, "executedFunction");
+  }, "debounce");
   var Project = class {
     static {
       __name(this, "Project");
@@ -2796,6 +2832,8 @@ ${vars.join("\n")}
       // NOTE: format is portName:rootID (not component id, but the root window)
       pipes: [],
       //
+      w: 0,
+      h: 0,
       panX: 0,
       panY: 0,
       zoom: 0.5,
@@ -2889,6 +2927,16 @@ ${vars.join("\n")}
         }
       },
       async mount() {
+        const onResize = /* @__PURE__ */ __name(() => {
+          this.w = this.svg.clientWidth;
+          this.h = this.svg.clientHeight;
+        }, "onResize");
+        const debouncedOnResize = debounce(onResize, 69);
+        window.addEventListener("resize", debouncedOnResize);
+        onResize();
+        this.any(["zoom", "panX", "panY"], () => {
+          onResize();
+        });
         const keyboard = new Keyboard({
           component: this,
           handle: window

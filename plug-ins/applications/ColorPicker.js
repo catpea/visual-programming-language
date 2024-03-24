@@ -14,6 +14,7 @@ export default class ColorPicker {
     },
 
     mount(){
+
       // const editor = new Instance(VisualEditor);
       // this.createWindowComponent( editor ); // Add Visual Editor To The Window
       const imagePicker = new Instance(ImagePicker, {url: this.url});

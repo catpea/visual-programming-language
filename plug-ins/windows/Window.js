@@ -31,6 +31,7 @@ export default class Window {
     mount(){
 
       // ADD DRAGGABLE CAPTION (aka handle)
+      this.draw(); // WARNING: you must draw the window before drawing the caption, so that the caption is on top
       let caption = new Instance(Caption, {h: 24, text: this.caption});
       this.on('caption', v=>caption.text=v)
       this.createWindowComponent(caption);

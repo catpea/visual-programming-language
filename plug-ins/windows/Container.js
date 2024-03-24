@@ -13,25 +13,8 @@ export default class Container {
     children: [],
   };
 
-  methods = {
-
-    initialize(){
-
-      this.on("children.created", (child) => {
-        child.scene = this.scene;
-        child.start();
-        this.layout.manage(child);
-      }, {replay: true});
-
-      this.on("children.removed", (child) => {
-        child.stop();
-        this.layout.forget(child);
-      });
-
-    },
-
-    mount(){
-
+  traits = {
+    draw(){
       this.el.Container = svg.rect({
         name: this.name,
         class: 'editor-container',
@@ -56,7 +39,32 @@ export default class Container {
       this.on('r',     ry=>update(this.el.Container,{ry}),     );
 
       this.appendElements();
-      // console.log(this.el.Container);
+    }
+  };
+
+  methods = {
+
+    initialize(){
+
+      this.on("children.created", (child) => {
+        child.scene = this.scene;
+        child.start();
+        this.layout.manage(child);
+      }, {replay: true});
+
+      this.on("children.removed", (child) => {
+        child.stop();
+        this.layout.forget(child);
+      });
+
+    },
+
+    mount(){
+
+      if(0){
+
+      }
+
     },
 
     destroy(){

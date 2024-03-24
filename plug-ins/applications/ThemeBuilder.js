@@ -14,6 +14,8 @@ export default class ThemeBuilder {
     },
 
     mount(){
+    
+
       const themeColors = new Instance(ThemeColors);
       this.createWindowComponent( themeColors ); // Add Visual Editor To The Window
     },

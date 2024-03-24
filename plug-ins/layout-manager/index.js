@@ -174,10 +174,15 @@ export class HorizontalLayout extends Layout {
 		// this.parent.on('w', () => child.x = this.calculateChildX(child) );
 
 		this.parent.on('children.changed', list => list.forEach(child=>{
-			child.w=this.calculateChildW(child)
+			child.w = this.calculateChildW(child);
 			child.x = this.calculateChildX(child);
-
 		}));
+
+
+		this.parent.on('w', ()=>{
+			child.w = this.calculateChildW(child);
+			child.x = this.calculateChildX(child);
+		});
 
 
 		child.on('h', () => this.parent.h = this.calculateH() );
@@ -220,6 +225,13 @@ export class HorizontalLayout extends Layout {
 
 
 	calculateChildW(child){
+		// let debug = this.parent.parent.oo.name == 'Caption';
+		// if (debug) {
+		// 	console.log(this.parent, this.parent.w);
+		// }
+
+		// console.log('Parent Width', this.parent.w);
+		// console.log(this.parent.parent.oo.name);
 		if(!(child.W===undefined)) return (child.W<1?this.parent.w*child.W:child.W);
 		const children = this.parent[this.source];
 
@@ -229,14 +241,14 @@ export class HorizontalLayout extends Layout {
 		// console.log(softElements, hardElements);
 
 		let hardSpace = hardElements.reduce((total, child) => total + (child.W<1?this.parent.w*child.W:child.W), 0);
-		console.log({hardSpace});
+		// console.log({hardSpace});
 		let availableSoftSpace = this.parent.w - hardSpace;
 		// let freeSpace = softElements.reduce((total, child) => total + child.w, 0);
 
 		// console.log( hardSpace, softSpace );
 
  		let softUnit = availableSoftSpace / (softElements.length||1);
-		console.log( availableSoftSpace, softUnit  );
+		// console.log( availableSoftSpace, softUnit  );
 
 		return softUnit;
 

@@ -26,6 +26,7 @@ export default class Label {
 
     initialize(){
       // console.log(`%cComponent.initialize!`, 'background: hsl(180, 80%, 60%); color: black;', this);
+      this.s = 3; // nudge text away from border
     },
 
     mount(){
@@ -51,13 +52,13 @@ export default class Label {
 
       });
 
-      this.el.ClipPathRectTest = svg.rect({
-        x: this.x,
-        y: this.y,
-        width: this.w,
-        height: this.h,
-        fill: 'magenta',
-      });
+      // this.el.ClipPathRectTest = svg.rect({
+      //   x: this.x,
+      //   y: this.y,
+      //   width: this.w,
+      //   height: this.h,
+      //   fill: 'magenta',
+      // });
 
       const clipPathRect = svg.rect({
         x: this.x,
@@ -68,14 +69,14 @@ export default class Label {
 
       this.el.ClipPath.appendChild(clipPathRect);
 
-      this.el.ClipPathRectTest = svg.rect({
-        x: this.x,
-        y: this.y,
-        width: this.w,
-        height: this.h,
-        fill: 'pink',
-        style: 'opacity: 0.2;',
-      });
+      // this.el.ClipPathRectTest = svg.rect({
+      //   x: this.x,
+      //   y: this.y,
+      //   width: this.w,
+      //   height: this.h,
+      //   fill: 'pink',
+      //   style: 'opacity: 0.2;',
+      // });
 
 
       this.el.Caption = svg.text({
@@ -96,7 +97,7 @@ export default class Label {
       }
       globalThis.project.on('zoom', v=> requestAnimationFrame(() => {
 
-        updateZUI(this.el.Caption, { style: {scale:1/globalThis.project.zoom}, x: this.x*globalThis.project.zoom, y: this.y*globalThis.project.zoom, }, {style: {scale:1}, x: this.x, y: this.y, })
+        updateZUI(this.el.Caption, { style: {scale:1/globalThis.project.zoom}, x: (this.x+this.s)*globalThis.project.zoom, y: (this.y+this.s)*globalThis.project.zoom, }, {style: {scale:1}, x: (this.x+this.s), y: (this.y+this.s), })
         updateZUI(clipPathRect, { x: this.x*globalThis.project.zoom, y: this.y*globalThis.project.zoom, width: this.w*globalThis.project.zoom, height: this.h*globalThis.project.zoom, }, { x: this.x, y: this.y, width: this.w, height: this.h})
 
       }));
@@ -119,7 +120,7 @@ export default class Label {
       this.on('r',     ry=>update(this.el.Container,{ry}),     );
 
       this.on('text',  text=>captionText.nodeValue = text);
-      this.any(['x','y'], ({x, y})=>  updateZUI(this.el.Caption, { x: x*globalThis.project.zoom, y: y*globalThis.project.zoom, }, {style: {scale:1}, x, y })  )
+      this.any(['x','y'], ({x, y})=>  updateZUI(this.el.Caption, { x: (x+this.s)*globalThis.project.zoom, y: (y+this.s)*globalThis.project.zoom, }, {style: {scale:1}, x: (x+this.s), y: (y+this.s) })  )
       this.any(['x','y','w', 'h'], ({x,y,w:width,h:height})=>     updateZUI(clipPathRect, { x: x*globalThis.project.zoom, y: y*globalThis.project.zoom, width: width*globalThis.project.zoom, height: this.h*globalThis.project.zoom }, { x, y, width, height}) )
 
       this.appendElements();
