@@ -11354,14 +11354,14 @@ fieldset:disabled .btn {
 /* plug-ins/nostromo-theme/index.css */
 :root,
 [data-ui-theme=nostromo] {
-  --editor-primary: rgba(240, 81, 51, 255);
-  --editor-secondary: rgba(187, 163, 73, 255);
-  --editor-success: rgba(106, 134, 59, 255);
-  --editor-info: rgba(145, 196, 177, 255);
-  --editor-warning: rgba(220, 163, 47, 255);
-  --editor-danger: rgba(254, 145, 76, 255);
-  --editor-light: rgba(49, 52, 61, 255);
-  --editor-dark: rgba(27, 19, 17, 255);
+  --editor-primary: rgba(92, 182, 118, 255);
+  --editor-secondary: rgba(0, 75, 34, 255);
+  --editor-success: rgba(81, 53, 52, 255);
+  --editor-info: rgba(88, 43, 48, 255);
+  --editor-warning: rgba(17, 77, 26, 255);
+  --editor-danger: rgba(101, 20, 27, 255);
+  --editor-light: rgba(255, 196, 158, 255);
+  --editor-dark: rgba(3, 17, 17, 255);
 }
 body {
   background-color: black;

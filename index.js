@@ -1986,6 +1986,34 @@
     };
   };
 
+  // plug-ins/applications/RelationBuilder.js
+  var RelationBuilder = class {
+    static {
+      __name(this, "RelationBuilder");
+    }
+    static extends = [Window];
+    methods = {
+      initialize() {
+        this.w = 800;
+        this.h = 600;
+      },
+      mount() {
+        const visualEditor = new Instance(VisualEditor, { url: this.url });
+        this.createWindowComponent(visualEditor);
+        this.on("node", (node) => {
+          node.on("url", (url) => imagePicker.url = url);
+        });
+      },
+      stop() {
+        console.log("Stopping...");
+      },
+      destroy() {
+        console.log("Destroying...");
+        this.dispose();
+      }
+    };
+  };
+
   // plug-ins/image-picker/ImagePicker.js
   function range(n) {
     return Array(n).fill().map((_, i) => i);
@@ -2137,12 +2165,12 @@
       initialize() {
       },
       mount() {
-        const imagePicker = new Instance(ImagePicker, { url: this.url });
-        this.createWindowComponent(imagePicker);
+        const imagePicker2 = new Instance(ImagePicker, { url: this.url });
+        this.createWindowComponent(imagePicker2);
         this.on("node", (node) => {
-          node.on("url", (url) => imagePicker.url = url);
-          node.on("h", (h) => imagePicker.h = h);
-          node.on("w", (w) => imagePicker.w = w);
+          node.on("url", (url) => imagePicker2.url = url);
+          node.on("h", (h) => imagePicker2.h = h);
+          node.on("w", (w) => imagePicker2.w = w);
         });
       },
       stop() {
@@ -2800,6 +2828,7 @@ ${vars.join("\n")}
     properties = {
       meta: {},
       types: [
+        RelationBuilder,
         ColorPicker,
         ThemeBuilder,
         VisualProgram,

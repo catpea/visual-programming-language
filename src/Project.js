@@ -13,6 +13,8 @@ import {svg} from "/plug-ins/domek/index.js";
 // Begin UI
 
 // User
+import RelationBuilder from "/plug-ins/applications/RelationBuilder.js";
+
 import ColorPicker from "/plug-ins/applications/ColorPicker.js";
 import ThemeBuilder from "/plug-ins/applications/ThemeBuilder.js";
 import VisualProgram from "/plug-ins/applications/VisualProgram.js";
@@ -86,6 +88,7 @@ export default class Project {
   properties = {
     meta: {},
     types: [
+      RelationBuilder,
       ColorPicker, ThemeBuilder, VisualProgram, Junction, Line, RemoteApplication, CodeEditor,
       ElementDebugger, ApplicationDebugger, AnchorDebugger, PipeDebugger, ZoomPanDebugger,
     ], // What can the project instantiate?

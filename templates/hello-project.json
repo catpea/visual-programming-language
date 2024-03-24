@@ -8,10 +8,32 @@
   "data": [
     {
       "meta": {
+        "id": "relation-builder-1",
+        "type": "RelationBuilder",
+        "x": 252,
+        "y": 494,
+        "caption": "SQL Table Builder"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "code-editor-1",
+        "type": "CodeEditor",
+        "x": 1380,
+        "y": 324,
+        "caption": "SQL Preview"
+      },
+      "data": {
+        "doc": "SQL Code..."
+      }
+    },
+    {
+      "meta": {
         "id": "a",
         "type": "ColorPicker",
-        "x": 108,
-        "y": 328,
+        "x": 1173.5350935609442,
+        "y": 1761.1322820155353,
         "w": 512,
         "h": 512,
         "H": 512,
@@ -25,8 +47,8 @@
       "meta": {
         "id": "b",
         "type": "CodeEditor",
-        "x": 1379.7114413736153,
-        "y": 88.58171604955939,
+        "x": 2271.3829998546857,
+        "y": 1762.6391823900635,
         "caption": "Code Editor"
       },
       "data": {
@@ -37,8 +59,8 @@
       "meta": {
         "id": "c",
         "type": "ThemeBuilder",
-        "x": 953.464250010732,
-        "y": 498,
+        "x": 1985.7742867803547,
+        "y": 1763.3607002443612,
         "caption": "Theme Builder"
       },
       "data": {
@@ -130,8 +152,8 @@
       "meta": {
         "id": "zoompan-debug1",
         "type": "ZoomPanDebugger",
-        "x": 102,
-        "y": 105,
+        "x": 2687.3394896608315,
+        "y": 1298.8047198287447,
         "caption": "Zoom & Pan Debugger"
       },
       "data": {}
@@ -140,8 +162,8 @@
       "meta": {
         "id": "element-debug1",
         "type": "ElementDebugger",
-        "x": 136,
-        "y": 1141,
+        "x": 2679.907042545443,
+        "y": 799.6771113699466,
         "caption": "Element Debugger"
       },
       "data": {}
@@ -150,8 +172,8 @@
       "meta": {
         "id": "application-debug1",
         "type": "ApplicationDebugger",
-        "x": 648,
-        "y": 1127,
+        "x": 2677.7056116367216,
+        "y": 79.1596855756972,
         "caption": "Application Debugger"
       },
       "data": {}
@@ -160,8 +182,8 @@
       "meta": {
         "id": "anchor-debug1",
         "type": "AnchorDebugger",
-        "x": 1472,
-        "y": 1075,
+        "x": 3593.992331157526,
+        "y": 76.6854018102624,
         "caption": "Anchor Debugger"
       },
       "data": {}
@@ -170,9 +192,18 @@
       "meta": {
         "id": "pipe-debug1",
         "type": "PipeDebugger",
-        "x": 1930,
-        "y": 1073,
+        "x": 3129.647294742018,
+        "y": 78.69773769130028,
         "caption": "Pipe Debugger"
+      },
+      "data": {}
+    },
+    {
+      "meta": {
+        "id": "37ce1822-2de8-4f14-927f-1dd62f3bc730",
+        "type": "Line",
+        "source": "output:relation-builder-1",
+        "target": "input:code-editor-1"
       },
       "data": {}
     }
