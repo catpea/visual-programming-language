@@ -8,6 +8,7 @@ export class Compatibility {}
 
 export default class Connect {
 
+  parent;
   anchor;
   zone;
 
@@ -19,10 +20,12 @@ export default class Connect {
   startY = 0;
   dragging = false;
 
-  constructor({anchor, zone}){
+  constructor({parent, anchor, zone}){
+    if(!parent) throw new Error('parent is required')
     if(!anchor) throw new Error('anchor is required')
     if(!zone) throw new Error('zone is required')
 
+    this.parent = parent;
     this.anchor = anchor;
     this.zone = zone;
     this.mount();
@@ -106,23 +109,28 @@ export default class Connect {
       const isOverAnotherPort = this.dragging && e?.target?.classList?.contains('editor-anchor');
 			const isOverBackground = this.dragging && e?.target?.classList?.contains('editor-background');
 
+      let domain = globalThis.project;
+      if(this.anchor.getRootContainer().domain){
+        domain = this.anchor.getRootContainer().domain;
+      }
+
+      console.log('CONNECTION domain', domain);
 
       if(isOverAnotherPort){
-        const source = [this.anchor.name, this.anchor.root().node.id].join(':');
+        const source = [this.anchor.name, this.anchor.getRootContainer().node.id].join(':');
         const target = e.target.dataset.target;
         if(source != target){
-          globalThis.project.create({ meta: { id: uuid(), type: "Line", source, target }, data: {} });
-          /// GGGG globalThis.project.pipe( source, target );
-
+          console.log('domain.realm.scene', domain.realm.scene);
+          globalThis.project.createIn(domain, { meta: { id: uuid(), type: "Line", source, target, scene:domain.realm.scene }, data: {} }, );
         }
       }
 
       if(isOverBackground){
         const junctionId = uuid();
-        globalThis.project.create({ meta: { id: junctionId, type: "Junction", x: this.geometry.x2, y: this.geometry.y2, }, data: {} });
-        const source = [this.anchor.name, this.anchor.root().node.id].join(':');
+        globalThis.project.createIn(domain, { meta: { id: junctionId, type: "Junction", x: this.geometry.x2, y: this.geometry.y2, scene:domain.realm.scene }, data: {} });
+        const source = [this.anchor.name, this.anchor.getRootContainer().node.id].join(':');
         const target = ['input', junctionId].join(':');
-        globalThis.project.create({ meta: { id: uuid(), type: "Line", source, target }, data: {} });
+        globalThis.project.createIn(domain, { meta: { id: uuid(), type: "Line", source, target, scene:domain.realm.scene }, data: {} });
         /// GGGG globalThis.project.pipe( source, target );
       }
 

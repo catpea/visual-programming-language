@@ -1,4 +1,4 @@
-
+import {intersection, difference} from '/plug-ins/boolean/index.js';
 export default class Node {
 
   state = {
@@ -38,6 +38,18 @@ export default class Node {
   }
 
   methods = {
+
+    assign(meta, data){
+
+      const nodeKeys = new Set([...Object.keys(this.oo.specification.properties), ...Object.keys(this.oo.specification.observables)]);
+      const metaKeys = new Set([...Object.keys(meta)]);
+      const commonProperties = intersection(nodeKeys, metaKeys);
+      const newProperties = difference(metaKeys, commonProperties);
+      for (const newProperty of newProperties) {
+        this.oo.createObservable(newProperty, meta[newProperty])
+      }
+      Object.assign(this, meta, {data});
+    },
 
     toObject(){
       const meta = {};

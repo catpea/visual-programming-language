@@ -32,7 +32,7 @@ export default class Control {
 
     mount(){
       this.anchorage = new AnchorLayout(this, {source: 'anchors'});
-      // this.piper = new EventSystem(this.root(), {source: 'streams'});
+      // this.piper = new EventSystem(this.getRootContainer(), {source: 'streams'});
 
       // this.el.Container = svg.rect({
       //   name: this.name,
@@ -73,13 +73,13 @@ export default class Control {
 
 
     createPipe(name, direction){
-      const id = [name, this.root().id].join(':');
+      const id = [name, this.getRootContainer().id].join(':');
       const pipe = new Pipe(id, direction);
       globalThis.project.pipes.create(pipe);
     },
 
     removePipe(name){
-      const id = [name, this.root().id].join(':');
+      const id = [name, this.getRootContainer().id].join(':');
       globalThis.project.pipes.get(id).stop();
       globalThis.project.pipes.remove(id);
     },
@@ -88,7 +88,7 @@ export default class Control {
     createControlAnchor({name, side}){
       if(!name) throw new Error(`It is not possible to create an anchor without an anchor name.`);
       if(!side===undefined) throw new Error(`It is not possible to create an anchor without specifying a side, 0 or 1.`);
-      const id = [name, this.root().id].join(':')
+      const id = [name, this.getRootContainer().id].join(':')
       const anchor = new Instance(Anchor, { id, name, side, parent: this, scene: this.scene } )
       globalThis.project.anchors.create(anchor);
       this.anchors.create(anchor);

@@ -13,7 +13,7 @@ export default class VisualProgram {
     },
 
     mount(){
-      const editor = new Instance(VisualEditor);
+      const editor = new Instance(VisualEditor, {node:{id:uuid()}});
       this.createWindowComponent( editor ); // Add Visual Editor To The Window
     },
 

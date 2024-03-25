@@ -28,7 +28,7 @@ export default class ImagePicker {
         y: this.y,
       });
 
-      this.root().node.on('colorAnchors', count=>{
+      this.getRootContainer().node.on('colorAnchors', count=>{
 
         for (const number of range(count)) {
           const name = `color${number}`;

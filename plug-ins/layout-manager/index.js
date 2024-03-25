@@ -296,6 +296,32 @@ export class ManualLayout extends Layout {
 
 }
 
+export class RelativeLayout extends Layout {
+
+	children = new WeakMap();
+
+	manage(child) {
+		if(!child.node) throw	new Error('RelativeLayout requires that all children have a valid .node attached.');
+		// children.set(child, {
+		// 	x: child.x,
+		// 	y: child.y,
+		// });
+		//
+		this.parent.on('x', () => child.x = this.calculateChildX(child) );
+		this.parent.on('y', () => child.y = this.calculateChildY(child) );
+		child.node.on('x', () => child.x = this.calculateChildX(child) );
+		child.node.on('y', () => child.y = this.calculateChildY(child) );
+	}
+
+	calculateChildX(child){
+		return this.parent.x + child.node.x;
+	}
+	calculateChildY(child){
+		return this.parent.y + child.node.y;
+	}
+
+}
+
 export class AnchorLayout extends Layout {
 
 	manage(child) {

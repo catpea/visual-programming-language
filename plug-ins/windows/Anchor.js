@@ -38,7 +38,7 @@ export default class Anchor {
       this.x = 0;
       this.y = 0;
 
- 
+
 
 
 
@@ -61,7 +61,7 @@ export default class Anchor {
         handle: this.el.Primary,
       }); this.destructable = ()=>select.destroy()
 
-      this.el.Primary.dataset.target = [this.name, this.root().node.id].join(':')
+      this.el.Primary.dataset.target = [this.name, this.getRootContainer().id].join(':')
 
       this.pad = this.el.Primary;
 
@@ -74,11 +74,7 @@ export default class Anchor {
       const connect = new Connect({
         anchor: this,
         zone: window,
-
-        connect: ()=>{
-
-        },
-
+        parent: this,
       }); this.destructable = ()=>connect.destroy()
 
 

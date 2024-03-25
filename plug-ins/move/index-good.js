@@ -9,8 +9,8 @@ export default class Move {
   mouseMoveHandler;
   mouseUpHandler;
 
-  lastX = 0;
-  lastY = 0;
+  startX = 0;
+  startY = 0;
   dragging = false;
 
   constructor({component, window, handle, zone}){
@@ -29,11 +29,9 @@ export default class Move {
   mount(){
 
     this.mouseDownHandler = (e) => {
-
-      // Initialize
-      // Remember where mouse touched down, seed the lastV system used in calculating how much the mouse has moved
-      this.lastX = e.screenX;
-      this.lastY = e.screenY;
+      // Remember where mouse touched down
+      this.startX = e.clientX;
+      this.startY = e.clientY;
       // Enable dragging
       this.dragging = true;
       globalThis.project.iframe = false;
@@ -41,21 +39,35 @@ export default class Move {
     };
 
     this.mouseMoveHandler = (e) => {
+      // if(this.scale == undefined) console.error('you must correctly configure scale',this.scale );
+      // NOTE: this code has been tested and it works. //
+      // Start from beginning, using "" to have dx available throughout
+      let dx = 0;
+      let dy = 0;
       // Substract initial position from current cursor position to get relative motion, motion relative to initial touchdown
-      const dx = this.lastX - e.screenX;
-      const dy = this.lastY - e.screenY;
+      dx = e.clientX - this.startX;
+      dy = e.clientY - this.startY;
 
-      const container = this.component.getRootContainer();
-      console.log('ROOT CONTAINER', container.oo.name);
+      // Add a scaled version of the node
+      dx = dx + (this.component.node.x * globalThis.project.zoom);
+      dy = dy + (this.component.node.y * globalThis.project.zoom);
+      // dx = dx + this.component.panX;
+      // dy = dy + this.component.panY;
 
-      // Asignment, does not use the raw screen number but their scaled vaions.
-      this.component.node.x = this.component.node.x - (dx/globalThis.project.zoom);
-      this.component.node.y = this.component.node.y - (dy/globalThis.project.zoom);
+      // // Apply Scale Transformation To Everything
+      dx = dx / globalThis.project.zoom;
+      dy = dy / globalThis.project.zoom;
 
+      // Final Asignment
+      this.component.node.x = dx;
+      this.component.node.y = dy;
+
+      // End
+      dx = 0;
+      dy = 0;
       // Reset, because the cursor has moved and is in a new position now.
-      // lastN dat is used for calculating the delta between sampling mouse
-      this.lastX = e.screenX;
-      this.lastY = e.screenY;
+      this.startX = e.clientX;
+      this.startY = e.clientY;
      };
 
     this.mouseUpHandler = (e) => {

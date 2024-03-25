@@ -49,35 +49,15 @@ export default class Label {
 
       this.el.ClipPath = svg.clipPath({
         id: `clip-path-${this.id}`,
-
       });
-
-      // this.el.ClipPathRectTest = svg.rect({
-      //   x: this.x,
-      //   y: this.y,
-      //   width: this.w,
-      //   height: this.h,
-      //   fill: 'magenta',
-      // });
-
       const clipPathRect = svg.rect({
         x: this.x,
         y: this.y,
         width: this.w,
         height: this.h,
       });
-
       this.el.ClipPath.appendChild(clipPathRect);
-
-      // this.el.ClipPathRectTest = svg.rect({
-      //   x: this.x,
-      //   y: this.y,
-      //   width: this.w,
-      //   height: this.h,
-      //   fill: 'pink',
-      //   style: 'opacity: 0.2;',
-      // });
-
+      // 'clip-path': `url(#clip-path-${this.id})`,
 
       this.el.Caption = svg.text({
         name: this.name,

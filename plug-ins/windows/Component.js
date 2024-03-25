@@ -95,17 +95,36 @@ export default class Component {
     },
 
     pipe(name){
-      const id = [name, this.root().id].join(':');
+      const id = [name, this.getRootContainer().id].join(':');
       const pipe = globalThis.project.pipes.get(id);
       return pipe;
     },
 
-    root() {
+    getRootContainer() {
+      let response = null;
+
+      if(!this.parent){
+        console.log(`Object ${this.oo.name} did not have a parent`);
+        response = this;
+      } else if(!this.parent.getRootContainer){
+        console.log(`Object ${this.oo.name} did not have a getRootContainer`);
+        response = this;
+      } else if(this.contain){
+        console.log(`Object ${this.oo.name} had a .contain directive`);
+        response = this;
+      }else{
+        response = this.parent.getRootContainer();
+      }
+
+      return response;
+    },
+
+    getAbsoluteRoot() {
       let response = null;
       if(!this.parent){
         response = this;
       }else{
-        response = this.parent.root();
+        response = this.parent.getAbsoluteRoot();
       }
       return response;
     }

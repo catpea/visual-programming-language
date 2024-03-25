@@ -15,6 +15,7 @@ globalThis.bundle = {
   uuid,
 
 };
+ 
 
 import lodash from 'lodash';
 bundle['lodash'] = lodash;

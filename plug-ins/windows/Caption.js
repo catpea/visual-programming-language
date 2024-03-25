@@ -61,15 +61,15 @@ export default class Caption {
           console.log('MINIMIZE', maximizer);
           maximizer.map(a=>a())
           maximized = false;
-          Object.assign(this.root(),restoreWindow)
+          Object.assign(this.getRootContainer(),restoreWindow)
           Object.assign(globalThis.project,restoreZoomPan)
         }else{
           console.log('MAXIMIZE!');
           restoreWindow = {
-            x:this.root().x,
-            y:this.root().y,
-            w:this.root().w,
-            h:this.root().h,
+            x:this.getRootContainer().x,
+            y:this.getRootContainer().y,
+            w:this.getRootContainer().w,
+            h:this.getRootContainer().h,
           };
           restoreZoomPan = {
             panX: globalThis.project.panX,
@@ -78,10 +78,10 @@ export default class Caption {
           };
 
           const handler = ()=>{
-            this.root().x = 0 - (globalThis.project.panX / globalThis.project.zoom);
-            this.root().y = 0 - (globalThis.project.panY / globalThis.project.zoom);
-            this.root().w = globalThis.project.w / globalThis.project.zoom;
-            this.root().h = globalThis.project.h / globalThis.project.zoom;
+            this.getRootContainer().x = 0 - (globalThis.project.panX / globalThis.project.zoom);
+            this.getRootContainer().y = 0 - (globalThis.project.panY / globalThis.project.zoom);
+            this.getRootContainer().w = globalThis.project.w / globalThis.project.zoom;
+            this.getRootContainer().h = globalThis.project.h / globalThis.project.zoom;
           };
           maximizer = globalThis.project.any(['zoom', 'panX', 'panY', 'w', 'h'], handler);
           handler()
@@ -92,10 +92,10 @@ export default class Caption {
 
 
         console.log({
-          x:this.root().x,
-          y:this.root().y,
-          w:this.root().w,
-          h:this.root().h,
+          x:this.getRootContainer().x,
+          y:this.getRootContainer().y,
+          w:this.getRootContainer().w,
+          h:this.getRootContainer().h,
         });
       });
 

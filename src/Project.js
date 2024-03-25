@@ -32,20 +32,6 @@ import ZoomPanDebugger from "/plug-ins/developer/ZoomPanDebugger.js";
 
 // End UI
 
-function intersection(a,b){
-  const response = new Set();
-  for (const item of a) {
-    if(b.has(item)) response.add(item)
-  }
-  return response;
-}
-function difference(a,b){
-  const response = new Set();
-  for (const item of a) {
-    if(!b.has(item)) response.add(item)
-  }
-  return response;
-}
 
 
 // Debounce function to limit the rate at which the `onResize` function is called
@@ -140,6 +126,10 @@ methods = {
 
   initialize() {
 
+    this.realm ={
+      scene: this.scene
+    };
+
     this.on('zoom', v=> requestAnimationFrame(() => { this.scene.style.scale = this.zoom }));
     this.on('panX', v=> requestAnimationFrame(() => { this.scene.style.transform = `translate(${this.panX/this.zoom}px, ${this.panY/this.zoom}px)` }));
     this.on('panY', v=> requestAnimationFrame(() => { this.scene.style.transform = `translate(${this.panX/this.zoom}px, ${this.panY/this.zoom}px)` }));
@@ -152,22 +142,21 @@ methods = {
     });
 
     this.on("elements.created", (node) => {
-
       const Ui = this.types.find(o=>o.name==node.type); // concept as in conceptmap is a component as it is a GUI thing.
-      // if(!Ui) throw new Error(`Unrecongnized type "${node.type}"`);
       if(!Ui) {
         console.warn(`Skipped Unrecongnized Component Type "${node.type}"`);
         return;
       }
 
-      const g = svg.g({id:node.id, class:'component'});
-      this.scene.appendChild(g)
+      let scene = this.scene;
+      if(node.scene) scene = node.scene;
 
-      //NOTE: do not set ui.parent here, a project is not a parent of a window.
-  		const ui = new Instance(Ui, {id:node.id, node, scene:g});
+      const g = svg.g({id:node.id, class:'component'});
+      scene.appendChild(g)
+
+  		const ui = new Instance(Ui, {id:node.id, node, scene:g,  });
       this.applications.create(ui);
       ui.start()
-
     }, {replay:true});
 
     this.on("elements.removed", ({id}) => {
@@ -187,9 +176,9 @@ methods = {
     source.on('data', (data)=>target.emit('data', data));
   },
 
-  create({meta, data}){
+  createIn(domain, {meta, data}){
     const node = new Instance(Node, {...meta, data});
-    this.elements.create(node);
+    domain.elements.create(node);
   },
 
   remove(id){
@@ -246,27 +235,11 @@ methods = {
     // const rehydrated = await rehydrator();
 
     const rehydrated = await (await fetch(this.file)).json();
-    // for (const raw of rehydrated.data) {
-    //   if(raw.meta.url) raw.data = await (await fetch(raw.meta.url)).json();
-    // }
     this.meta = rehydrated.meta;
     for (const {meta, data} of rehydrated.data) {
-
       const node = new Instance(Node);
-      const nodeKeys = new Set([...Object.keys(node.oo.specification.properties), ...Object.keys(node.oo.specification.observables)]);
-      const metaKeys = new Set([...Object.keys(meta)]);
-      const commonProperties = intersection(nodeKeys, metaKeys);
-      const newProperties = difference(metaKeys, commonProperties);
-      for (const newProperty of newProperties) {
-        node.oo.createObservable(newProperty, meta[newProperty])
-      }
-      Object.assign(node, meta, {data})
-
-      // this is where all nodes and edges are kept, simple reactive array
+      node.assign(meta, data);
       project.elements.create( node ); // -> see project #onStart for creation.
-
-
-
     }
 
   },

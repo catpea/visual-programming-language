@@ -19,6 +19,7 @@ export default class Window {
 
   properties = {
     streams: new Map(),
+    contain:true,
   };
 
   methods = {
