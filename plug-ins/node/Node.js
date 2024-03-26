@@ -8,6 +8,19 @@ export default class Node {
      },
   };
 
+  constraints = {
+    initialize: {
+      'node origin is requred': function(){
+        if( this.origin === undefined ){
+          return {error:'node is missing origin'};
+        }
+        if( !(typeof this.origin !== 'string' || typeof this.origin !== 'number') ){
+          return {error:'node origin must be a string'};
+        }
+      }
+    }
+  };
+
   properties = {
     id: null,
     type: null,

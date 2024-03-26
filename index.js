@@ -687,6 +687,18 @@
         run: "initialize"
       }
     };
+    constraints = {
+      initialize: {
+        "node origin is requred": function() {
+          if (this.origin === void 0) {
+            return { error: "node is missing origin" };
+          }
+          if (!(typeof this.origin !== "string" || typeof this.origin !== "number")) {
+            return { error: "node origin must be a string" };
+          }
+        }
+      }
+    };
     properties = {
       id: null,
       type: null
@@ -1238,19 +1250,17 @@
       },
       pipe(name2) {
         const id2 = [name2, this.getRootContainer().id].join(":");
-        const pipe = globalThis.project.pipes.get(id2);
+        const origin = globalThis.project.origins.get(this.getRootContainer().node.origin);
+        const pipe = origin.root.pipes.get(id2);
         return pipe;
       },
       getRootContainer() {
         let response = null;
         if (!this.parent) {
-          console.log(`Object ${this.oo.name} did not have a parent`);
           response = this;
         } else if (!this.parent.getRootContainer) {
-          console.log(`Object ${this.oo.name} did not have a getRootContainer`);
           response = this;
         } else if (this.contain) {
-          console.log(`Object ${this.oo.name} had a .contain directive`);
           response = this;
         } else {
           response = this.parent.getRootContainer();
@@ -1472,25 +1482,20 @@
         }
         const isOverAnotherPort = this.dragging && e?.target?.classList?.contains("editor-anchor");
         const isOverBackground = this.dragging && e?.target?.classList?.contains("editor-background");
-        let domain = globalThis.project;
-        if (this.anchor.getRootContainer().domain) {
-          domain = this.anchor.getRootContainer().domain;
-        }
-        console.log("CONNECTION domain", domain);
+        const origin = this.anchor.getRootContainer().node.origin;
         if (isOverAnotherPort) {
           const source = [this.anchor.name, this.anchor.getRootContainer().node.id].join(":");
           const target = e.target.dataset.target;
           if (source != target) {
-            console.log("domain.realm.scene", domain.realm.scene);
-            globalThis.project.createIn(domain, { meta: { id: uuid2(), type: "Line", source, target, scene: domain.realm.scene }, data: {} });
+            globalThis.project.createNode({ meta: { id: uuid2(), type: "Line", source, target, origin }, data: {} });
           }
         }
         if (isOverBackground) {
           const junctionId = uuid2();
-          globalThis.project.createIn(domain, { meta: { id: junctionId, type: "Junction", x: this.geometry.x2, y: this.geometry.y2, scene: domain.realm.scene }, data: {} });
+          globalThis.project.createNode({ meta: { id: junctionId, type: "Junction", x: this.geometry.x2, y: this.geometry.y2, origin }, data: {} });
           const source = [this.anchor.name, this.anchor.getRootContainer().node.id].join(":");
           const target = ["input", junctionId].join(":");
-          globalThis.project.createIn(domain, { meta: { id: uuid2(), type: "Line", source, target, scene: domain.realm.scene }, data: {} });
+          globalThis.project.createNode({ meta: { id: uuid2(), type: "Line", source, target, origin }, data: {} });
         }
         if (this.line)
           this.line.remove();
@@ -1626,7 +1631,7 @@
         this.on("anchors.removed", (anchor) => {
           anchor.stop();
           this.removePipe(anchor.name);
-          globalThis.project.anchors.create(anchor);
+          this.removeControlAnchor(anchor.id);
           this.anchorage.forget(anchor);
         });
         this.appendElements();
@@ -1634,12 +1639,14 @@
       createPipe(name2, direction) {
         const id2 = [name2, this.getRootContainer().id].join(":");
         const pipe = new Pipe(id2, direction);
-        globalThis.project.pipes.create(pipe);
+        const origin = globalThis.project.origins.get(this.getRootContainer().node.origin);
+        origin.root.pipes.create(pipe);
       },
       removePipe(name2) {
         const id2 = [name2, this.getRootContainer().id].join(":");
-        globalThis.project.pipes.get(id2).stop();
-        globalThis.project.pipes.remove(id2);
+        const origin = globalThis.project.origins.get(this.getRootContainer().node.origin);
+        origin.root.pipes.get(id2).stop();
+        origin.root.pipes.remove(id2);
       },
       createControlAnchor({ name: name2, side }) {
         if (!name2)
@@ -1648,12 +1655,14 @@
           throw new Error(`It is not possible to create an anchor without specifying a side, 0 or 1.`);
         const id2 = [name2, this.getRootContainer().id].join(":");
         const anchor = new Instance(Anchor, { id: id2, name: name2, side, parent: this, scene: this.scene });
-        globalThis.project.anchors.create(anchor);
+        const origin = globalThis.project.origins.get(this.getRootContainer().node.origin);
+        origin.root.anchors.create(anchor);
         this.anchors.create(anchor);
       },
       removeControlAnchor(id2) {
         this.anchors.remove(id2);
-        globalThis.project.anchors.remove(id2);
+        const origin = globalThis.project.origins.get(this.getRootContainer().node.origin);
+        origin.root.anchors.remove(id2);
       },
       destroy() {
         console.warn("TODO: DESTROY ALL ANCHORS");
@@ -1895,8 +1904,8 @@
     mouseDownHandler;
     mouseMoveHandler;
     mouseUpHandler;
-    lastX = 0;
-    lastY = 0;
+    previousX = 0;
+    previousY = 0;
     dragging = false;
     constructor({ component, window: window2, handle, zone }) {
       if (!component)
@@ -1915,21 +1924,19 @@
     }
     mount() {
       this.mouseDownHandler = (e) => {
-        this.lastX = e.screenX;
-        this.lastY = e.screenY;
+        this.previousX = e.screenX;
+        this.previousY = e.screenY;
         this.dragging = true;
         globalThis.project.iframe = false;
         this.zone.addEventListener("mousemove", this.mouseMoveHandler);
       };
       this.mouseMoveHandler = (e) => {
-        const dx = this.lastX - e.screenX;
-        const dy = this.lastY - e.screenY;
-        const container = this.component.getRootContainer();
-        console.log("ROOT CONTAINER", container.oo.name);
-        this.component.node.x = this.component.node.x - dx / globalThis.project.zoom;
-        this.component.node.y = this.component.node.y - dy / globalThis.project.zoom;
-        this.lastX = e.screenX;
-        this.lastY = e.screenY;
+        const movementX = this.previousX - e.screenX;
+        const movementY = this.previousY - e.screenY;
+        this.component.node.x = this.component.node.x - movementX / globalThis.project.zoom;
+        this.component.node.y = this.component.node.y - movementY / globalThis.project.zoom;
+        this.previousX = e.screenX;
+        this.previousY = e.screenY;
       };
       this.mouseUpHandler = (e) => {
         this.dragging = false;
@@ -2179,18 +2186,27 @@
         this.on("source", (id2) => {
           if (!id2)
             throw new Error(`Primary requires source id`);
-          const component = id2.includes(":") ? globalThis.project.anchors.get(id2) : globalThis.project.applications.get(id2);
+          if (!id2.includes(":"))
+            throw new Error(`Id must contain ":".`);
+          const origin = globalThis.project.origins.get(this.getRootContainer().node.origin);
+          const component = origin.root.anchors.get(id2);
           component.on("x", (x) => this.x1 = x);
           component.on("y", (y) => this.y1 = y);
         });
         this.on("target", (id2) => {
           if (!id2)
             throw new Error(`Primary requires target id`);
-          const component = id2.includes(":") ? globalThis.project.anchors.get(id2) : globalThis.project.applications.get(id2);
+          if (!id2.includes(":"))
+            throw new Error(`Id must contain ":".`);
+          const origin = globalThis.project.origins.get(this.getRootContainer().node.origin);
+          const component = origin.root.anchors.get(id2);
           component.on("x", (x) => this.x2 = x);
           component.on("y", (y) => this.y2 = y);
         });
-        this.all(["source", "target"], ({ source, target }) => globalThis.project.pipe(source, target));
+        this.all(["source", "target"], ({ source, target }) => {
+          const origin = globalThis.project.origins.get(this.getRootContainer().node.origin);
+          globalThis.project.pipe(origin, source, target);
+        });
         this.any(["x1", "y1", "x2", "y2"], (packet) => update(this.el.Midpoint, midpoint(packet)));
         this.any(["x1", "y1", "x2", "y2"], ({ x1, y1, x2, y2 }) => {
           const [x3, y3] = edgepoint(x1, y1, 12, x1, y1, x2, y2);
@@ -2218,6 +2234,8 @@
     observables = {
       applications: [],
       elements: [],
+      anchors: [],
+      pipes: [],
       types: [Junction, Line]
     };
     methods = {
@@ -2225,11 +2243,13 @@
         console.info("Line must detect the g it should be placed into");
         this.h = 400;
         this.subLayout = new RelativeLayout(this);
+        this.el.Group = svg.g();
+        globalThis.project.origins.create({ id: this.getRootContainer().id, root: this, scene: this.el.Group });
         this.on("elements.created", (node) => {
           const Ui = this.types.find((o) => o.name == node.type);
           if (!Ui)
             return console.warn(`Skipped Unrecongnized Component Type "${node.type}"`);
-          const ui = new Instance(Ui, { id: node.id, node, domain: this, scene: this.clipped });
+          const ui = new Instance(Ui, { id: node.id, node, scene: this.el.Group });
           this.applications.create(ui);
           ui.start();
           this.subLayout.manage(ui);
@@ -2241,32 +2261,31 @@
         });
       },
       mount() {
-        this.clipped = svg.g();
-        this.scene.appendChild(this.clipped);
         const [horizontal, [addButton, delButton, vplCanvas]] = nest(Horizontal, [
           [Label, { h: 32, W: 32, text: "Add", parent: this }, (c, p2) => p2.children.create(c)],
           [Label, { h: 32, W: 32, text: "Del", parent: this }, (c, p2) => p2.children.create(c)]
         ], (c) => this.children.create(c));
-        this.realm = new Instance(Container, { h: 600, parent: this });
-        this.children.create(this.realm);
+        const area = new Instance(Container, { h: 600, parent: this });
+        this.children.create(area);
         this.el.ClipPath = svg.clipPath({
           id: `clip-path-${this.id}`
         });
         const clipPathRect = svg.rect({
+          // this gets synchronized with the control that is actually registered to the layout manager
           x: this.parent.x,
           y: this.parent.y,
           width: this.parent.w,
           height: this.parent.h
         });
-        this.realm.any(["x", "y", "w", "h"], ({ x, y, w: width, h: height }) => {
+        area.any(["x", "y", "w", "h"], ({ x, y, w: width, h: height }) => {
           update(clipPathRect, { x, y, width, height });
         });
         this.el.ClipPath.appendChild(clipPathRect);
-        update(this.clipped, { "clip-path": `url(#clip-path-${this.id})` });
+        update(this.el.Group, { "clip-path": `url(#clip-path-${this.id})` });
         this.appendElements();
         this.disposable = click(addButton.handle, (e) => {
           const id2 = uuid3();
-          const node = new Instance(Node, { id: id2, type: "Junction", x: 50, y: 50, data: {} });
+          const node = new Instance(Node, { id: id2, origin: this.getRootContainer().id, type: "Junction", x: 50, y: 50, data: {} });
           this.elements.create(node);
         });
       }
@@ -2953,6 +2972,7 @@ ${vars.join("\n")}
       background: void 0,
       file: void 0,
       name: "Bork",
+      origins: [],
       archetypes: [],
       // PRIMARY DATA, note Line component represents edges, these must come second, forst take care of non-Line, then Line
       elements: [],
@@ -2998,9 +3018,7 @@ ${vars.join("\n")}
     };
     methods = {
       initialize() {
-        this.realm = {
-          scene: this.scene
-        };
+        this.origins.create({ id: 0, root: this, scene: this.scene });
         this.on("zoom", (v) => requestAnimationFrame(() => {
           this.scene.style.scale = this.zoom;
         }));
@@ -3038,18 +3056,21 @@ ${vars.join("\n")}
         });
       },
       // initialize
-      pipe(sourceId, targetId) {
+      pipe(origin, sourceId, targetId) {
+        if (!origin)
+          throw new Error("origin is required");
         if (!sourceId)
           throw new Error("sourceId is required");
         if (!targetId)
           throw new Error("targetId is required");
-        const source = this.pipes.get(sourceId);
-        const target = this.pipes.get(targetId);
+        const source = origin.root.pipes.get(sourceId);
+        const target = origin.root.pipes.get(targetId);
         source.on("data", (data) => target.emit("data", data));
       },
-      createIn(domain, { meta, data }) {
+      createNode({ meta, data }) {
         const node = new Instance(Node, { ...meta, data });
-        domain.elements.create(node);
+        const origin = this.origins.get(node.origin);
+        origin.root.elements.create(node);
       },
       remove(id2) {
         const node = this.nodes.get(id2);
@@ -3096,7 +3117,7 @@ ${vars.join("\n")}
         const rehydrated = await (await fetch(this.file)).json();
         this.meta = rehydrated.meta;
         for (const { meta, data } of rehydrated.data) {
-          const node = new Instance(Node);
+          const node = new Instance(Node, { origin: 0 });
           node.assign(meta, data);
           project.elements.create(node);
         }

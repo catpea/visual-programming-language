@@ -9,8 +9,8 @@ export default class Move {
   mouseMoveHandler;
   mouseUpHandler;
 
-  lastX = 0;
-  lastY = 0;
+  previousX = 0;
+  previousY = 0;
   dragging = false;
 
   constructor({component, window, handle, zone}){
@@ -30,10 +30,15 @@ export default class Move {
 
     this.mouseDownHandler = (e) => {
 
+
+
+
       // Initialize
       // Remember where mouse touched down, seed the lastV system used in calculating how much the mouse has moved
-      this.lastX = e.screenX;
-      this.lastY = e.screenY;
+      // we log where the mouse down hit, that is the start of the drag operation
+      this.previousX = e.screenX;
+      this.previousY = e.screenY;
+
       // Enable dragging
       this.dragging = true;
       globalThis.project.iframe = false;
@@ -42,20 +47,26 @@ export default class Move {
 
     this.mouseMoveHandler = (e) => {
       // Substract initial position from current cursor position to get relative motion, motion relative to initial touchdown
-      const dx = this.lastX - e.screenX;
-      const dy = this.lastY - e.screenY;
-
-      const container = this.component.getRootContainer();
-      console.log('ROOT CONTAINER', container.oo.name);
+      // to get the previous we use previous location of the cursor, and substract durrent location of the cursor.
+      /**
+      Warning: Browsers use different units for previousX and screenX than what the specification defines.
+      Depending on the browser and operating system, the previousX units may be a physical pixel, a logical pixel, or a CSS pixel.
+      You may want to avoid the previous properties,
+      and instead calculate the delta between the current client values (screenX, screenY) and the previous client values.
+      from: https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/previousX
+      **/
+      const movementX = this.previousX - e.screenX;
+      const movementY = this.previousY - e.screenY;
 
       // Asignment, does not use the raw screen number but their scaled vaions.
-      this.component.node.x = this.component.node.x - (dx/globalThis.project.zoom);
-      this.component.node.y = this.component.node.y - (dy/globalThis.project.zoom);
+      this.component.node.x = this.component.node.x - (movementX/globalThis.project.zoom);
+      this.component.node.y = this.component.node.y - (movementY/globalThis.project.zoom);
 
       // Reset, because the cursor has moved and is in a new position now.
       // lastN dat is used for calculating the delta between sampling mouse
-      this.lastX = e.screenX;
-      this.lastY = e.screenY;
+      // we must remember the current postion until mose move fires, becasue then we will calculate previous, reative to where we are.
+      this.previousX = e.screenX;
+      this.previousY = e.screenY;
      };
 
     this.mouseUpHandler = (e) => {

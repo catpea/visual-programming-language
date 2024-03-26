@@ -90,6 +90,7 @@ export default class Project {
     file: undefined,
     name: "Bork",
 
+    origins: [],
     archetypes: [],
 
     // PRIMARY DATA, note Line component represents edges, these must come second, forst take care of non-Line, then Line
@@ -126,9 +127,7 @@ methods = {
 
   initialize() {
 
-    this.realm ={
-      scene: this.scene
-    };
+    this.origins.create({ id:0, root: this, scene:this.scene })
 
     this.on('zoom', v=> requestAnimationFrame(() => { this.scene.style.scale = this.zoom }));
     this.on('panX', v=> requestAnimationFrame(() => { this.scene.style.transform = `translate(${this.panX/this.zoom}px, ${this.panY/this.zoom}px)` }));
@@ -167,18 +166,22 @@ methods = {
 
   }, // initialize
 
-  pipe(sourceId, targetId){
+  pipe(origin, sourceId, targetId){
 
+    if(!origin) throw new Error('origin is required');
     if(!sourceId) throw new Error('sourceId is required');
     if(!targetId) throw new Error('targetId is required');
-    const source = this.pipes.get(sourceId);
-    const target = this.pipes.get(targetId);
+
+    const source = origin.root.pipes.get(sourceId);
+    const target = origin.root.pipes.get(targetId);
+
     source.on('data', (data)=>target.emit('data', data));
   },
 
-  createIn(domain, {meta, data}){
+  createNode({meta, data}){
     const node = new Instance(Node, {...meta, data});
-    domain.elements.create(node);
+    const origin = this.origins.get(node.origin);
+    origin.root.elements.create(node);
   },
 
   remove(id){
@@ -237,7 +240,7 @@ methods = {
     const rehydrated = await (await fetch(this.file)).json();
     this.meta = rehydrated.meta;
     for (const {meta, data} of rehydrated.data) {
-      const node = new Instance(Node);
+      const node = new Instance(Node, {origin:0});
       node.assign(meta, data);
       project.elements.create( node ); // -> see project #onStart for creation.
     }

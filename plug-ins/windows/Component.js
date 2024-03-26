@@ -96,7 +96,8 @@ export default class Component {
 
     pipe(name){
       const id = [name, this.getRootContainer().id].join(':');
-      const pipe = globalThis.project.pipes.get(id);
+      const origin = globalThis.project.origins.get(this.getRootContainer().node.origin); // root container always has a node, node always has an origin, origin has a root
+      const pipe = origin.root.pipes.get(id);
       return pipe;
     },
 
@@ -104,13 +105,13 @@ export default class Component {
       let response = null;
 
       if(!this.parent){
-        console.log(`Object ${this.oo.name} did not have a parent`);
+        // console.log(`Object ${this.oo.name} did not have a parent`);
         response = this;
       } else if(!this.parent.getRootContainer){
-        console.log(`Object ${this.oo.name} did not have a getRootContainer`);
+        // console.log(`Object ${this.oo.name} did not have a getRootContainer`);
         response = this;
       } else if(this.contain){
-        console.log(`Object ${this.oo.name} had a .contain directive`);
+        // console.log(`Object ${this.oo.name} had a .contain directive`);
         response = this;
       }else{
         response = this.parent.getRootContainer();

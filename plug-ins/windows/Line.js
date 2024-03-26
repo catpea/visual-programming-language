@@ -68,20 +68,30 @@ export default class Line {
 
       this.on('source', id=>{
         if(!id) throw new Error(`Primary requires source id`);
-        const component = id.includes(':')?globalThis.project.anchors.get( id ):globalThis.project.applications.get( id );
+        if(!id.includes(':')) throw new Error(`Id must contain ":".`);
+        // const component = id.includes(':')?globalThis.project.anchors.get( id ):globalThis.project.applications.get( id );
+        const origin = globalThis.project.origins.get(this.getRootContainer().node.origin); // root container always has a node, node always has an origin, origin has a root
+
+        const component = origin.root.anchors.get( id );
         component.on('x', x=>this.x1=x)
         component.on('y', y=>this.y1=y)
       });
 
       this.on('target',  id=>{
         if(!id) throw new Error(`Primary requires target id`);
-        const component = id.includes(':')?globalThis.project.anchors.get( id ):globalThis.project.applications.get( id );
+        if(!id.includes(':')) throw new Error(`Id must contain ":".`);
+        // const component = id.includes(':')?globalThis.project.anchors.get( id ):globalThis.project.applications.get( id );
+        const origin = globalThis.project.origins.get(this.getRootContainer().node.origin); // root container always has a node, node always has an origin, origin has a root
+        const component = origin.root.anchors.get( id );
         component.on('x', x=>this.x2=x)
         component.on('y', y=>this.y2=y)
       });
 
 
-      this.all(['source', 'target'], ({source, target})=>globalThis.project.pipe( source, target ))
+      this.all(['source', 'target'], ({source, target})=>{
+        const origin = globalThis.project.origins.get(this.getRootContainer().node.origin); // root container always has a node, node always has an origin, origin has a root
+        globalThis.project.pipe(origin, source, target );
+      })
       // ;
 
 

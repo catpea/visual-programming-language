@@ -109,28 +109,23 @@ export default class Connect {
       const isOverAnotherPort = this.dragging && e?.target?.classList?.contains('editor-anchor');
 			const isOverBackground = this.dragging && e?.target?.classList?.contains('editor-background');
 
-      let domain = globalThis.project;
-      if(this.anchor.getRootContainer().domain){
-        domain = this.anchor.getRootContainer().domain;
-      }
-
-      console.log('CONNECTION domain', domain);
+      const origin = this.anchor.getRootContainer().node.origin; // all root containers have nodes, all those nodes will have a orgin
 
       if(isOverAnotherPort){
+
         const source = [this.anchor.name, this.anchor.getRootContainer().node.id].join(':');
         const target = e.target.dataset.target;
         if(source != target){
-          console.log('domain.realm.scene', domain.realm.scene);
-          globalThis.project.createIn(domain, { meta: { id: uuid(), type: "Line", source, target, scene:domain.realm.scene }, data: {} }, );
+          globalThis.project.createNode({ meta: { id: uuid(), type: "Line", source, target, origin }, data: {} }, );
         }
       }
 
       if(isOverBackground){
         const junctionId = uuid();
-        globalThis.project.createIn(domain, { meta: { id: junctionId, type: "Junction", x: this.geometry.x2, y: this.geometry.y2, scene:domain.realm.scene }, data: {} });
+        globalThis.project.createNode({ meta: { id: junctionId, type: "Junction", x: this.geometry.x2, y: this.geometry.y2, origin }, data: {} });
         const source = [this.anchor.name, this.anchor.getRootContainer().node.id].join(':');
         const target = ['input', junctionId].join(':');
-        globalThis.project.createIn(domain, { meta: { id: uuid(), type: "Line", source, target, scene:domain.realm.scene }, data: {} });
+        globalThis.project.createNode({ meta: { id: uuid(), type: "Line", source, target, origin }, data: {} });
         /// GGGG globalThis.project.pipe( source, target );
       }
 

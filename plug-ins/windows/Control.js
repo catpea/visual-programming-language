@@ -57,7 +57,7 @@ export default class Control {
       this.on("anchors.removed", (anchor) => {
         anchor.stop();
         this.removePipe(anchor.name);
-        globalThis.project.anchors.create(anchor);
+        this.removeControlAnchor(anchor.id);
         this.anchorage.forget(anchor);
       });
 
@@ -75,13 +75,15 @@ export default class Control {
     createPipe(name, direction){
       const id = [name, this.getRootContainer().id].join(':');
       const pipe = new Pipe(id, direction);
-      globalThis.project.pipes.create(pipe);
+      const origin = globalThis.project.origins.get(this.getRootContainer().node.origin);
+      origin.root.pipes.create(pipe);
     },
 
     removePipe(name){
       const id = [name, this.getRootContainer().id].join(':');
-      globalThis.project.pipes.get(id).stop();
-      globalThis.project.pipes.remove(id);
+      const origin = globalThis.project.origins.get(this.getRootContainer().node.origin);
+      origin.root.pipes.get(id).stop();
+      origin.root.pipes.remove(id);
     },
 
 
@@ -90,13 +92,15 @@ export default class Control {
       if(!side===undefined) throw new Error(`It is not possible to create an anchor without specifying a side, 0 or 1.`);
       const id = [name, this.getRootContainer().id].join(':')
       const anchor = new Instance(Anchor, { id, name, side, parent: this, scene: this.scene } )
-      globalThis.project.anchors.create(anchor);
+      const origin = globalThis.project.origins.get(this.getRootContainer().node.origin);
+      origin.root.anchors.create(anchor);
       this.anchors.create(anchor);
     },
 
     removeControlAnchor(id){
       this.anchors.remove(id);
-      globalThis.project.anchors.remove(id);
+      const origin = globalThis.project.origins.get(this.getRootContainer().node.origin);
+      origin.root.anchors.remove(id);
     },
 
     destroy(){

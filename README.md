@@ -7,6 +7,7 @@ User Friendly Visual Programming Language
 - method naming scheme: add + Window + Component = action Parent Class + Class Of Object
 - all Controls have this.anchors where named anchors must be stored
 - Externally, you may not interact with object's properties directly, only via methods (creating an api, and taking care of minot config)
+- root container always has a node, node always has an origin, origin has a root
 
 ## TODO
 - [ ] Developer Tooling
