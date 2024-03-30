@@ -878,15 +878,18 @@
     static {
       __name(this, "Pan");
     }
+    transformMovement = (data) => data;
     component;
     handle;
     mouseDownHandler;
     mouseMoveHandler;
     mouseUpHandler;
-    startX = 0;
-    startY = 0;
     dragging = false;
-    constructor({ component, handle, zone }) {
+    previousX = 0;
+    previousY = 0;
+    constructor({ component, handle, zone, transformMovement }) {
+      if (transformMovement)
+        this.transformMovement = transformMovement;
       this.component = component;
       this.handle = handle;
       this.zone = zone;
@@ -894,25 +897,19 @@
     }
     mount() {
       this.mouseDownHandler = (e) => {
-        this.startX = e.clientX;
-        this.startY = e.clientY;
+        this.previousX = e.screenX;
+        this.previousY = e.screenY;
         this.dragging = true;
         this.component.iframe = false;
         this.zone.addEventListener("mousemove", this.mouseMoveHandler);
       };
       this.mouseMoveHandler = (e) => {
-        let dx = 0;
-        let dy = 0;
-        dx = e.clientX - this.startX;
-        dy = e.clientY - this.startY;
-        dx = dx + this.component.panX;
-        dy = dy + this.component.panY;
-        this.component.panX = dx;
-        this.component.panY = dy;
-        dx = 0;
-        dy = 0;
-        this.startX = e.clientX;
-        this.startY = e.clientY;
+        const movementX = this.transformMovement(this.previousX - e.screenX);
+        const movementY = this.transformMovement(this.previousY - e.screenY);
+        this.component.panX = this.component.panX - movementX;
+        this.component.panY = this.component.panY - movementY;
+        this.previousX = e.screenX;
+        this.previousY = e.screenY;
       };
       this.mouseUpHandler = (e) => {
         this.dragging = false;
@@ -2232,6 +2229,8 @@
       contain: true
     };
     observables = {
+      panX: 0,
+      panY: 0,
       applications: [],
       elements: [],
       anchors: [],
@@ -2244,12 +2243,20 @@
         this.h = 400;
         this.subLayout = new RelativeLayout(this);
         this.el.Group = svg.g();
+        this.childrenGroup = svg.g();
+        this.el.Group.appendChild(this.childrenGroup);
         globalThis.project.origins.create({ id: this.getRootContainer().id, root: this, scene: this.el.Group });
+        this.on("panX", (v) => requestAnimationFrame(() => {
+          this.childrenGroup.style.transform = `translate(${this.panX}px, ${this.panY}px)`;
+        }));
+        this.on("panY", (v) => requestAnimationFrame(() => {
+          this.childrenGroup.style.transform = `translate(${this.panX}px, ${this.panY}px)`;
+        }));
         this.on("elements.created", (node) => {
           const Ui = this.types.find((o) => o.name == node.type);
           if (!Ui)
             return console.warn(`Skipped Unrecongnized Component Type "${node.type}"`);
-          const ui = new Instance(Ui, { id: node.id, node, scene: this.el.Group });
+          const ui = new Instance(Ui, { id: node.id, node, scene: this.childrenGroup });
           this.applications.create(ui);
           ui.start();
           this.subLayout.manage(ui);
@@ -2267,6 +2274,7 @@
         ], (c) => this.children.create(c));
         const area = new Instance(Container, { h: 600, parent: this });
         this.children.create(area);
+        area.draw();
         this.el.ClipPath = svg.clipPath({
           id: `clip-path-${this.id}`
         });
@@ -2288,6 +2296,13 @@
           const node = new Instance(Node, { id: id2, origin: this.getRootContainer().id, type: "Junction", x: 50, y: 50, data: {} });
           this.elements.create(node);
         });
+        const pan = new Pan({
+          component: this,
+          handle: area.el.Container,
+          zone: window,
+          transformMovement: (v) => v / globalThis.project.zoom
+        });
+        this.destructable = () => pan.destroy();
       }
     };
   };

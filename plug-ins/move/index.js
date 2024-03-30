@@ -48,13 +48,13 @@ export default class Move {
     this.mouseMoveHandler = (e) => {
       // Substract initial position from current cursor position to get relative motion, motion relative to initial touchdown
       // to get the previous we use previous location of the cursor, and substract durrent location of the cursor.
-      /**
+      /* ***************************************************************************************************************************
       Warning: Browsers use different units for previousX and screenX than what the specification defines.
       Depending on the browser and operating system, the previousX units may be a physical pixel, a logical pixel, or a CSS pixel.
       You may want to avoid the previous properties,
       and instead calculate the delta between the current client values (screenX, screenY) and the previous client values.
       from: https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/previousX
-      **/
+      *************************************************************************************************************************** */
       const movementX = this.previousX - e.screenX;
       const movementY = this.previousY - e.screenY;
 
